@@ -65,7 +65,7 @@ const AppRoutes: React.FC = () => {
                 <RRD.Route path="stats" element={<Stats />} />
                 <RRD.Route path="mind" element={<Mind />} />
                 <RRD.Route path="log-achievement" element={<LogAchievement />} />
-                <RRD.Route path="admin/content"element={<AdminContentManager adminNames={["César","Nutricionista","Entrenador"]} />
+                <RRD.Route path="admin/content"element={<AdminContentManager adminNames={["César","Nutricionista","Entrenador"]} />}/> 
             </RRD.Route>
             <RRD.Route path="*" element={<RRD.Navigate to={state.isAuthenticated ? "/dashboard" : "/welcome"} replace />} />
         </RRD.Routes>
