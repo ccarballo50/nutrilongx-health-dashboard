@@ -79,17 +79,12 @@ const AppRoutes: React.FC = () => {
         <RRD.Route path="log-achievement" element={<LogAchievement />} />
 
         {/* NUEVA: Admin */}
-        <RRD.Route
-          path="admin/content"
-          element={<AdminContentManager adminNames={["César", "Nutricionista", "Entrenador"]} />}
-        />
+        <RRD.Route path="admin/content" element={<AdminContentManager adminNames={["César", "Nutricionista", "Entrenador"]} />} />
       </RRD.Route>
 
       {/* Catch-all */}
       <RRD.Route
-        path="*"
-        element={<RRD.Navigate to={state.isAuthenticated ? "/dashboard" : "/welcome"} replace />}
-      />
+        path="*" element={<RRD.Navigate to={state.isAuthenticated ? "/dashboard" : "/welcome"} replace />} />
     </RRD.Routes>
   );
 };
