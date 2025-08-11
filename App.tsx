@@ -10,13 +10,10 @@ import ChallengeDetail from "./pages/ChallengeDetail";
 import Stats from "./pages/Stats";
 import Mind from "./pages/Mind";
 import LogAchievement from "./pages/LogAchievement";
-
 import { BottomNav } from "./components/BottomNav";
 import { Header } from "./components/Header";
-
 import AdminContentManager from "./pages/admin/AdminContentManager";
 
-// Títulos por ruta
 const titles: Record<string, string> = {
   "/dashboard": "Bienestar",
   "/routines": "Rutinas",
@@ -29,12 +26,8 @@ const titles: Record<string, string> = {
 const MainLayout: React.FC = () => {
   const location = RRD.useLocation();
   let title = "NutrilongX";
-
-  if (location.pathname.startsWith("/challenges/")) {
-    title = "Detalle del Reto";
-  } else {
-    title = titles[location.pathname] || "NutrilongX";
-  }
+  if (location.pathname.startsWith("/challenges/")) title = "Detalle del Reto";
+  else title = titles[location.pathname] || "NutrilongX";
 
   return (
     <div className="max-w-lg mx-auto h-screen flex flex-col bg-gray-50 font-sans">
@@ -54,20 +47,9 @@ const PrivateRoute: React.FC = () => {
 
 const AppRoutes: React.FC = () => {
   const { state } = useAppContext();
-
   return (
     <RRD.Routes>
-      {/* Ruta pública */}
-      <RRD.Route
-        path="/welcome"
-        element={
-          <div className="max-w-lg mx-auto h-screen flex flex-col bg-white">
-            <Welcome />
-          </div>
-        }
-      />
-
-      {/* Rutas protegidas */}
+      <RRD.Route path="/welcome" element={<div className="max-w-lg mx-auto h-screen flex flex-col bg-white"><Welcome /></div>} />
       <RRD.Route path="/" element={<PrivateRoute />}>
         <RRD.Route index element={<RRD.Navigate to="dashboard" replace />} />
         <RRD.Route path="dashboard" element={<Dashboard />} />
@@ -77,14 +59,9 @@ const AppRoutes: React.FC = () => {
         <RRD.Route path="stats" element={<Stats />} />
         <RRD.Route path="mind" element={<Mind />} />
         <RRD.Route path="log-achievement" element={<LogAchievement />} />
-
-        {/* NUEVA: Admin */}
-        <RRD.Route path="admin/content" element={<AdminContentManager adminNames={["César", "Nutricionista", "Entrenador"]} />} />
+        <RRD.Route path="admin/content" element={<AdminContentManager adminNames={["César","Nutricionista","Entrenador"]} />} />
       </RRD.Route>
-
-      {/* Catch-all */}
-      <RRD.Route
-        path="*" element={<RRD.Navigate to={state.isAuthenticated ? "/dashboard" : "/welcome"} replace />} />
+      <RRD.Route path="*" element={<RRD.Navigate to={state.isAuthenticated ? "/dashboard" : "/welcome"} replace />} />
     </RRD.Routes>
   );
 };
@@ -92,12 +69,11 @@ const AppRoutes: React.FC = () => {
 const App: React.FC = () => {
   return (
     <AppProvider>
-      <RRD.HashRouter>
-        <AppRoutes />
-      </RRD.HashRouter>
+      <AppRoutes />
     </AppProvider>
   );
 };
 
 export default App;
+
 
