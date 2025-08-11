@@ -54,21 +54,23 @@ const AppRoutes: React.FC = () => {
     const { state } = useAppContext();
 
     return (
-        <RRD.Routes>
-            <RRD.Route path="/welcome" element={<div className="max-w-lg mx-auto h-screen flex flex-col bg-white"><Welcome /></div>} />
-            <RRD.Route path="/" element={<PrivateRoute />}>
-                <RRD.Route index element={<RRD.Navigate to="/dashboard" replace />} />
-                <RRD.Route path="dashboard" element={<Dashboard />} />
-                <RRD.Route path="routines" element={<Routines />} />
-                <RRD.Route path="challenges" element={<Challenges />} />
-                <RRD.Route path="challenges/:challengeId" element={<ChallengeDetail />} />
-                <RRD.Route path="stats" element={<Stats />} />
-                <RRD.Route path="mind" element={<Mind />} />
-                <RRD.Route path="log-achievement" element={<LogAchievement />} />
-                <RRD.Route path="admin/content"element={<AdminContentManager adminNames={["César","Nutricionista","Entrenador"]} />}/> 
-            </RRD.Route>
-            <RRD.Route path="*" element={<RRD.Navigate to={state.isAuthenticated ? "/dashboard" : "/welcome"} replace />} />
-        </RRD.Routes>
+      <RRD.Route path="/" element={<PrivateRoute />}>
+        <RRD.Route index element={<RRD.Navigate to="dashboard" replace />} />
+        <RRD.Route path="dashboard" element={<Dashboard />} />
+        <RRD.Route path="routines" element={<Routines />} />
+        <RRD.Route path="challenges" element={<Challenges />} />
+        <RRD.Route path="challenges/:challengeId" element={<ChallengeDetail />} />
+        <RRD.Route path="stats" element={<Stats />} />
+        <RRD.Route path="mind" element={<Mind />} />
+        <RRD.Route path="log-achievement" element={<LogAchievement />} />
+      
+        {/* 👇 ESTA ES LA LÍNEA CORRECTA */}
+        <RRD.Route
+          path="admin/content"
+          element={<AdminContentManager adminNames={["César","Nutricionista","Entrenador"]} />}
+        />
+      </RRD.Route>
+
     );
 };
 
