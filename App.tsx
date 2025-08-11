@@ -81,8 +81,9 @@ const AppRoutes: React.FC = () => {
         {/* NUEVA pantalla de administrador */}
         <RRD.Route
           path="admin/content"
-          element={<AdminContentManager adminNames={["César", "Nutricionista", "Entrenador"]} />}
+          element={<AdminContentManager adminNames={["César","Nutricionista","Entrenador"]} />}
         />
+
       </RRD.Route>
 
       {/* Catch-all */}
