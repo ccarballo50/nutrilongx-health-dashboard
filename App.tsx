@@ -17,7 +17,7 @@ import { Header } from "./components/Header";
 import AdminContentManager from "./pages/admin/AdminContentManager";
 
 // Títulos por ruta
-const titles: { [key: string]: string } = {
+const titles: Record<string, string> = {
   "/dashboard": "Bienestar",
   "/routines": "Rutinas",
   "/challenges": "Retos",
@@ -57,7 +57,7 @@ const AppRoutes: React.FC = () => {
 
   return (
     <RRD.Routes>
-      {/* Pantalla pública de bienvenida */}
+      {/* Ruta pública */}
       <RRD.Route
         path="/welcome"
         element={
@@ -67,7 +67,7 @@ const AppRoutes: React.FC = () => {
         }
       />
 
-      {/* Bloque protegido por login */}
+      {/* Rutas protegidas */}
       <RRD.Route path="/" element={<PrivateRoute />}>
         <RRD.Route index element={<RRD.Navigate to="dashboard" replace />} />
         <RRD.Route path="dashboard" element={<Dashboard />} />
@@ -78,12 +78,11 @@ const AppRoutes: React.FC = () => {
         <RRD.Route path="mind" element={<Mind />} />
         <RRD.Route path="log-achievement" element={<LogAchievement />} />
 
-        {/* NUEVA pantalla de administrador */}
+        {/* NUEVA: Admin */}
         <RRD.Route
           path="admin/content"
-          element={<AdminContentManager adminNames={["César","Nutricionista","Entrenador"]} />}
+          element={<AdminContentManager adminNames={["César", "Nutricionista", "Entrenador"]} />}
         />
-
       </RRD.Route>
 
       {/* Catch-all */}
