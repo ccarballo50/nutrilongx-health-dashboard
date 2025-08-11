@@ -11,6 +11,9 @@ import Mind from './pages/Mind';
 import LogAchievement from './pages/LogAchievement';
 import { BottomNav } from './components/BottomNav';
 import { Header } from './components/Header';
+import { Routes, Route, Navigate } from "react-router-dom";
+import AdminContentManager from "./pages/admin/AdminContentManager";
+
 
 const titles: { [key: string]: string } = {
   '/dashboard': 'Bienestar',
@@ -62,6 +65,7 @@ const AppRoutes: React.FC = () => {
                 <RRD.Route path="stats" element={<Stats />} />
                 <RRD.Route path="mind" element={<Mind />} />
                 <RRD.Route path="log-achievement" element={<LogAchievement />} />
+                <RRD.Route path="admin/content"element={<AdminContentManager adminNames={["César","Nutricionista","Entrenador"]} />
             </RRD.Route>
             <RRD.Route path="*" element={<RRD.Navigate to={state.isAuthenticated ? "/dashboard" : "/welcome"} replace />} />
         </RRD.Routes>
