@@ -1,71 +1,39 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 
 /**
  * AdminContentManager
- * -------------------------------------------------------------
- * Pantalla de administración para crear contenido destinado a
- * RUTINAS / RETOS / MENTE. Pensada para integrarse en un proyecto
- * React + Vite + TS + Tailwind.
- *
- * ✔ Selección de Admin (desplegable)
- * ✔ Selección de destino (Rutinas/Retos/Mente)
- * ✔ Nombre del reto / contenido (con sugerencias opcionales)
- * ✔ Descripción detallada (contador de caracteres)
- * ✔ Días de Vida Ganados (visible para Retos)
- * ✔ Ubicación / Categoría (Cardio, Fuerza, Yoga, Mindfulness, Alimentación)
- * ✔ Texto asociado (opcional)
- * ✔ Subida de archivos (drag&drop + múltiples: imagen / vídeo / fichero)
- * ✔ Previsualización y eliminación de adjuntos
- * ✔ Guardar como borrador o Publicar
- * ✔ onSave prop para integrarlo con tu store / API
- * ✔ Fallback: guarda en localStorage si no se pasa onSave
- *
- * Integración mínima:
- * 1) Añade una ruta: <Route path="/admin/content" element={<AdminContentManager adminNames={["César","Nutricionista","Entrenador"]} />} />
- * 2) Implementa onSave para despachar a tu Context/Reducer o POST a tu API.
- * 3) (Opcional) Sustituye el almacenamiento local por Vercel Blob / Supabase.
+ * - Publica contenido en RETOS / RUTINAS / MENTE
+ * - Sube archivos a /api/upload (Supabase Storage) y guarda el registro con /api/content/create
+ * - Interfaz sencilla: selector de admin, sección, título, descripción, DVG (si RETOS),
+ *   categoría (Cardio/Fuerza/Yoga/Mindfulness/Alimentación), texto opcional y drag&drop de archivos.
  */
 
-// Tipos --------------------------------------------------------
-export type Section = "RETOS" | "RUTINAS" | "MENTE";
-export type Categoria = "Cardio" | "Fuerza" | "Yoga" | "Mindfulness" | "Alimentación";
+type Section = "RETOS" | "RUTINAS" | "MENTE";
+type Category = "Cardio" | "Fuerza" | "Yoga" | "Mindfulness" | "Alimentación";
+type SaveStatus = "draft" | "published";
 
-export type MediaKind = "image" | "video" | "file";
+type MediaKind = "image" | "video" | "file";
 
 export interface MediaItem {
   id: string;
   kind: MediaKind;
   name: string;
-  size: number; // bytes
-  type: string; // mime
-  url: string; // objectUrl o URL remota tras subirlo a tu backend
+  size: number;
+  type: string;
+  url: string;     // objectURL para preview… se sustituye por URL pública tras subir
+  file?: File;     // el File real a subir (solo en cliente)
 }
 
-export interface AdminContentPayload {
-  id: string;
-  adminName: string;
-  section: Section;
-  title: string; // nombre del reto/contenido
-  description: string;
-  diasVidaGanados?: number; // aplica sobre todo a RETOS
-  categoria: Categoria;
-  textContent?: string; // texto adicional opcional
-  media: MediaItem[];
-  status: "draft" | "published";
-  createdAt: string; // ISO
+type Props = {
+  adminNames?: string[];
+};
+
+function uid() {
+  // id simple para el cliente (no para BD)
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
 
-export interface AdminContentManagerProps {
-  adminNames?: string[]; // para el selector de admins
-  existingTitles?: string[]; // para sugerencias (datalist)
-  onSave?: (item: AdminContentPayload) => Promise<void> | void; // integración con contexto/API
-}
-
-// Utilidades ---------------------------------------------------
-const uid = () => Math.random().toString(36).slice(2);
-
-const MAX_FILES = 12;
-const MAX_TOTAL_BYTES = 200 * 1024 * 1024; // 200 MB
+const DEFAULT_ADMINS = ["César", "Nutricionista", "Entrenador"];
 
 const ACCEPT = [
   "image/*",
@@ -73,162 +41,191 @@ const ACCEPT = [
   ".pdf",
   ".txt",
   ".md",
+  ".doc",
+  ".docx",
 ].join(",");
 
-// Componente ---------------------------------------------------
-const AdminContentManager: React.FC<AdminContentManagerProps> = ({
-  adminNames = ["César", "Nutricionista", "Entrenador"],
-  existingTitles = [
-    "Reto 10k pasos",
-    "Rutina fuerza inicial",
-    "Mindfulness 5 min",
-    "Plan proteína semanal",
-  ],
-  onSave,
-}) => {
-  const [adminName, setAdminName] = useState(adminNames[0] ?? "");
+export default function AdminContentManager({ adminNames = DEFAULT_ADMINS }: Props) {
+  // FORM STATE
+  const [adminName, setAdminName] = useState<string>(adminNames[0] ?? "Admin");
   const [section, setSection] = useState<Section>("RETOS");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [diasVidaGanados, setDVG] = useState<number | "">("");
-  const [categoria, setCategoria] = useState<Categoria>("Cardio");
+  const [diasVidaGanados, setDiasVidaGanados] = useState<number | "">("");
+  const [categoria, setCategoria] = useState<Category>("Cardio");
   const [textContent, setTextContent] = useState<string>("");
+
   const [media, setMedia] = useState<MediaItem[]>([]);
-  const [isDragging, setDragging] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
+
+  // UI feedback
   const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ type: "ok" | "error"; msg: string } | null>(null);
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const totalBytes = useMemo(() => media.reduce((sum, m) => sum + (m.size || 0), 0), [media]);
+  const showToast = (type: "ok" | "error", msg: string) => {
+    setToast({ type, msg });
+    setTimeout(() => setToast(null), 3000);
+  };
 
-  const tituloLabel = useMemo(() => {
-    if (section === "RETOS") return "Elige nombre del reto";
-    if (section === "RUTINAS") return "Nombre de la rutina";
-    return "Nombre del contenido"; // MENTE
-  }, [section]);
+  const canShowDVG = section === "RETOS";
+
+  const derivedErrors = useMemo(() => {
+    const errors: string[] = [];
+    if (!title.trim()) errors.push("Falta el nombre del contenido.");
+    if (!description.trim()) errors.push("Falta la descripción.");
+    if (!categoria) errors.push("Falta la categoría.");
+    if (!section) errors.push("Falta la sección.");
+    if (section === "RETOS" && (diasVidaGanados === "" || isNaN(Number(diasVidaGanados))))
+      errors.push("En RETOS debes indicar los Días de Vida Ganados (número).");
+    return errors;
+  }, [title, description, categoria, section, diasVidaGanados]);
+
+  // Determina el tipo de archivo
+  function detectKind(type: string): MediaKind {
+    if (type?.startsWith("image/")) return "image";
+    if (type?.startsWith("video/")) return "video";
+    return "file";
+  }
+
+  // Cuando seleccionan archivos (input o drop)
+  const onFilesSelected = useCallback((files: FileList | null) => {
+    if (!files || !files.length) return;
+    const next: MediaItem[] = [];
+    Array.from(files).forEach((file) => {
+      const url = URL.createObjectURL(file);
+      next.push({
+        id: uid(),
+        kind: detectKind(file.type),
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        url,
+        file, // <- necesario para subir a /api/upload
+      });
+    });
+    setMedia((prev) => [...next, ...prev]);
+  }, []);
+
+  // Drag & drop
+  const onDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragActive(true);
+  };
+  const onDragLeave = () => setDragActive(false);
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragActive(false);
+    const files = e.dataTransfer.files;
+    onFilesSelected(files);
+  };
+
+  const removeMedia = (id: string) => {
+    setMedia((prev) => prev.filter((m) => m.id !== id));
+  };
 
   function resetForm() {
     setTitle("");
     setDescription("");
-    setDVG("");
+    setDiasVidaGanados("");
     setCategoria("Cardio");
     setTextContent("");
     setMedia([]);
   }
 
-  function showToast(text: string) {
-    setMessage(text);
-    window.setTimeout(() => setMessage(null), 3000);
-  }
-
-  function onFilesSelected(files: FileList | null) {
-    if (!files) return;
-
-    const next: MediaItem[] = [];
-    let bytes = totalBytes;
-
-    for (const file of Array.from(files)) {
-      if (media.length + next.length >= MAX_FILES) break;
-      if (bytes + file.size > MAX_TOTAL_BYTES) break;
-
-      const kind: MediaKind = file.type.startsWith("image/")
-        ? "image"
-        : file.type.startsWith("video/")
-        ? "video"
-        : "file";
-
-      const url = URL.createObjectURL(file);
-      next.push({ id: uid(), kind, name: file.name, size: file.size, type: file.type, url });
-      bytes += file.size;
+  // Sube UN archivo al endpoint /api/upload
+  async function uploadOneToSupabase(m: MediaItem): Promise<string> {
+    if (!m.file) return m.url; // nada que subir (p. ej., ya venía de URL)
+    const resp = await fetch("/api/upload", {
+      method: "POST",
+      headers: {
+        "x-filename": m.name,
+        "x-content-type": m.type || "application/octet-stream",
+      },
+      body: m.file,
+    });
+    if (!resp.ok) {
+      const t = await resp.text();
+      throw new Error(`Upload failed (${resp.status}): ${t}`);
     }
-
-    if (next.length) setMedia((prev) => [...prev, ...next]);
+    const data = await resp.json();
+    return data.url as string;
   }
 
-  function handleDrop(e: React.DragEvent) {
-    e.preventDefault();
-    setDragging(false);
-    if (e.dataTransfer?.files?.length) onFilesSelected(e.dataTransfer.files);
-  }
-
-  function removeMedia(id: string) {
-    setMedia((prev) => prev.filter((m) => m.id !== id));
-  }
-
-  function validate(): string | null {
-    if (!adminName) return "Selecciona un administrador";
-    if (!section) return "Selecciona el destino";
-    if (!title.trim()) return "Indica un nombre";
-    if (!description.trim()) return "Añade una descripción";
-    if (section === "RETOS" && (diasVidaGanados === "" || Number.isNaN(Number(diasVidaGanados)))) {
-      return "Introduce los Días de Vida Ganados (número)";
-    }
-    return null;
-  }
-
-  async function handleSave(status: "draft" | "published") {
-    const err = validate();
-    if (err) {
-      showToast(err);
+  // Guardar/ Publicar
+  async function handleSaveToDB(status: SaveStatus) {
+    if (derivedErrors.length) {
+      showToast("error", derivedErrors[0]);
       return;
     }
-
-    setSaving(true);
     try {
-      const payload: AdminContentPayload = {
-        id: uid(),
-        adminName,
+      setSaving(true);
+
+      // 1) Subir archivos (si los hay)
+      const uploaded = await Promise.all(
+        media.map(async (m) => ({
+          ...m,
+          url: await uploadOneToSupabase(m), // sustituye objectURL por URL pública
+          file: undefined,
+        }))
+      );
+
+      // 2) Crear el payload final
+      const body = {
         section,
         title: title.trim(),
         description: description.trim(),
-        diasVidaGanados: section === "RETOS" ? Number(diasVidaGanados) : undefined,
-        categoria,
-        textContent: textContent?.trim() || undefined,
-        media,
-        status,
-        createdAt: new Date().toISOString(),
+        dvg: section === "RETOS" ? Number(diasVidaGanados) : null,
+        category: categoria,
+        duration_min: null, // (lo añadiremos en la siguiente iteración del formulario)
+        level: null,
+        tags: null,
+        text_content: textContent?.trim() || null,
+        visibility: status === "published" ? "public" : "draft",
+        created_by: adminName,
+        media: uploaded,
       };
 
-      if (onSave) {
-        await onSave(payload);
-      } else {
-        // Fallback: guardar en localStorage si no se provee onSave
-        const key = "nlx_admin_drafts";
-        const prev = JSON.parse(localStorage.getItem(key) || "[]");
-        prev.unshift(payload);
-        localStorage.setItem(key, JSON.stringify(prev));
+      // 3) Insertar el contenido en BD
+      const res = await fetch("/api/content/create", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      if (!res.ok) {
+        const t = await res.text();
+        throw new Error(`Create failed (${res.status}): ${t}`);
       }
 
-      showToast(status === "published" ? "Contenido publicado" : "Borrador guardado");
+      showToast("ok", status === "published" ? "Contenido publicado" : "Borrador guardado");
       resetForm();
-    } catch (e) {
-      console.error(e);
-      showToast("No se pudo guardar. Reintenta.");
+    } catch (err: any) {
+      console.error(err);
+      showToast("error", err?.message || "No se pudo guardar/publicar.");
     } finally {
       setSaving(false);
     }
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-6">
-      <header className="mb-6 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">Administrador · Carga de contenido</h1>
-          <p className="text-sm text-gray-500">Sube y publica contenido para RUTINAS, RETOS o MENTE de forma rápida.</p>
-        </div>
-        <span className="rounded-full border px-3 py-1 text-xs text-gray-600">v1</span>
-      </header>
+    <div className="max-w-xl mx-auto px-4 pb-24">
+      <h1 className="text-2xl font-semibold mt-4 mb-2">Gestor de Contenidos</h1>
+      <p className="text-sm text-gray-600 mb-6">
+        Publica contenido para <strong>RETOS</strong>, <strong>RUTINAS</strong> o <strong>MENTE</strong>. 
+        Sube archivos (imagen, vídeo o documento) con arrastrar y soltar. Al publicar, los archivos se
+        guardan en la nube y se crean registros en la base de datos.
+      </p>
 
-      {/* Selección básica */}
-      <section className="grid gap-4 md:grid-cols-3">
-        <div className="col-span-1">
-          <label className="mb-1 block text-sm font-medium">Administrador</label>
+      {/* Admin */}
+      <div className="grid grid-cols-1 gap-4">
+        <div>
+          <label className="block text-sm font-medium mb-1">Administrador</label>
           <select
-            aria-label="Selecciona administrador"
+            className="w-full rounded border px-3 py-2"
             value={adminName}
             onChange={(e) => setAdminName(e.target.value)}
-            className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             {adminNames.map((n) => (
               <option key={n} value={n}>
@@ -238,17 +235,17 @@ const AdminContentManager: React.FC<AdminContentManagerProps> = ({
           </select>
         </div>
 
-        <div className="col-span-1">
-          <label className="mb-1 block text-sm font-medium">Destino</label>
-          <div className="grid grid-cols-3 gap-2">
+        {/* Sección */}
+        <div>
+          <label className="block text-sm font-medium mb-1">Destino</label>
+          <div className="flex gap-2 flex-wrap">
             {(["RETOS", "RUTINAS", "MENTE"] as Section[]).map((s) => (
               <button
                 key={s}
                 type="button"
-                aria-pressed={section === s}
                 onClick={() => setSection(s)}
-                className={`rounded-xl border px-3 py-2 text-sm transition ${
-                  section === s ? "border-indigo-600 bg-indigo-50" : "hover:bg-gray-50"
+                className={`px-3 py-1.5 rounded border ${
+                  section === s ? "bg-black text-white border-black" : "bg-white"
                 }`}
               >
                 {s}
@@ -257,193 +254,208 @@ const AdminContentManager: React.FC<AdminContentManagerProps> = ({
           </div>
         </div>
 
-        <div className="col-span-1">
-          <label className="mb-1 block text-sm font-medium">Ubicación / Categoría</label>
-          <select
-            aria-label="Selecciona categoría"
-            value={categoria}
-            onChange={(e) => setCategoria(e.target.value as Categoria)}
-            className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            {(["Cardio", "Fuerza", "Yoga", "Mindfulness", "Alimentación"] as Categoria[]).map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </div>
-      </section>
-
-      <hr className="my-6" />
-
-      {/* Título + Descripción */}
-      <section className="grid gap-4 md:grid-cols-2">
-        <div className="col-span-1">
-          <label className="mb-1 block text-sm font-medium">{tituloLabel}</label>
+        {/* Título */}
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            {section === "RETOS" ? "Nombre del reto" : "Nombre del contenido"}
+          </label>
           <input
-            list="existing-titles"
+            className="w-full rounded border px-3 py-2"
+            placeholder="Ej. 10k pasos progresivo"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Escribe o selecciona…"
-            className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
-          {existingTitles?.length ? (
-            <datalist id="existing-titles">
-              {existingTitles.map((t) => (
-                <option key={t} value={t} />
-              ))}
-            </datalist>
-          ) : null}
         </div>
 
-        <div className="col-span-1">
-          <label className="mb-1 block text-sm font-medium">{section === "RETOS" ? "Días de Vida Ganados" : "Días de Vida Ganados (opcional)"}</label>
-          <input
-            type="number"
-            min={0}
-            inputMode="numeric"
-            value={diasVidaGanados}
-            onChange={(e) => setDVG(e.target.value === "" ? "" : Number(e.target.value))}
-            placeholder={section === "RETOS" ? "p. ej. 3" : ""}
-            className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-          <p className="mt-1 text-xs text-gray-500">Indicador de impacto. Útil para priorizar RETOS.</p>
-        </div>
-
-        <div className="col-span-2">
-          <label className="mb-1 block text-sm font-medium">Descripción detallada</label>
+        {/* Descripción */}
+        <div>
+          <label className="block text-sm font-medium mb-1">Descripción</label>
           <textarea
+            className="w-full rounded border px-3 py-2 min-h-[100px]"
+            placeholder="Describe el objetivo, estructura y recomendaciones…"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            rows={5}
-            placeholder="Describe el contenido, instrucciones y criterios de éxito…"
-            className="w-full resize-y rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-          <div className="mt-1 text-right text-xs text-gray-500">{description.length} caracteres</div>
-        </div>
-      </section>
-
-      <hr className="my-6" />
-
-      {/* Texto asociado opcional */}
-      <section className="mb-4">
-        <label className="mb-1 block text-sm font-medium">Texto asociado (opcional)</label>
-        <textarea
-          value={textContent}
-          onChange={(e) => setTextContent(e.target.value)}
-          rows={3}
-          placeholder="Contenido textual, receta, pauta, guion del vídeo…"
-          className="w-full resize-y rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-      </section>
-
-      {/* Subida de archivos */}
-      <section>
-        <label className="mb-2 block text-sm font-medium">Subir archivos (imagen, vídeo o ficheros)</label>
-
-        <div
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragging(true);
-          }}
-          onDragLeave={() => setDragging(false)}
-          onDrop={handleDrop}
-          className={`flex min-h-[140px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed px-4 py-6 text-center transition ${
-            isDragging ? "border-indigo-500 bg-indigo-50" : "hover:bg-gray-50"
-          }`}
-          onClick={() => inputRef.current?.click()}
-          role="button"
-          aria-label="Subir archivos"
-        >
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="mb-2">
-            <path d="M12 16V4m0 0l-4 4m4-4l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M20 16.5V19a2 2 0 01-2 2H6a2 2 0 01-2-2v-2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <p className="text-sm">Arrastra y suelta archivos aquí o haz clic para seleccionarlos</p>
-          <p className="mt-1 text-xs text-gray-500">Hasta {MAX_FILES} archivos · Máx {(MAX_TOTAL_BYTES / (1024 * 1024)).toFixed(0)} MB en total</p>
-          <input
-            ref={inputRef}
-            type="file"
-            accept={ACCEPT}
-            multiple
-            className="hidden"
-            onChange={(e) => onFilesSelected(e.target.files)}
           />
         </div>
 
-        {/* Galería de previsualización */}
-        {media.length > 0 && (
-          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {media.map((m) => (
-              <div key={m.id} className="group relative overflow-hidden rounded-xl border">
-                <button
-                  type="button"
-                  onClick={() => removeMedia(m.id)}
-                  className="absolute right-2 top-2 z-10 rounded-full bg-white/90 px-2 py-1 text-xs shadow hover:bg-white"
-                  aria-label={`Eliminar ${m.name}`}
-                >
-                  ✕
-                </button>
-                {m.kind === "image" && (
-                  <img src={m.url} alt={m.name} className="h-48 w-full object-cover" />
-                )}
-                {m.kind === "video" && (
-                  <video src={m.url} controls className="h-48 w-full object-cover" />)
-                }
-                {m.kind === "file" && (
-                  <div className="flex h-48 w-full items-center justify-center bg-gray-50 p-4 text-center text-sm">
-                    <div>
-                      <div className="mb-2 font-medium">{m.name}</div>
-                      <div className="text-xs text-gray-500">{(m.size / (1024 * 1024)).toFixed(1)} MB · {m.type || "archivo"}</div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
+        {/* DVG */}
+        {canShowDVG && (
+          <div>
+            <label className="block text-sm font-medium mb-1">Días de Vida Ganados (DVG)</label>
+            <input
+              type="number"
+              className="w-40 rounded border px-3 py-2"
+              placeholder="Ej. 3"
+              value={diasVidaGanados}
+              onChange={(e) => {
+                const v = e.target.value;
+                setDiasVidaGanados(v === "" ? "" : Number(v));
+              }}
+            />
           </div>
         )}
 
-        {/* Resumen de peso total */}
-        {media.length > 0 && (
-          <div className="mt-2 text-right text-xs text-gray-500">
-            Tamaño total: {(totalBytes / (1024 * 1024)).toFixed(1)} MB
-          </div>
-        )}
-      </section>
-
-      {/* Acciones */}
-      <footer className="mt-8 flex flex-col items-center justify-between gap-3 sm:flex-row">
-        <div className="text-xs text-gray-500">
-          Consejo: mantén los títulos breves y empieza la descripción con el verbo de acción ("Completa", "Realiza", "Practica").
+        {/* Categoría */}
+        <div>
+          <label className="block text-sm font-medium mb-1">Categoría</label>
+          <select
+            className="w-full rounded border px-3 py-2"
+            value={categoria}
+            onChange={(e) => setCategoria(e.target.value as Category)}
+          >
+            {(["Cardio", "Fuerza", "Yoga", "Mindfulness", "Alimentación"] as Category[]).map(
+              (c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              )
+            )}
+          </select>
         </div>
-        <div className="flex gap-2">
+
+        {/* Texto opcional */}
+        <div>
+          <label className="block text-sm font-medium mb-1">Texto / Guion (opcional)</label>
+          <textarea
+            className="w-full rounded border px-3 py-2 min-h-[100px]"
+            placeholder="Texto asociado al contenido (receta, guion de vídeo, notas)…"
+            value={textContent}
+            onChange={(e) => setTextContent(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* Uploader */}
+      <div
+        className={`mt-6 p-6 border-2 rounded-md ${
+          dragActive ? "border-black bg-gray-50" : "border-dashed"
+        }`}
+        onDragOver={onDragOver}
+        onDragLeave={onDragLeave}
+        onDrop={onDrop}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") fileInputRef.current?.click();
+        }}
+      >
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div>
+            <div className="font-medium">Sube archivos</div>
+            <div className="text-xs text-gray-500">
+              Arrastra y suelta aquí o{" "}
+              <span className="underline">haz clic para elegir</span>. Soportado: imágenes, vídeos,
+              PDF, TXT, DOC/DOCX.
+            </div>
+          </div>
           <button
+            className="px-3 py-1.5 rounded border"
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            Elegir archivos
+          </button>
+        </div>
+        <input
+          ref={fileInputRef}
+          hidden
+          type="file"
+          multiple
+          accept={ACCEPT}
+          onChange={(e) => onFilesSelected(e.target.files)}
+        />
+      </div>
+
+      {/* Previews */}
+      {!!media.length && (
+        <div className="mt-4 grid grid-cols-1 gap-3">
+          {media.map((m) => (
+            <div
+              key={m.id}
+              className="border rounded p-3 flex items-center gap-3 bg-white"
+            >
+              <Thumb item={m} />
+              <div className="flex-1 min-w-0">
+                <div className="font-medium truncate">{m.name}</div>
+                <div className="text-xs text-gray-500">
+                  {m.type || m.kind} · {(m.size / 1024 / 1024).toFixed(2)} MB
+                </div>
+              </div>
+              <button
+                className="text-red-600 text-sm underline"
+                type="button"
+                onClick={() => removeMedia(m.id)}
+              >
+                Quitar
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Errores de validación */}
+      {derivedErrors.length > 0 && (
+        <div className="mt-4 bg-yellow-50 border border-yellow-200 text-yellow-800 text-sm rounded p-3">
+          <ul className="list-disc ml-5">
+            {derivedErrors.map((e, i) => (
+              <li key={i}>{e}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Botonera */}
+      <div className="h-16" />
+      <div className="fixed bottom-0 left-0 right-0 border-t bg-white/95 backdrop-blur p-3">
+        <div className="max-w-xl mx-auto flex items-center justify-end gap-2">
+          <button
+            className="px-4 py-2 rounded border"
             type="button"
             disabled={saving}
-            onClick={() => handleSave("draft")}
-            className="rounded-xl border px-4 py-2 text-sm font-medium hover:bg-gray-50 disabled:opacity-60"
+            onClick={() => handleSaveToDB("draft")}
           >
             Guardar borrador
           </button>
           <button
+            className="px-4 py-2 rounded text-white"
+            style={{ background: "#111" }}
             type="button"
             disabled={saving}
-            onClick={() => handleSave("published")}
-            className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-500 disabled:opacity-60"
+            onClick={() => handleSaveToDB("published")}
           >
-            Publicar
+            {saving ? "Publicando…" : "Publicar"}
           </button>
         </div>
-      </footer>
+      </div>
 
       {/* Toast simple */}
-      {message && (
-        <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 rounded-full bg-black px-4 py-2 text-sm text-white shadow-lg">
-          {message}
+      {toast && (
+        <div
+          className={`fixed bottom-20 left-1/2 -translate-x-1/2 px-4 py-2 rounded text-sm shadow ${
+            toast.type === "ok" ? "bg-green-600 text-white" : "bg-red-600 text-white"
+          }`}
+        >
+          {toast.msg}
         </div>
       )}
     </div>
   );
-};
+}
 
-export default AdminContentManager;
+/** Mini-componente de thumbnail para imagen/vídeo/archivo */
+function Thumb({ item }: { item: MediaItem }) {
+  if (item.kind === "image") {
+    return <img src={item.url} alt={item.name} className="w-16 h-16 object-cover rounded" />;
+  }
+  if (item.kind === "video") {
+    return (
+      <video className="w-16 h-16 rounded object-cover" src={item.url} muted controls={false} />
+    );
+  }
+  return (
+    <div className="w-16 h-16 rounded bg-gray-100 flex items-center justify-center text-xs text-gray-500">
+      Archivo
+    </div>
+  );
+}
+
