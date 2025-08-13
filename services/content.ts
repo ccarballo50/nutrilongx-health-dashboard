@@ -3,10 +3,6 @@ import { supabase } from "../src/lib/supabaseClient";
 
 export type Section = "RETOS" | "RUTINAS" | "MENTE";
 
-/**
- * Lee contenidos publicados (no 'draft') desde Supabase.
- * Si pasas section, filtra por RETOS / RUTINAS / MENTE.
- */
 export async function listPublicContent(section?: Section) {
   const select = `
     id, section, title, description, dvg, category, created_at,
