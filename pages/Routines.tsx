@@ -1,86 +1,45 @@
-import React, { useState } from 'react';
-import { useAppContext } from '../context/AppContext';
-import { AiTip } from '../components/AiTip';
-import { Routine } from '../types';
+import React, { useEffect, useState } from "react";
+import { listPublicContent } from "../services/content";
 
-type FilterType = 'Todos' | 'Cardio' | 'Fuerza' | 'Yoga';
+export default function Routines() {
+  const [items, setItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState<string | null>(null);
 
-const RoutineItem: React.FC<{ routine: Routine }> = ({ routine }) => {
-  const { dispatch } = useAppContext();
-  const handleComplete = () => {
-    if (routine.status === 'pending') {
-      dispatch({ type: 'COMPLETE_ROUTINE', payload: routine.id });
-    }
-  };
+  useEffect(() => {
+    (async () => {
+      try {
+        const rows = await listPublicContent("RUTINAS");
+        setItems(rows);
+      } catch (e: any) {
+        setErr(e.message);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
-  const isCompleted = routine.status === 'completed';
+  if (loading) return <div className="p-4">Cargando…</div>;
+  if (err) return <div className="p-4 text-red-600">Error: {err}</div>;
 
   return (
-    <div className={`flex items-center bg-white p-4 rounded-lg shadow-sm transition-all ${isCompleted ? 'opacity-70' : ''}`}>
-      <div className="flex items-center flex-grow">
-        <div className="w-16 h-16 bg-gray-200 rounded-lg mr-4 flex-shrink-0">
-          <img src={`https://picsum.photos/seed/${routine.id}/100/100`} alt={routine.title} className="w-full h-full object-cover rounded-lg" />
-        </div>
-        <div className="flex-grow">
-          <h4 className="font-bold text-gray-800">{routine.title}</h4>
-          <p className="text-sm text-gray-500">{routine.duration} min • <span className="font-bold text-green-600">+{routine.dvg} DVG</span></p>
-          <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-            <div className="bg-green-500 h-2 rounded-full transition-all duration-500" style={{ width: `${routine.progress}%` }}></div>
+    <div className="p-4 space-y-3">
+      {items.map((r) => {
+        const img = r.content_media?.find((m: any) => m.kind === "image")?.url;
+        return (
+          <div key={r.id} className="border rounded overflow-hidden bg-white">
+            {img && <img src={img} alt={r.title} className="w-full h-40 object-cover" />}
+            <div className="p-3">
+              <div className="text-xs text-gray-500">{r.category}</div>
+              <div className="font-semibold">{r.title}</div>
+              <div className="text-sm text-gray-700">{r.description}</div>
+            </div>
           </div>
-        </div>
-      </div>
-      <button
-        onClick={handleComplete}
-        disabled={isCompleted}
-        className={`ml-4 px-4 py-2 text-sm font-semibold rounded-lg transition-colors flex-shrink-0 ${
-          isCompleted
-            ? 'bg-green-100 text-green-700 cursor-default'
-            : 'bg-green-500 text-white hover:bg-green-600'
-        }`}
-      >
-        {isCompleted ? 'Completada' : 'Completar'}
-      </button>
+        );
+      })}
+      {items.length === 0 && (
+        <div className="text-sm text-gray-500">No hay rutinas publicadas aún.</div>
+      )}
     </div>
   );
-};
-
-const Routines: React.FC = () => {
-  const { state } = useAppContext();
-  const [activeFilter, setActiveFilter] = useState<FilterType>('Todos');
-
-  const filters: FilterType[] = ['Todos', 'Cardio', 'Fuerza', 'Yoga'];
-
-  const filteredRoutines = state.routines.filter(routine => 
-    activeFilter === 'Todos' || routine.category === activeFilter
-  );
-
-  return (
-    <div className="p-4 pb-24 space-y-4 flex flex-col h-full">
-      <div>
-        <div className="flex space-x-2">
-          {filters.map(filter => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-4 py-2 text-sm font-semibold rounded-full transition-colors ${
-                activeFilter === filter
-                  ? 'bg-gray-800 text-white'
-                  : 'bg-gray-200 text-gray-700'
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-      </div>
-      <div className="space-y-3 overflow-y-auto flex-grow">
-        {filteredRoutines.map(routine => (
-          <RoutineItem key={routine.id} routine={routine} />
-        ))}
-      </div>
-      <AiTip pageContext="Rutinas" />
-    </div>
-  );
-};
-
-export default Routines;
+}
