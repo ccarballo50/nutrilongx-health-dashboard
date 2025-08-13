@@ -1,7 +1,7 @@
 import React from "react";
 import * as RRD from "react-router-dom";
 import { AppProvider, useAppContext } from "./context/AppContext";
-
+import AdminContentList from "./pages/admin/AdminContentList";
 import Welcome from "./pages/Welcome";
 import Dashboard from "./pages/Dashboard";
 import Routines from "./pages/Routines";
@@ -60,6 +60,7 @@ const AppRoutes: React.FC = () => {
         <RRD.Route path="mind" element={<Mind />} />
         <RRD.Route path="log-achievement" element={<LogAchievement />} />
         <RRD.Route path="admin/content" element={<AdminContentManager adminNames={["César","Nutricionista","Entrenador"]} />} />
+        <RRD.Route path="admin/list" element={<AdminContentList />} />
       </RRD.Route>
       <RRD.Route path="*" element={<RRD.Navigate to={state.isAuthenticated ? "/dashboard" : "/welcome"} replace />} />
     </RRD.Routes>
