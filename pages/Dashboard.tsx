@@ -1,93 +1,69 @@
-import React from 'react';
-import * as RRD from 'react-router-dom';
-import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer, YAxis } from 'recharts';
-import { useAppContext } from '../context/AppContext';
-import { AiTip } from '../components/AiTip';
-import { ICONS } from '../constants';
+import React, { useEffect, useState } from "react";
+import LevelBadge from "../components/LevelBadge";
+import ProgressRing from "../components/ProgressRing";
+import LeaderboardWidget from "../components/LeaderboardWidget";
+import { fetchLeaderboard } from "../services/leaderboard";
+import { ensureProfile } from "../services/profile";
 
-const Dashboard: React.FC = () => {
-  const { state } = useAppContext();
-  const { kpis, stats, user } = state;
-  const navigate = RRD.useNavigate();
+const LEVELS = [
+  { level: 1, name: 'Inicio',   threshold: 0 },
+  { level: 2, name: 'Bronce',   threshold: 50 },
+  { level: 3, name: 'Plata',    threshold: 150 },
+  { level: 4, name: 'Oro',      threshold: 300 },
+  { level: 5, name: 'Platino',  threshold: 600 },
+  { level: 6, name: 'Diamante', threshold: 1000 },
+];
 
-  if (!kpis || !stats || !user) return <div className="p-4">Cargando...</div>;
-  
-  const xpPercentage = (kpis.xp / kpis.maxXp) * 100;
+function nextThreshold(points: number) {
+  let current = LEVELS[0], next = null as any;
+  for (const l of LEVELS) if (points >= l.threshold) current = l;
+  next = LEVELS.find(l => l.threshold > current.threshold) || null;
+  return { current, next, toNext: next ? Math.max(0, next.threshold - points) : 0 };
+}
+
+export default function Dashboard() {
+  const [me, setMe] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  async function load() {
+    await ensureProfile("Cliente");
+    const lb = await fetchLeaderboard(); // trae "me"
+    setMe(lb.me); setLoading(false);
+  }
+  useEffect(() => { load(); }, []);
+
+  const pts = me?.points ?? 0;
+  const { current, next, toNext } = nextThreshold(pts);
+  const total = next ? (next.threshold - current.threshold) : pts || 1;
+  const value = next ? (pts - current.threshold) : total;
 
   return (
-    <div className="p-4 pb-24 space-y-4 flex flex-col h-full">
-      <div className="text-left">
-        <p className="text-gray-500">Nivel {kpis.level}</p>
-        <div className="w-full bg-gray-200 rounded-full h-2.5 my-1">
-          <div className="bg-green-500 h-2.5 rounded-full" style={{ width: `${xpPercentage}%` }}></div>
-        </div>
-        <p className="text-xs text-gray-500">{kpis.xp}/{kpis.maxXp} XP</p>
-      </div>
-
-      <div>
-        <h3 className="font-bold text-lg">Objetivos</h3>
-        <div className="flex space-x-2 mt-2">
-          <span className="bg-gray-200 text-gray-700 text-sm font-medium px-3 py-1 rounded-full">Perder peso</span>
-          <span className="bg-gray-200 text-gray-700 text-sm font-medium px-3 py-1 rounded-full">Ganar masa muscular</span>
-        </div>
-      </div>
-      
-      <div className="bg-green-100 p-3 rounded-lg">
-        <h3 className="font-bold">Retos</h3>
-        <p>Desafío de hidratación <span className="text-green-600 font-semibold">7 días restantes</span></p>
-        <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-          <div className="bg-green-500 h-1.5 rounded-full" style={{ width: '76%' }}></div>
+    <div className="max-w-lg mx-auto p-4 space-y-4">
+      <div className="rounded-2xl p-4 bg-gradient-to-r from-emerald-50 to-cyan-50 border">
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <div className="text-sm text-gray-600">Tu progreso</div>
+            <LevelBadge level={me?.level || 1} />
+            <div className="text-xs text-gray-600">Puntos: <b>{pts}</b></div>
+            {next ? (
+              <div className="text-xs text-gray-600">Te faltan <b>{toNext}</b> para nivel {next.level} · {next.name}</div>
+            ) : (
+              <div className="text-xs text-gray-600">¡Máximo nivel! 🚀</div>
+            )}
+          </div>
+          <div className="text-emerald-600">
+            <ProgressRing value={value} total={total} />
+          </div>
         </div>
       </div>
 
-      <div 
-        className="bg-blue-100 p-4 rounded-lg flex items-center space-x-4 cursor-pointer hover:bg-blue-200 transition-colors shadow-sm"
-        onClick={() => navigate('/log-achievement')}
-        role="button"
-        tabIndex={0}
-        onKeyPress={(e) => e.key === 'Enter' && navigate('/log-achievement')}
-        aria-label="Introducir un nuevo logro"
-      >
-        <ICONS.badgeCheck className="h-10 w-10 text-blue-600 flex-shrink-0" />
-        <div>
-          <h3 className="font-bold text-blue-800">Introduce tus logros</h3>
-          <p className="text-sm text-blue-700">Registra tus progresos y metas conseguidas.</p>
-        </div>
-      </div>
+      <LeaderboardWidget />
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-gray-100 p-3 rounded-lg text-center">
-            <p className="text-gray-500 text-sm">Calorías</p>
-            <p className="font-bold text-xl">{kpis.calories}</p>
+      {!loading && (
+        <div className="text-xs text-gray-500">
+          Tip: marca tus contenidos como <b>Hecho</b> para sumar DVG como puntos y subir de nivel.
         </div>
-        <div className="bg-gray-100 p-3 rounded-lg text-center">
-            <p className="text-gray-500 text-sm">Proteínas</p>
-            <p className="font-bold text-xl">{kpis.protein}g</p>
-        </div>
-        <div className="bg-gray-100 p-3 rounded-lg text-center col-span-2">
-            <p className="text-gray-500 text-sm">Carbohidratos</p>
-            <p className="font-bold text-xl">{kpis.carbs}g</p>
-        </div>
-      </div>
-
-      <div>
-        <h3 className="font-bold text-lg">Estadísticas</h3>
-        <p className="text-gray-600">Progreso semanal <span className="text-green-500 font-bold">+{kpis.weeklyProgress}%</span></p>
-        <div className="h-32 mt-2">
-           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={stats.weekly} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
-                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{fill: '#6b7280', fontSize: 12}} />
-                <YAxis hide={true} domain={['dataMin - 10', 'dataMax + 10']} />
-                <Tooltip />
-                <Line type="monotone" dataKey="value" stroke="#10B981" strokeWidth={3} dot={false} />
-            </LineChart>
-            </ResponsiveContainer>
-        </div>
-      </div>
-      
-      <AiTip pageContext="Dashboard" />
+      )}
     </div>
   );
-};
-
-export default Dashboard;
+}
