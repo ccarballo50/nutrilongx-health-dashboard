@@ -9,6 +9,7 @@ import Challenges from "./pages/Challenges";
 import ChallengeDetail from "./pages/ChallengeDetail";
 import Stats from "./pages/Stats";
 import Mind from "./pages/Mind";
+import Nutrition from './pages/Nutrition'; // <- AÑADIR
 import LogAchievement from "./pages/LogAchievement";
 import { BottomNav } from "./components/BottomNav";
 import { Header } from "./components/Header";
