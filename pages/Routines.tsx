@@ -1,56 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { listPublicContent } from "../services/content";
-import AdviceCard from "../components/AdviceCard"; // 👈 importa el consejo IA
+import ContentCard from "../components/ContentCard";
 
-export default function Routines() {                  // 👈 corrige el nombre de la función
+export default function Routines() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
 
   async function load() {
-    try {
-      setLoading(true);
-      setItems(await listPublicContent("RUTINA"));
-      setErr(null);
-    } catch (e: any) {
-      setErr(e.message);
-    } finally {
-      setLoading(false);
-    }
+    try { setLoading(true); setItems(await listPublicContent("RUTINAS")); setErr(null); }
+    catch (e: any) { setErr(e.message); }
+    finally { setLoading(false); }
   }
-
   useEffect(() => { load(); }, []);
 
-  return (
-    <div className="p-4 space-y-3">
-      {/* CONSEJO IA ARRIBA */}
-      <AdviceCard defaultPrompt="Quiero una rutina corta para hacer en casa" />
+  const potential = items.reduce((acc, it) => acc + (Number(it?.dvg) || 0), 0);
 
-      <div className="flex justify-end">
-        <button className="border rounded px-3 py-1 text-sm" onClick={load}>
-          Actualizar
-        </button>
+  return (
+    <div>
+      <div className="bg-gradient-to-r from-indigo-50 to-sky-50 border-b">
+        <div className="max-w-lg mx-auto px-4 py-4">
+          <div className="text-xs text-gray-600">Rutinas</div>
+          <div className="text-lg font-semibold leading-tight">Construye tu hábito</div>
+          <div className="text-xs text-gray-600 mt-1">DVG potencial: <b>+{potential}</b></div>
+          <div className="flex justify-end mt-2">
+            <button className="border rounded px-3 py-1 text-xs" onClick={load}>Actualizar</button>
+          </div>
+        </div>
       </div>
 
-      {loading && <div>Cargando…</div>}
-      {err && <div className="text-red-600">Error: {err}</div>}
-
-      {items.map((r) => {
-        const img = r.content_media?.find((m: any) => m.kind === "image")?.url;
-        return (
-          <div key={r.id} className="border rounded overflow-hidden bg-white">
-            {img && <img src={img} alt={r.title} className="w-full h-40 object-cover" />}
-            <div className="p-3">
-              <div className="text-xs text-gray-500">{r.category}</div>
-              <div className="font-semibold">{r.title}</div>
-              <div className="text-sm text-gray-700">{r.description}</div>
-            </div>
-          </div>
-        );
-      })}
-      {!loading && items.length === 0 && (
-        <div className="text-sm text-gray-500">No hay contenidos publicados aún.</div>
-      )}
+      <div className="max-w-lg mx-auto p-4 grid gap-4">
+        {loading && <div>Cargando…</div>}
+        {err && <div className="text-red-600">{err}</div>}
+        {items.map((it: any) => (
+          <ContentCard key={it.id} item={it} section="RUTINAS" />
+        ))}
+        {!loading && items.length === 0 && (
+          <div className="text-sm text-gray-500">No hay rutinas publicadas aún.</div>
+        )}
+      </div>
     </div>
   );
 }
