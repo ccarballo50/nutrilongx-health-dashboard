@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { listPublicContent } from "../services/content";
 import AdviceCard from "../components/AdviceCard"; // 👈 importa el consejo IA
 
-export default function Mind() {                  // 👈 corrige el nombre de la función
+export default function Routines() {                  // 👈 corrige el nombre de la función
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
