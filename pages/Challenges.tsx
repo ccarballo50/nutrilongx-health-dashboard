@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { listPublicContent } from "../services/content";
+import AdviceCard from "../components/AdviceCard"; // 👈 importa el consejo IA
 
-export default function Challenges() {
+export default function Challenges() {                  // 👈 corrige el nombre de la función
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
@@ -22,6 +23,9 @@ export default function Challenges() {
 
   return (
     <div className="p-4 space-y-3">
+      {/* CONSEJO IA ARRIBA */}
+      <AdviceCard defaultPrompt="Sugiéreme un reto saludable para hoy" />
+
       <div className="flex justify-end">
         <button className="border rounded px-3 py-1 text-sm" onClick={load}>
           Actualizar
@@ -40,15 +44,12 @@ export default function Challenges() {
               <div className="text-xs text-gray-500">{r.category}</div>
               <div className="font-semibold">{r.title}</div>
               <div className="text-sm text-gray-700">{r.description}</div>
-              {typeof r.dvg === "number" && (
-                <div className="text-xs mt-1 text-gray-500">DVG: {r.dvg}</div>
-              )}
             </div>
           </div>
         );
       })}
       {!loading && items.length === 0 && (
-        <div className="text-sm text-gray-500">No hay retos publicados aún.</div>
+        <div className="text-sm text-gray-500">No hay contenidos publicados aún.</div>
       )}
     </div>
   );
