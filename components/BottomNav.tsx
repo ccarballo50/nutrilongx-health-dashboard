@@ -2,12 +2,26 @@ import React from 'react';
 import * as RRD from 'react-router-dom';
 import { ICONS } from '../constants';
 
-const navItems = [
-  { path: '/dashboard', label: 'Menú', icon: ICONS.menu },
-  { path: '/routines', label: 'Rutinas', icon: ICONS.routines },
-  { path: '/challenges', label: 'Retos', icon: ICONS.challenges },
-  { path: '/stats', label: 'Estadísticas', icon: ICONS.stats },
-  { path: '/mind', label: 'Mente', icon: ICONS.mind },
+type IconComp = React.ComponentType<{ className?: string }>;
+
+const NutritionIcon: IconComp = ({ className = '' }) => (
+  <span
+    className={`mb-1 inline-flex items-center justify-center ${className}`}
+    role="img"
+    aria-label="Alimentación"
+    style={{ fontSize: '1.25rem', lineHeight: 1 }}
+  >
+    🍎
+  </span>
+);
+
+const navItems: { path: string; label: string; icon: IconComp }[] = [
+  { path: '/dashboard',  label: 'Menú',        icon: ICONS.menu },
+  { path: '/routines',   label: 'Rutinas',     icon: ICONS.routines },
+  { path: '/challenges', label: 'Retos',       icon: ICONS.challenges },
+  { path: '/stats',      label: 'Estadísticas',icon: ICONS.stats },
+  { path: '/mind',       label: 'Mente',       icon: ICONS.mind },
+  { path: '/nutrition',  label: 'Aliment.',    icon: NutritionIcon }, // 👈 nuevo tab
 ];
 
 export const BottomNav: React.FC = () => {
