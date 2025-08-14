@@ -22,6 +22,7 @@ const titles: Record<string, string> = {
   "/stats": "Estadísticas",
   "/mind": "Mente",
   "/log-achievement": "Registrar Logro",
+  '/nutrition': 'Alimentación', // <- AÑADIR
 };
 
 const MainLayout: React.FC = () => {
@@ -59,6 +60,7 @@ const AppRoutes: React.FC = () => {
         <RRD.Route path="challenges/:challengeId" element={<ChallengeDetail />} />
         <RRD.Route path="stats" element={<Stats />} />
         <RRD.Route path="mind" element={<Mind />} />
+        <RRD.Route path="nutrition" element={<Nutrition />} /> {/* <- AÑADIR */}
         <RRD.Route path="log-achievement" element={<LogAchievement />} />
         <RRD.Route path="admin/content" element={<AdminContentManager adminNames={["César","Nutricionista","Entrenador"]} />} />
         <RRD.Route path="admin/list" element={<AdminContentList />} />
