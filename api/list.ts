@@ -5,7 +5,7 @@ import { supabaseAdmin } from '../lib/supabaseAdmin';
 export default async function handler(req: Request) {
   const supa = supabaseAdmin();
   const url = new URL(req.url);
-  const section = url.searchParams.get('section'); // "RETOS" | "RUTINAS" | "MENTE" | null
+  const section = url.searchParams.get('section'); // "RETOS"|"RUTINAS"|"MENTE"|null
 
   let q = supa
     .from('content')
