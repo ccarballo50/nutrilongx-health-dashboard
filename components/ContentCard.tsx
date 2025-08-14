@@ -3,23 +3,44 @@ import DvgBadge from "./DvgBadge";
 import AdviceCard from "./AdviceCard";
 import { logAchievement } from "../services/achievements";
 
-export default function ContentCard({ item, section }: { item: any; section: "RETOS"|"RUTINAS"|"MENTE" }) {
+type Section = "RETOS" | "RUTINAS" | "MENTE";
+
+export default function ContentCard({
+  item,
+  section,
+}: {
+  item: any;
+  section: Section;
+}) {
   const [showAdvice, setShowAdvice] = useState(false);
   const [doneMsg, setDoneMsg] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
   const img = item?.content_media?.find((m: any) => m.kind === "image")?.url;
+  const gain = Number.isFinite(item?.dvg) ? Number(item.dvg) : 1;
 
   async function markDone() {
     try {
       setSaving(true);
       const res = await logAchievement({
-        contentId: item.id, section, title: item.title, dvg: item.dvg ?? 1
+        contentId: item.id,
+        section,
+        title: item.title,
+        dvg: item.dvg ?? 1,
       });
-      setDoneMsg(`¡Hecho! +${item.dvg ?? 1} pts · Nivel ${res.level} · faltan ${res.toNext} para el siguiente`);
+      // res: { ok, level, levelName, points, nextLevel, toNext, streakCurrent, streakBest, dailyBonusAwarded, badges }
+      const parts = [
+        `¡Hecho! +${gain} pts`,
+        `Nivel ${res.level}`,
+        res.toNext ? `faltan ${res.toNext}` : null,
+        `🔥 Racha ${res.streakCurrent}`,
+        res.dailyBonusAwarded ? "⭐ Bonus diario +5" : null,
+        Array.isArray(res.badges) ? `🏅 ${res.badges.length} medallas` : null,
+      ].filter(Boolean);
+      setDoneMsg(parts.join(" · "));
       setTimeout(() => setDoneMsg(null), 3500);
     } catch (e: any) {
-      setDoneMsg(`Error: ${e.message || 'no se pudo registrar'}`);
+      setDoneMsg(`Error: ${e?.message || "no se pudo registrar"}`);
       setTimeout(() => setDoneMsg(null), 3500);
     } finally {
       setSaving(false);
@@ -38,13 +59,14 @@ export default function ContentCard({ item, section }: { item: any; section: "RE
           </span>
           <DvgBadge dvg={item.dvg} />
         </div>
+
         <div className="font-semibold leading-snug">{item.title}</div>
         <div className="text-sm text-gray-600">{item.description}</div>
 
         <div className="flex gap-2 pt-2">
           <button
             className="text-xs px-3 py-1.5 rounded bg-emerald-600 text-white"
-            onClick={() => setShowAdvice(s => !s)}
+            onClick={() => setShowAdvice((s) => !s)}
           >
             {showAdvice ? "Cerrar consejo" : "Consejo IA"}
           </button>
@@ -54,7 +76,7 @@ export default function ContentCard({ item, section }: { item: any; section: "RE
             disabled={saving}
             title="Sumar DVG como puntos"
           >
-            {saving ? "Guardando…" : `Hecho (+${item.dvg ?? 1})`}
+            {saving ? "Guardando…" : `Hecho (+${gain})`}
           </button>
         </div>
 
@@ -66,7 +88,7 @@ export default function ContentCard({ item, section }: { item: any; section: "RE
                 section,
                 title: item.title,
                 category: item.category,
-                dvg: item.dvg ?? null
+                dvg: item.dvg ?? null,
               }}
             />
           </div>
@@ -81,3 +103,4 @@ export default function ContentCard({ item, section }: { item: any; section: "RE
     </div>
   );
 }
+
