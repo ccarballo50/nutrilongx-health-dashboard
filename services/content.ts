@@ -3,7 +3,7 @@ import { supabase } from "../src/lib/supabaseClient";
 export type Section = "RETOS" | "RUTINAS" | "MENTE";
 
 export async function listPublicContent(section?: Section) {
-  // 1) Intento con el cliente del navegador (RLS)
+  // 1) intento con Supabase (cliente)
   try {
     const select = `
       id, section, title, description, dvg, category, created_at,
@@ -14,17 +14,17 @@ export async function listPublicContent(section?: Section) {
       .select(select)
       .neq("visibility", "draft")
       .order("created_at", { ascending: false });
+
     if (section) q = q.eq("section", section);
+
     const { data, error } = await q;
     if (error) throw error;
-    if (data && data.length) return data;
-  } catch (_e) {
-    // silenciamos; haremos fallback
-  }
+    if (data?.length) return data;
+  } catch (_) {}
 
-  // 2) Fallback al endpoint del servidor (service-role)
-  const params = section ? `?section=${encodeURIComponent(section)}` : "";
-  const r = await fetch(`/api/list${params}`, { cache: "no-store" });
+  // 2) fallback al backend (service role)
+  const qs = section ? `?section=${encodeURIComponent(section)}` : "";
+  const r = await fetch(`/api/list${qs}`, { cache: "no-store" });
   if (!r.ok) throw new Error(`/api/list ${r.status}`);
   return await r.json();
 }
