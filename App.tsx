@@ -13,6 +13,7 @@ import Nutrition from './pages/Nutrition'; // <- AÑADIR
 import LogAchievement from "./pages/LogAchievement";
 import Notifications from './pages/Notifications';
 import { BottomNav } from "./components/BottomNav";
+import Notifications from './pages/Notifications';
 import { Header } from "./components/Header";
 import AdminContentManager from "./pages/admin/AdminContentManager";
 
@@ -65,6 +66,7 @@ const AppRoutes: React.FC = () => {
         <RRD.Route path="nutrition" element={<Nutrition />} /> {/* <- AÑADIR */}
         <RRD.Route path="log-achievement" element={<LogAchievement />} />
         <RRD.Route path="admin/content" element={<AdminContentManager adminNames={["César","Nutricionista","Entrenador"]} />} />
+        <RRD.Route path="notifications" element={<Notifications />} />
         <RRD.Route path="notifications" element={<Notifications />} />
         <RRD.Route path="admin/list" element={<AdminContentList />} />
       </RRD.Route>
