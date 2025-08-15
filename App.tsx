@@ -13,7 +13,7 @@ import Nutrition from './pages/Nutrition'; // <- AÑADIR
 import LogAchievement from "./pages/LogAchievement";
 import Notifications from './pages/Notifications';
 import { BottomNav } from "./components/BottomNav";
-import AdminTipsManager from "./pages/admin/AdminTipsManager.tsx";
+import AdminTipsManager from "./pages/admin/TipsAdmin";
 import Notifications from './pages/Notifications';
 import { Header } from "./components/Header";
 import AdminContentManager from "./pages/admin/AdminContentManager";
@@ -69,7 +69,7 @@ const AppRoutes: React.FC = () => {
         <RRD.Route path="admin/content" element={<AdminContentManager adminNames={["César","Nutricionista","Entrenador"]} />} />
         <RRD.Route path="notifications" element={<Notifications />} />
         <RRD.Route path="notifications" element={<Notifications />} />
-        <RRD.Route path="admin/tips" element={<AdminTipsManager />} />
+        <RRD.Route path="admin/tips" element={<TipsAdmin />} />
         <RRD.Route path="admin/list" element={<AdminContentList />} />
       </RRD.Route>
       <RRD.Route path="*" element={<RRD.Navigate to={state.isAuthenticated ? "/dashboard" : "/welcome"} replace />} />
