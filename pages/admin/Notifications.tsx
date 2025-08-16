@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { listSubscriptions, subscribeChannels, unsubscribe } from '../services/notify';
+import { listSubscriptions, subscribeChannels, unsubscribe } from '../../services/notify';
 
 function getExternalId(): string {
   // Usa el externalId real si ya lo tienes en tu contexto de usuario.
