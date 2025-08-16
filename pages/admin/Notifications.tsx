@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { listSubscriptions, subscribeChannels, unsubscribe } from '../../services/notify';
 import { sendNotification, listAudience } from '@services/notify';
 
 
