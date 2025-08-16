@@ -1,164 +1,154 @@
-import React, { useEffect, useState } from 'react';
-import { sendNotification, listAudience } from '@services/notify';
+// pages/admin/Notifications.tsx
+import React, { useEffect, useState } from "react";
+import { getPreferences, savePreferences } from "../../services/notify";
 
-
-function getExternalId(): string {
-  // Usa el externalId real si ya lo tienes en tu contexto de usuario.
-  const saved = localStorage.getItem('externalId');
-  if (saved) return saved;
-  const gen = 'user-' + Math.random().toString(36).slice(2, 8);
-  localStorage.setItem('externalId', gen);
-  return gen;
-}
+type Channels = { email: boolean; whatsapp: boolean; telegram: boolean };
 
 export default function Notifications() {
-  const externalId = getExternalId();
-
-  const [email, setEmail] = useState('');
-  const [emailConsent, setEmailConsent] = useState(true);
-
-  const [whats, setWhats] = useState('');
-  const [whatsConsent, setWhatsConsent] = useState(false);
-
-  const [tg, setTg] = useState('');
-  const [tgConsent, setTgConsent] = useState(false);
-
-  const [subs, setSubs] = useState<any[]>([]);
+  const [uid, setUid] = useState<string>("demo-1");
+  const [email, setEmail] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
+  const [telegram, setTelegram] = useState("");
+  const [channels, setChannels] = useState<Channels>({
+    email: true,
+    whatsapp: false,
+    telegram: false,
+  });
   const [loading, setLoading] = useState(true);
-  const [msg, setMsg] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
+  const [ok, setOk] = useState<string | null>(null);
 
-  async function load() {
-    setLoading(true);
-    setErr(null);
+  useEffect(() => {
+    // Saco el externalId del almacenamiento o dejo demo-1
+    const stored =
+      localStorage.getItem("user_external_id") ||
+      new URLSearchParams(location.search).get("uid") ||
+      "demo-1";
+    setUid(stored);
+    load(stored);
+  }, []);
+
+  async function load(id: string) {
     try {
-      const s = await listSubscriptions(externalId);
-      setSubs(s);
-      // Rellenar campos si ya existen
-      const emailRow = s.find((x: any) => x.channel === 'email' && x.consent);
-      if (emailRow) { setEmail(emailRow.address); setEmailConsent(true); }
-      const wRow = s.find((x: any) => x.channel === 'whatsapp' && x.consent);
-      if (wRow) { setWhats(wRow.address); setWhatsConsent(true); }
-      const tRow = s.find((x: any) => x.channel === 'telegram' && x.consent);
-      if (tRow) { setTg(tRow.address); setTgConsent(true); }
+      setLoading(true);
+      const p = await getPreferences(id);
+      setEmail(p.email || "");
+      setWhatsapp(p.whatsapp || "");
+      setTelegram(p.telegram || "");
+      setChannels({
+        email: !!p.channels?.email,
+        whatsapp: !!p.channels?.whatsapp,
+        telegram: !!p.channels?.telegram,
+      });
+      setErr(null);
     } catch (e: any) {
-      setErr(e.message);
+      setErr(e.message || String(e));
     } finally {
       setLoading(false);
     }
   }
 
-  useEffect(() => { load(); }, []);
-
-  async function onSave() {
-    setErr(null); setMsg(null);
+  async function onSave(e: React.FormEvent) {
+    e.preventDefault();
     try {
-      const payload: any = { externalId };
-      if (email) payload.email = { address: email, consent: emailConsent };
-      if (whats) payload.whatsapp = { address: whats, consent: whatsConsent };
-      if (tg) payload.telegram = { address: tg, consent: tgConsent };
-      await subscribeChannels(payload);
-      setMsg('Preferencias guardadas.');
-      await load();
+      setOk(null);
+      setErr(null);
+      await savePreferences(uid, {
+        email,
+        whatsapp,
+        telegram,
+        channels,
+      });
+      setOk("Preferencias guardadas.");
     } catch (e: any) {
-      setErr(e.message);
+      setErr(e.message || String(e));
     }
-  }
-
-  async function onUnsub(id: string) {
-    await unsubscribe(id);
-    await load();
   }
 
   return (
     <div className="p-4 space-y-4 max-w-lg mx-auto">
-      <h1 className="text-xl font-semibold">Preferencias de comunicación</h1>
-      <p className="text-sm text-gray-600">ID usuario: <span className="font-mono">{externalId}</span></p>
+      <h1 className="text-xl font-semibold">Notificaciones</h1>
+      <div className="text-xs text-gray-500">ID usuario: {uid}</div>
 
-      {err && <div className="p-2 bg-red-100 text-red-700 rounded">{err}</div>}
-      {msg && <div className="p-2 bg-green-100 text-green-700 rounded">{msg}</div>}
+      {err && <div className="bg-red-100 text-red-700 p-2 rounded">{err}</div>}
+      {ok && <div className="bg-green-100 text-green-700 p-2 rounded">{ok}</div>}
+      {loading && <div>Cargando…</div>}
 
-      <div className="space-y-3">
-        <div className="border rounded p-3">
-          <label className="block text-sm font-medium">Email</label>
-          <input
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="tu@correo.com"
-            className="mt-1 w-full border rounded px-3 py-2"
-            type="email"
-          />
-          <label className="mt-2 inline-flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={emailConsent} onChange={e => setEmailConsent(e.target.checked)} />
-            Quiero recibir emails
-          </label>
-        </div>
+      {!loading && (
+        <form className="space-y-4" onSubmit={onSave}>
+          <div className="space-y-2 border rounded p-3">
+            <label className="block text-sm font-medium">Email</label>
+            <input
+              className="border rounded p-2 w-full"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="tucorreo@dominio.com"
+            />
+            <label className="inline-flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={channels.email}
+                onChange={(e) =>
+                  setChannels((c) => ({ ...c, email: e.target.checked }))
+                }
+              />
+              Quiero recibir emails
+            </label>
+          </div>
 
-        <div className="border rounded p-3">
-          <label className="block text-sm font-medium">WhatsApp (+34…)</label>
-          <input
-            value={whats}
-            onChange={e => setWhats(e.target.value)}
-            placeholder="+34 600 000 000"
-            className="mt-1 w-full border rounded px-3 py-2"
-          />
-          <label className="mt-2 inline-flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={whatsConsent} onChange={e => setWhatsConsent(e.target.checked)} />
-            Quiero recibir WhatsApps
-          </label>
-        </div>
+          <div className="space-y-2 border rounded p-3">
+            <label className="block text-sm font-medium">
+              WhatsApp (+34…)
+            </label>
+            <input
+              className="border rounded p-2 w-full"
+              value={whatsapp}
+              onChange={(e) => setWhatsapp(e.target.value)}
+              placeholder="+34 600 000 000"
+            />
+            <label className="inline-flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={channels.whatsapp}
+                onChange={(e) =>
+                  setChannels((c) => ({ ...c, whatsapp: e.target.checked }))
+                }
+              />
+              Quiero recibir WhatsApps
+            </label>
+          </div>
 
-        <div className="border rounded p-3">
-          <label className="block text-sm font-medium">Telegram (usuario o chat id)</label>
-          <input
-            value={tg}
-            onChange={e => setTg(e.target.value)}
-            placeholder="@tuusuario"
-            className="mt-1 w-full border rounded px-3 py-2"
-          />
-          <label className="mt-2 inline-flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={tgConsent} onChange={e => setTgConsent(e.target.checked)} />
-            Quiero recibir mensajes por Telegram
-          </label>
-        </div>
+          <div className="space-y-2 border rounded p-3">
+            <label className="block text-sm font-medium">
+              Telegram (usuario o chat id)
+            </label>
+            <input
+              className="border rounded p-2 w-full"
+              value={telegram}
+              onChange={(e) => setTelegram(e.target.value)}
+              placeholder="@tuusuario o chat id"
+            />
+            <label className="inline-flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={channels.telegram}
+                onChange={(e) =>
+                  setChannels((c) => ({ ...c, telegram: e.target.checked }))
+                }
+              />
+              Quiero recibir mensajes por Telegram
+            </label>
+          </div>
 
-        <button
-          onClick={onSave}
-          className="w-full bg-green-600 text-white rounded py-2 font-medium"
-        >
-          Guardar preferencias
-        </button>
-      </div>
-
-      <div className="pt-4">
-        <h2 className="font-medium mb-2">Mis suscripciones</h2>
-        {loading ? <div>Cargando…</div> : (
-          subs.length === 0 ? <div className="text-sm text-gray-500">No hay suscripciones.</div> : (
-            <ul className="space-y-2">
-              {subs.map((s: any) => (
-                <li key={s.id} className="flex items-center justify-between border rounded px-3 py-2">
-                  <div>
-                    <div className="text-sm">
-                      <span className="font-medium">{s.channel}</span> · {s.address}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      {s.consent ? 'Activo' : 'Inactivo'}
-                    </div>
-                  </div>
-                  {s.consent && (
-                    <button
-                      onClick={() => onUnsub(s.id)}
-                      className="text-sm px-3 py-1 border rounded"
-                    >
-                      Darme de baja
-                    </button>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )
-        )}
-      </div>
+          <button
+            type="submit"
+            className="bg-green-600 text-white px-4 py-2 rounded"
+          >
+            Guardar preferencias
+          </button>
+        </form>
+      )}
     </div>
   );
 }
+
