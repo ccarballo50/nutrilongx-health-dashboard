@@ -12,7 +12,6 @@ import Mind from "./pages/Mind";
 import Nutrition from './pages/Nutrition'; // <- AÑADIR
 import LogAchievement from "./pages/LogAchievement";
 import Notifications from "./pages/admin/Notifications";
-import Notifications from "./pages/admin/Notifications";
 import { BottomNav } from "./components/BottomNav";
 import TipsAdmin from "./pages/admin/TipsAdmin";
 import { Header } from "./components/Header";
