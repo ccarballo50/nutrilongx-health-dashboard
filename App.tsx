@@ -13,7 +13,7 @@ import Nutrition from './pages/Nutrition'; // <- AÑADIR
 import LogAchievement from "./pages/LogAchievement";
 import Notifications from './pages/Notifications';
 import { BottomNav } from "./components/BottomNav";
-import AdminTipsManager from "./pages/admin/TipsAdmin";
+import TipsAdmin from "./pages/admin/TipsAdmin";
 import Notifications from './pages/Notifications';
 import { Header } from "./components/Header";
 import AdminContentManager from "./pages/admin/AdminContentManager";
