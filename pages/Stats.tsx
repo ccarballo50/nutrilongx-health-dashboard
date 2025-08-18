@@ -398,3 +398,46 @@ const btnPrimary: React.CSSProperties = {
 
 export default Stats;
 
+
+// Dentro de Stats.tsx (en el final, por ejemplo)
+const [catItems, setCatItems] = useState<any[]>([]);
+const [pillar, setPillar] = useState<string>("Retos (Ejercicio)");
+
+async function loadCatalog() {
+  if (!extId) return;
+  const p = pillar ? `&pillar=${encodeURIComponent(pillar)}` : "";
+  const r = await fetch(`/api/actions/by-level?externalId=${encodeURIComponent(extId)}${p}`);
+  const j = await r.json();
+  setCatItems(j.items || []);
+}
+
+// En el JSX:
+<div className="card">
+  <div className="card-header">Catálogo por nivel (desde Excel)</div>
+  <div className="card-body">
+    <div className="row g-2">
+      <div className="col-8">
+        <select className="form-select" value={pillar} onChange={e => setPillar(e.target.value)}>
+          <option>Retos (Ejercicio)</option>
+          <option>Rutinas</option>
+          <option>Alimentación</option>
+          <option>Mente</option>
+        </select>
+      </div>
+      <div className="col-4">
+        <button className="btn btn-outline-primary w-100" onClick={loadCatalog}>Ver</button>
+      </div>
+    </div>
+    <ul className="mt-3 list-group">
+      {catItems.map((it:any) => (
+        <li key={it.id} className="list-group-item">
+          <div className="fw-bold">{it.title}</div>
+          <div className="text-muted">{it.subpillar} · {it.unit}</div>
+          <small>+{it.life_days} días / +{it.life_hours} h</small>
+        </li>
+      ))}
+      {catItems.length === 0 && <div className="text-muted">Sin elementos para este pilar/nivel.</div>}
+    </ul>
+  </div>
+</div>
+
