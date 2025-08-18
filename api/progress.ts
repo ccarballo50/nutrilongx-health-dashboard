@@ -1,87 +1,84 @@
-// /api/progress.ts
-import type { VercelRequest, VercelResponse } from "vercel";
+// api/progress.ts
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const url = process.env.SUPABASE_URL!;
-const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const base = `${url}/rest/v1`;
-
-type LogRow = { action_id: string; qty: number; created_at: string };
-type CatRow = { id: string; pillar: string; life_days: number | string; life_hours: number | string; title?: string };
+const SB_URL = process.env.SUPABASE_URL!;
+const SB_SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const externalId = String(req.query.externalId || req.query.externalid || "");
-  if (!externalId) {
-    res.status(400).json({ error: "externalId requerido" });
-    return;
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
-
   try {
+    const externalId = String(req.query.externalId || req.query.externalid || '').trim();
+    if (!externalId) return res.status(400).json({ error: 'externalId requerido' });
+    if (!SB_URL || !SB_SERVICE) return res.status(500).json({ error: 'Credenciales de Supabase faltan' });
+
     // 1) Logs del usuario
-    const r1 = await fetch(
-      `${base}/action_logs?user_external_id=eq.${encodeURIComponent(externalId)}&select=action_id,qty,created_at&order=created_at.desc`,
-      { headers: { apikey: key, Authorization: `Bearer ${key}` } }
+    const logsResp = await fetch(
+      `${SB_URL}/rest/v1/action_logs?user_external_id=eq.${encodeURIComponent(externalId)}&select=action_id,qty,created_at`,
+      {
+        headers: { apikey: SB_SERVICE, Authorization: `Bearer ${SB_SERVICE}`, Prefer: 'count=exact' }
+      }
     );
-    const logsTxt = await r1.text();
-    if (!r1.ok) return res.status(r1.status).send(logsTxt);
-    const logs: LogRow[] = logsTxt ? JSON.parse(logsTxt) : [];
-
+    if (!logsResp.ok) {
+      const tx = await logsResp.text();
+      return res.status(502).json({ error: 'Error leyendo action_logs', details: tx });
+    }
+    const logs: Array<{ action_id: string; qty: number; created_at: string }> = await logsResp.json();
     if (!Array.isArray(logs) || logs.length === 0) {
-      return res.status(200).json({
-        externalId,
-        total_days: 0,
-        total_hours: 0,
-        by_pillar: {},
-        recent: []
-      });
+      return res.status(200).json({ externalId, total_days: 0, total_hours: 0, by_pillar: {}, recent: [] });
     }
 
-    // 2) Catálogo para los IDs usados
-    const ids = [...new Set(logs.map(l => l.action_id))];
-    const inList = ids.map(x => `"${x}"`).join(",");
-    const r2 = await fetch(
-      `${base}/actions_catalog?id=in.(${inList})&select=id,pillar,life_days,life_hours,title`,
-      { headers: { apikey: key, Authorization: `Bearer ${key}` } }
+    // 2) Catálogo para esos IDs
+    const ids = Array.from(new Set(logs.map(l => l.action_id))).filter(Boolean);
+    const inClause = `in.(${ids.map(x => `"${x}"`).join(',')})`;
+    const catResp = await fetch(
+      `${SB_URL}/rest/v1/actions_catalog?id=${inClause}&select=id,title,pillar,life_hours,life_days`,
+      { headers: { apikey: SB_SERVICE, Authorization: `Bearer ${SB_SERVICE}` } }
     );
-    const catTxt = await r2.text();
-    if (!r2.ok) return res.status(r2.status).send(catTxt);
-    const cats: CatRow[] = catTxt ? JSON.parse(catTxt) : [];
+    if (!catResp.ok) {
+      const tx = await catResp.text();
+      return res.status(502).json({ error: 'Error leyendo actions_catalog', details: tx });
+    }
+    const catalog: Array<{ id: string; title: string; pillar: string; life_hours: number; life_days: number }> =
+      await catResp.json();
+    const catMap = new Map(catalog.map(c => [c.id, c]));
 
-    const catById = new Map<string, CatRow>();
-    for (const c of cats) catById.set(c.id, c);
-
-    // 3) Sumas
-    let totalDays = 0;
-    let totalHours = 0;
-    const byPillar: Record<string, number> = {};
-
+    // 3) Agregados
+    let total_hours = 0;
+    const by_pillar: Record<string, number> = {};
     for (const l of logs) {
-      const c = catById.get(l.action_id);
+      const c = catMap.get(l.action_id);
       if (!c) continue;
-      const q = Number(l.qty) || 0;
-      const d = Number(c.life_days) || 0;
-      const h = Number(c.life_hours) || 0;
-      totalDays += q * d;
-      totalHours += q * h;
-      const p = c.pillar || "Otros";
-      byPillar[p] = (byPillar[p] || 0) + q * d;
+      const hours = (c.life_hours ?? 0) * (l.qty ?? 0);
+      total_hours += hours;
+      const days = hours / 24;
+      by_pillar[c.pillar] = (by_pillar[c.pillar] ?? 0) + days;
     }
 
-    // 4) Recientes (enriquecidos)
-    const recent = logs.slice(0, 10).map(l => ({
-      ...l,
-      title: catById.get(l.action_id)?.title || l.action_id,
-      pillar: catById.get(l.action_id)?.pillar || null
-    }));
+    // 4) Últimas 20 acciones con título y pilar
+    const recent = logs
+      .map(l => ({ ...l, cat: catMap.get(l.action_id) }))
+      .filter(x => !!x.cat)
+      .sort((a, b) => a.created_at < b.created_at ? 1 : -1)
+      .slice(0, 20)
+      .map(x => ({
+        action_id: x.action_id,
+        title: x.cat!.title,
+        pillar: x.cat!.pillar,
+        qty: x.qty,
+        created_at: x.created_at
+      }));
 
-    res.status(200).json({
+    return res.status(200).json({
       externalId,
-      total_days: Number(totalDays.toFixed(2)),
-      total_hours: Number(totalHours.toFixed(2)),
-      by_pillar: byPillar,
+      total_days: total_hours / 24,
+      total_hours,
+      by_pillar,
       recent
     });
   } catch (e: any) {
-    res.status(500).json({ error: e?.message || "Unexpected error" });
+    return res.status(500).json({ error: e?.message || String(e) });
   }
 }
 
