@@ -1,41 +1,50 @@
 // /api/actions/log.ts
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+import type { VercelRequest, VercelResponse } from "vercel";
+
+const url = process.env.SUPABASE_URL!;
+const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const base = `${url}/rest/v1`;
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== "POST") {
+    res.status(405).json({ error: "Method not allowed" });
+    return;
   }
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
-    const externalId = body.externalId ?? body.user_external_id;
-    const actionId   = body.actionId   ?? body.action_id;
-    const qty        = Number(body.qty ?? 1);
-
+    const { externalId, actionId, qty = 1 } = req.body || {};
     if (!externalId || !actionId) {
-      return res.status(400).json({ error: 'externalId and actionId are required' });
+      res.status(400).json({ error: "externalId y actionId son obligatorios" });
+      return;
     }
 
-    const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = process.env;
-    const url = `${SUPABASE_URL}/rest/v1/action_logs`;
+    const payload = [{
+      user_external_id: String(externalId),
+      action_id: String(actionId),
+      qty: Number(qty) || 1,
+      channel: "app",
+      meta: null
+    }];
 
-    const r = await fetch(url, {
-      method: 'POST',
+    const r = await fetch(`${base}/action_logs`, {
+      method: "POST",
       headers: {
-        apikey: SUPABASE_SERVICE_ROLE_KEY,
-        Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-        'Content-Type': 'application/json',
-        Prefer: 'return=representation',
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+        "Content-Type": "application/json",
+        Prefer: "return=representation"
       },
-      body: JSON.stringify([{
-        user_external_id: externalId,
-        action_id: actionId,
-        qty
-      }])
+      body: JSON.stringify(payload)
     });
 
-    const data = await r.json();
-    if (!r.ok) return res.status(r.status).json(data);
-    return res.status(201).json({ ok: true, inserted: data });
-  } catch (e:any) {
-    return res.status(500).json({ error: String(e?.message ?? e) });
+    const txt = await r.text();
+    if (!r.ok) {
+      res.status(r.status).send(txt);
+      return;
+    }
+
+    res.status(200).json({ ok: true, inserted: JSON.parse(txt) });
+  } catch (e: any) {
+    res.status(500).json({ error: e?.message || "Unexpected error" });
   }
 }
 
