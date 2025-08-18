@@ -1,31 +1,61 @@
-// api/progress.ts
+// /api/progress.ts
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import fetch from 'node-fetch';
+import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = process.env.SUPABASE_URL!;
-const SERVICE_KEY  = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const url = process.env.SUPABASE_URL!;
+const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const supabase = createClient(url, key);
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const externalId = String(req.query.externalId || '');
-  if (!externalId) {
-    res.status(400).json({ error: 'externalId requerido' });
-    return;
-  }
   try {
-    // Totales
-    const totalsUrl = `${SUPABASE_URL}/rest/v1/action_logs?external_id=eq.${encodeURIComponent(externalId)}&select=points,life_days`;
-    const totResp = await fetch(totalsUrl, { headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` }});
-    const rows = await totResp.json();
-    const points = rows.reduce((a: number, r: any) => a + Number(r.points || 0), 0);
-    const lifeDays = rows.reduce((a: number, r: any) => a + Number(r.life_days || 0), 0);
+    const externalId = (req.query.externalId as string) || (req.query.external_id as string);
+    if (!externalId) {
+      return res.status(400).json({ error: 'externalId requerido' });
+    }
 
-    // Últimas 10 acciones con título
-    const lastUrl = `${SUPABASE_URL}/rest/v1/action_logs?external_id=eq.${encodeURIComponent(externalId)}&select=created_at,qty,action_id,actions_catalog(title, pillar, level)&order=created_at.desc&limit=10`;
-    const lastResp = await fetch(lastUrl, { headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` }});
-    const last = await lastResp.json();
+    // Leemos SIEMPRE de la vista enriquecida (une logs + catálogo)
+    const { data, error } = await supabase
+      .from('v_action_logs_enriched')
+      .select('created_at, pillar, level, title, life_days, life_hours, qty, action_id')
+      .eq('external_id', externalId)
+      .order('created_at', { ascending: false })
+      .limit(2000);
 
-    res.status(200).json({ externalId, points, lifeDays, last });
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    const rows = Array.isArray(data) ? data : [];
+
+    // Agregados
+    const byPillar: Record<string, number> = {};
+    let totalDays = 0;
+    for (const r of rows) {
+      const days = (Number(r.life_days) || 0) * (Number(r.qty) || 1);
+      totalDays += days;
+      const k = String(r.pillar ?? 'Sin pilar');
+      byPillar[k] = (byPillar[k] || 0) + days;
+    }
+
+    // Actividad reciente (máx 20)
+    const recent = rows.slice(0, 20).map(r => ({
+      when: r.created_at,
+      actionId: r.action_id,
+      title: r.title,
+      pillar: r.pillar,
+      qty: r.qty,
+      life_days: r.life_days
+    }));
+
+    return res.status(200).json({
+      externalId,
+      total_days: Number(totalDays.toFixed(2)),
+      total_hours: Number((totalDays * 24).toFixed(2)),
+      by_pillar: byPillar,
+      recent
+    });
   } catch (e: any) {
-    res.status(500).json({ error: e.message || 'Internal error' });
+    return res.status(500).json({ error: e?.message ?? 'unexpected error' });
   }
 }
+
