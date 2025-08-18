@@ -1,61 +1,87 @@
 // /api/progress.ts
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createClient } from '@supabase/supabase-js';
+import type { VercelRequest, VercelResponse } from "vercel";
 
 const url = process.env.SUPABASE_URL!;
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(url, key);
+const base = `${url}/rest/v1`;
+
+type LogRow = { action_id: string; qty: number; created_at: string };
+type CatRow = { id: string; pillar: string; life_days: number | string; life_hours: number | string; title?: string };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const externalId = String(req.query.externalId || req.query.externalid || "");
+  if (!externalId) {
+    res.status(400).json({ error: "externalId requerido" });
+    return;
+  }
+
   try {
-    const externalId = (req.query.externalId as string) || (req.query.external_id as string);
-    if (!externalId) {
-      return res.status(400).json({ error: 'externalId requerido' });
+    // 1) Logs del usuario
+    const r1 = await fetch(
+      `${base}/action_logs?user_external_id=eq.${encodeURIComponent(externalId)}&select=action_id,qty,created_at&order=created_at.desc`,
+      { headers: { apikey: key, Authorization: `Bearer ${key}` } }
+    );
+    const logsTxt = await r1.text();
+    if (!r1.ok) return res.status(r1.status).send(logsTxt);
+    const logs: LogRow[] = logsTxt ? JSON.parse(logsTxt) : [];
+
+    if (!Array.isArray(logs) || logs.length === 0) {
+      return res.status(200).json({
+        externalId,
+        total_days: 0,
+        total_hours: 0,
+        by_pillar: {},
+        recent: []
+      });
     }
 
-    // Leemos SIEMPRE de la vista enriquecida (une logs + catálogo)
-    const { data, error } = await supabase
-      .from('v_action_logs_enriched')
-      .select('created_at, pillar, level, title, life_days, life_hours, qty, action_id')
-      .eq('external_id', externalId)
-      .order('created_at', { ascending: false })
-      .limit(2000);
+    // 2) Catálogo para los IDs usados
+    const ids = [...new Set(logs.map(l => l.action_id))];
+    const inList = ids.map(x => `"${x}"`).join(",");
+    const r2 = await fetch(
+      `${base}/actions_catalog?id=in.(${inList})&select=id,pillar,life_days,life_hours,title`,
+      { headers: { apikey: key, Authorization: `Bearer ${key}` } }
+    );
+    const catTxt = await r2.text();
+    if (!r2.ok) return res.status(r2.status).send(catTxt);
+    const cats: CatRow[] = catTxt ? JSON.parse(catTxt) : [];
 
-    if (error) {
-      return res.status(500).json({ error: error.message });
-    }
+    const catById = new Map<string, CatRow>();
+    for (const c of cats) catById.set(c.id, c);
 
-    const rows = Array.isArray(data) ? data : [];
-
-    // Agregados
-    const byPillar: Record<string, number> = {};
+    // 3) Sumas
     let totalDays = 0;
-    for (const r of rows) {
-      const days = (Number(r.life_days) || 0) * (Number(r.qty) || 1);
-      totalDays += days;
-      const k = String(r.pillar ?? 'Sin pilar');
-      byPillar[k] = (byPillar[k] || 0) + days;
+    let totalHours = 0;
+    const byPillar: Record<string, number> = {};
+
+    for (const l of logs) {
+      const c = catById.get(l.action_id);
+      if (!c) continue;
+      const q = Number(l.qty) || 0;
+      const d = Number(c.life_days) || 0;
+      const h = Number(c.life_hours) || 0;
+      totalDays += q * d;
+      totalHours += q * h;
+      const p = c.pillar || "Otros";
+      byPillar[p] = (byPillar[p] || 0) + q * d;
     }
 
-    // Actividad reciente (máx 20)
-    const recent = rows.slice(0, 20).map(r => ({
-      when: r.created_at,
-      actionId: r.action_id,
-      title: r.title,
-      pillar: r.pillar,
-      qty: r.qty,
-      life_days: r.life_days
+    // 4) Recientes (enriquecidos)
+    const recent = logs.slice(0, 10).map(l => ({
+      ...l,
+      title: catById.get(l.action_id)?.title || l.action_id,
+      pillar: catById.get(l.action_id)?.pillar || null
     }));
 
-    return res.status(200).json({
+    res.status(200).json({
       externalId,
       total_days: Number(totalDays.toFixed(2)),
-      total_hours: Number((totalDays * 24).toFixed(2)),
+      total_hours: Number(totalHours.toFixed(2)),
       by_pillar: byPillar,
       recent
     });
   } catch (e: any) {
-    return res.status(500).json({ error: e?.message ?? 'unexpected error' });
+    res.status(500).json({ error: e?.message || "Unexpected error" });
   }
 }
 
