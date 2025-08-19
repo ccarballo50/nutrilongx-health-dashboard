@@ -1,39 +1,40 @@
 // api/actions/log.ts
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+// No importes @vercel/node: evita que el bundler del front analice tipos de Node.
 
 const SB_URL = process.env.SUPABASE_URL!;
 const SB_SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    res.status(405).json({ error: 'Method not allowed' });
+    return;
   }
+
   try {
-    // 1) Validación básica
-    const { externalId, actionId, qty } = (req.body ?? {}) as {
-      externalId?: string; actionId?: string; qty?: number | string;
-    };
+    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
+    const { externalId, actionId, qty } = body;
     const qtyNum = Number(qty ?? 1);
 
     if (!externalId || !actionId || isNaN(qtyNum) || qtyNum <= 0) {
-      return res.status(400).json({
+      res.status(400).json({
         error: 'externalId, actionId y qty>0 son obligatorios',
         got: { externalId, actionId, qty },
       });
+      return;
     }
     if (!SB_URL || !SB_SERVICE) {
-      return res.status(500).json({
+      res.status(500).json({
         error: 'Faltan credenciales de Supabase en el servidor',
         have: { SB_URL: !!SB_URL, SB_SERVICE: !!SB_SERVICE }
       });
+      return;
     }
 
-    // 2) Intento de inserción directo (dejamos que Supabase diga por qué falla)
     const payload = {
-      user_external_id: String(externalId).trim(),  // <- columna correcta
-      action_id: String(actionId).trim(),           // <- FKey al catálogo
+      user_external_id: String(externalId).trim(),
+      action_id: String(actionId).trim(),
       qty: qtyNum,
-      created_at: new Date().toISOString()
+      created_at: new Date().toISOString(),
     };
 
     const resp = await fetch(`${SB_URL}/rest/v1/action_logs`, {
@@ -42,9 +43,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         apikey: SB_SERVICE,
         Authorization: `Bearer ${SB_SERVICE}`,
         'Content-Type': 'application/json',
-        Prefer: 'return=representation'
+        Prefer: 'return=representation',
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
 
     const text = await resp.text();
@@ -52,24 +53,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     try { data = JSON.parse(text); } catch { /* puede venir vacío */ }
 
     if (!resp.ok) {
-      // devolvemos TODO para ver exactamente qué está diciendo PostgREST
-      return res.status(resp.status).json({
+      res.status(resp.status).json({
         error: 'Insert en action_logs falló',
         supabase: text || '(sin cuerpo)',
         payload,
       });
+      return;
     }
 
-    // 3) OK
-    return res.status(200).json({
+    res.status(200).json({
       ok: true,
-      row: Array.isArray(data) ? data[0] : data || payload
+      row: Array.isArray(data) ? data[0] : data || payload,
     });
-
   } catch (e: any) {
-    return res.status(500).json({ error: e?.message || String(e) });
+    res.status(500).json({ error: e?.message || String(e) });
   }
 }
+
 
 
 
