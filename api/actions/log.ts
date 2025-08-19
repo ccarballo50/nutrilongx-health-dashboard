@@ -9,39 +9,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
   try {
-    const { externalId, actionId, qty } = req.body || {};
+    // 1) Validación básica
+    const { externalId, actionId, qty } = (req.body ?? {}) as {
+      externalId?: string; actionId?: string; qty?: number | string;
+    };
     const qtyNum = Number(qty ?? 1);
 
     if (!externalId || !actionId || isNaN(qtyNum) || qtyNum <= 0) {
-      return res.status(400).json({ error: 'externalId, actionId y qty>0 son obligatorios' });
+      return res.status(400).json({
+        error: 'externalId, actionId y qty>0 son obligatorios',
+        got: { externalId, actionId, qty },
+      });
     }
     if (!SB_URL || !SB_SERVICE) {
-      return res.status(500).json({ error: 'Faltan credenciales de Supabase en el servidor' });
-    }
-
-    // (Opcional) valida que el actionId exista
-    {
-      const r = await fetch(`${SB_URL}/rest/v1/actions_catalog?id=eq.${encodeURIComponent(actionId)}`, {
-        headers: {
-          apikey: SB_SERVICE,
-          Authorization: `Bearer ${SB_SERVICE}`,
-          Prefer: 'count=exact'
-        }
+      return res.status(500).json({
+        error: 'Faltan credenciales de Supabase en el servidor',
+        have: { SB_URL: !!SB_URL, SB_SERVICE: !!SB_SERVICE }
       });
-      if (!r.ok) {
-        const tx = await r.text();
-        return res.status(502).json({ error: 'Error validando actionId', details: tx });
-      }
-      const arr = await r.json();
-      if (!Array.isArray(arr) || arr.length === 0) {
-        return res.status(400).json({ error: `actionId no existe en catálogo: ${actionId}` });
-      }
     }
 
-    // Inserta log
+    // 2) Intento de inserción directo (dejamos que Supabase diga por qué falla)
     const payload = {
-      user_external_id: externalId, // << clave: columna correcta
-      action_id: actionId,
+      user_external_id: String(externalId).trim(),  // <- columna correcta
+      action_id: String(actionId).trim(),           // <- FKey al catálogo
       qty: qtyNum,
       created_at: new Date().toISOString()
     };
@@ -62,13 +52,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     try { data = JSON.parse(text); } catch { /* puede venir vacío */ }
 
     if (!resp.ok) {
-      return res.status(resp.status).json({ error: 'Insert en action_logs falló', details: text });
+      // devolvemos TODO para ver exactamente qué está diciendo PostgREST
+      return res.status(resp.status).json({
+        error: 'Insert en action_logs falló',
+        supabase: text || '(sin cuerpo)',
+        payload,
+      });
     }
 
-    return res.status(200).json({ ok: true, row: Array.isArray(data) ? data[0] : data || payload });
+    // 3) OK
+    return res.status(200).json({
+      ok: true,
+      row: Array.isArray(data) ? data[0] : data || payload
+    });
+
   } catch (e: any) {
     return res.status(500).json({ error: e?.message || String(e) });
   }
 }
+
 
 
