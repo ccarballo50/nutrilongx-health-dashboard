@@ -1,123 +1,135 @@
-// api/progress.ts — agrega totals y actividad uniendo catálogo + logs (sin asumir columnas en logs)
+// api/progress.ts
+// Resumen de progreso por usuario leyendo Supabase REST.
+// - totals.actions / totals.life (días) / totals.points (0 por ahora)
+// - total_hours / total_days
+// - by_pillar (días)
+// - recent (últimas 20 filas) con título del catálogo
+
 export const config = { runtime: "nodejs" };
 
-const SB_URL = process.env.SUPABASE_URL as string;
-const SB_SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY as string;
-const base = `${(SB_URL || "").replace(/\/$/, "")}/rest/v1`;
+const SB_URL = (process.env.SUPABASE_URL || "").replace(/\/$/, "");
+const SB_SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+const BASE = `${SB_URL}/rest/v1`;
 
-const H = {
-  "content-type": "application/json",
+const H_JSON = {
   apikey: SB_SERVICE,
   Authorization: `Bearer ${SB_SERVICE}`,
+  "content-type": "application/json",
+  Prefer: "count=exact", // para Content-Range
 };
 
-function withTimeout<T>(p: Promise<T>, ms: number, stage: string): Promise<T> {
-  return new Promise((resolve, reject) => {
-    const t = setTimeout(() => reject(new Error(`timeout at ${stage} (${ms}ms)`)), ms);
-    p.then(v => { clearTimeout(t); resolve(v); })
-     .catch(e => { clearTimeout(t); reject(e); });
-  });
+function r2(n: number) {
+  return Math.round(n * 100) / 100;
 }
-const num = (v: any) => (Number.isFinite(Number(v)) ? Number(v) : 0);
 
-async function fetchJSON(url: string, stage: string) {
-  const r = await withTimeout(fetch(url, { headers: H }), 10000, stage);
-  const txt = await r.text();
-  if (!r.ok) throw new Error(`${stage} ${r.status}: ${txt}`);
-  return txt ? JSON.parse(txt) : null;
+async function fetchJSON(url: string, init?: RequestInit) {
+  const res = await fetch(url, init);
+  const text = await res.text();
+  let data: any = null;
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    data = null;
+  }
+  return { ok: res.ok, status: res.status, data, text, headers: res.headers };
 }
 
 export default async function handler(req: any, res: any) {
   try {
     if (!SB_URL || !SB_SERVICE) {
-      return res.status(500).json({ error: "Faltan SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY", stage: "env" });
+      return res.status(500).json({ error: "Faltan SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY" });
     }
 
-    const ext = String(req.query?.externalId || "").trim();
-    if (!ext) return res.status(400).json({ error: "externalId requerido", stage: "validate" });
-
-    // 1) Trae logs del usuario (sólo columnas seguras)
-    const logsUrl =
-      `${base}/action_logs?external_id=eq.${encodeURIComponent(ext)}` +
-      `&select=${encodeURIComponent("id,created_at,action_id,qty")}` +
-      `&order=created_at.desc&limit=200`;
-    const logs = (await fetchJSON(logsUrl, "logs")) as Array<any>;
-
-    if (!Array.isArray(logs) || logs.length === 0) {
-      return res.status(200).json({
-        ok: true,
-        externalId: ext,
-        totals: { actions: 0, points: 0, life: 0 },
-        recent: [],
-        by_pillar: {},
-      });
+    const externalId = String(req.query.externalId || "").trim();
+    if (!externalId) {
+      return res.status(400).json({ error: "externalId es obligatorio" });
     }
 
-    // 2) Pide las filas de catálogo para los action_id distintos (probando points opcional)
-    const ids = Array.from(new Set(logs.map((l) => l.action_id).filter(Boolean)));
-    const inList = `(${ids.map((x) => `"${String(x).replace(/"/g, '""')}"`).join(",")})`;
+    // 1) Traer TODOS los logs (solo columnas mínimas) para totales
+    const allURL =
+      `${BASE}/action_logs` +
+      `?select=base_hours,pillar` +
+      `&user_external_id=eq.${encodeURIComponent(externalId)}` +
+      `&limit=10000`;
 
-    // Intento 1: con points
-    let catSel = "id,title,pillar,level,life_days,points";
-    let catUrl = `${base}/actions_catalog?id=in.${encodeURIComponent(inList)}&select=${encodeURIComponent(catSel)}&limit=${ids.length}`;
-    let cats: Array<any> | null = null;
-    try {
-      cats = (await fetchJSON(catUrl, "catalog-points")) as Array<any>;
-    } catch (_e) {
-      // Intento 2: sin points
-      catSel = "id,title,pillar,level,life_days";
-      catUrl = `${base}/actions_catalog?id=in.${encodeURIComponent(inList)}&select=${encodeURIComponent(catSel)}&limit=${ids.length}`;
-      cats = (await fetchJSON(catUrl, "catalog-life")) as Array<any>;
+    const all = await fetchJSON(allURL, { headers: H_JSON });
+    if (!all.ok) return res.status(all.status).send(all.text || "");
+
+    const logsAll: Array<{ base_hours?: number; pillar?: string }> = Array.isArray(all.data) ? all.data : [];
+    const contentRange = all.headers.get("content-range") || "";
+    // content-range: "0-123/124" -> actions = 124
+    let actionsCount = 0;
+    const m = contentRange.match(/\/(\d+)\s*$/);
+    if (m) actionsCount = parseInt(m[1], 10) || 0;
+    else actionsCount = logsAll.length;
+
+    let total_hours = 0;
+    const byPillarHours: Record<string, number> = {};
+    for (const r of logsAll) {
+      const h = Number(r.base_hours || 0);
+      total_hours += h;
+      const p = (r.pillar || "Otros").toString();
+      byPillarHours[p] = (byPillarHours[p] || 0) + h;
     }
+    const total_days = r2(total_hours / 24);
 
-    const mapCat = new Map<string, any>();
-    for (const c of cats ?? []) mapCat.set(c.id, c);
+    const by_pillar: Record<string, number> = {};
+    for (const [k, v] of Object.entries(byPillarHours)) by_pillar[k] = r2(v / 24);
 
-    // 3) Mezcla y agrega
-    let totalActions = 0;
-    let totalLife = 0;
-    let totalPoints = 0;
-    const recent: Array<any> = [];
+    // 2) Últimos 20 para "Actividad reciente"
+    const recentURL =
+      `${BASE}/action_logs` +
+      `?select=id,created_at,action_id,qty,base_hours` +
+      `&user_external_id=eq.${encodeURIComponent(externalId)}` +
+      `&order=created_at.desc&limit=20`;
 
-    const byPillar: Record<string, number> = {};
+    const recentRes = await fetchJSON(recentURL, { headers: H_JSON });
+    if (!recentRes.ok) return res.status(recentRes.status).send(recentRes.text || "");
+    const recentRaw: Array<any> = Array.isArray(recentRes.data) ? recentRes.data : [];
 
-    for (const l of logs) {
-      const cat = mapCat.get(l.action_id) || {};
-      const lifeDays = num(cat.life_days) * num(l.qty); // seguro aunque falte
-      const points = num(cat.points) * num(l.qty);      // será 0 si no hay 'points'
-
-      totalActions += num(l.qty);
-      totalLife += lifeDays;
-      totalPoints += points;
-
-      if (cat.pillar) {
-        byPillar[cat.pillar] = (byPillar[cat.pillar] || 0) + lifeDays;
+    // 3) Títulos del catálogo para los recent
+    const actionIds = Array.from(new Set(recentRaw.map((r) => String(r.action_id || "").trim()).filter(Boolean)));
+    let titleMap: Record<string, string> = {};
+    if (actionIds.length > 0) {
+      // id=in.("A","B","C")
+      const inList = `(${actionIds.map((s) => `"${s.replace(/"/g, '""')}"`).join(",")})`;
+      const catURL = `${BASE}/actions_catalog?id=in.${encodeURIComponent(inList)}&select=id,title&limit=${actionIds.length}`;
+      const catRes = await fetchJSON(catURL, { headers: H_JSON });
+      if (catRes.ok && Array.isArray(catRes.data)) {
+        for (const r of catRes.data) {
+          titleMap[String(r.id)] = String(r.title ?? "");
+        }
       }
-
-      recent.push({
-        id: l.id,
-        created_at: l.created_at,
-        actionId: l.action_id,
-        qty: l.qty,
-        title: cat.title ?? null,
-        life: lifeDays,
-        points: points,
-      });
     }
+    const recent = recentRaw.map((r) => ({
+      id: r.id,
+      created_at: r.created_at,
+      action_id: r.action_id,
+      qty: r.qty,
+      life_days: r2(Number(r.base_hours || 0) / 24),
+      points: undefined, // aún no definido
+      title: titleMap[String(r.action_id || "")] || undefined,
+    }));
 
+    // 4) Respuesta final con "totals" para tu UI actual
     return res.status(200).json({
       ok: true,
-      externalId: ext,
-      totals: {
-        actions: totalActions,
-        points: Math.round(totalPoints),
-        life: Number(totalLife.toFixed(2)), // días
-      },
+      externalId,
+      total_days,
+      total_hours: r2(total_hours),
+      by_pillar,
       recent,
-      by_pillar: byPillar,
+      totals: {
+        actions: actionsCount,
+        points: 0,        // define tu lógica cuando toque
+        life: total_days, // para la cabecera actual
+      },
     });
   } catch (e: any) {
-    return res.status(500).json({ error: "Unhandled exception", details: String(e?.message || e), stage: "catch" });
+    return res
+      .status(500)
+      .json({ error: "Unhandled exception", details: String(e?.message || e) });
   }
 }
+
 
