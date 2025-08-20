@@ -1,5 +1,5 @@
-// api/actions/log.ts  (versión Node robusta para Vercel)
-export const config = { runtime: 'nodejs20.x' };
+// api/actions/log.ts
+export const config = { runtime: 'nodejs' };
 
 import { createClient } from '@supabase/supabase-js';
 
@@ -15,10 +15,9 @@ export default async function handler(req: any, res: any) {
       return res.status(500).json({ error: 'Credenciales de Supabase faltan' });
     }
 
-    // En Vercel Node, req.body ya suele venir parseado si es JSON.
-    // Aun así, cubrimos el caso en que venga como string.
-    const bodyRaw = req.body ?? {};
-    const body = typeof bodyRaw === 'string' ? JSON.parse(bodyRaw || '{}') : bodyRaw;
+    // req.body puede venir string u objeto
+    const raw = req.body ?? {};
+    const body = typeof raw === 'string' ? JSON.parse(raw || '{}') : raw;
 
     const externalId = String(body.externalId || '').trim();
     const actionId   = String(body.actionId || '').trim().toUpperCase();
@@ -30,13 +29,12 @@ export default async function handler(req: any, res: any) {
 
     const sb = createClient(SB_URL, SB_SERVICE, { auth: { persistSession: false } });
 
-    // 1) Verifica que la acción existe
+    // 1) Verifica acción
     const { data: act, error: actErr } = await sb
       .from('actions_catalog')
       .select('id,title,points_value,life_value')
       .eq('id', actionId)
       .maybeSingle();
-
     if (actErr)  return res.status(400).json({ error: 'Catalog lookup failed', details: actErr });
     if (!act)    return res.status(404).json({ error: 'actionId no existe en catálogo' });
 
@@ -58,7 +56,6 @@ export default async function handler(req: any, res: any) {
       .insert(insertRow)
       .select('id, created_at')
       .maybeSingle();
-
     if (insErr) {
       return res.status(400).json({ error: 'Insert in action_logs failed', details: insErr, row: insertRow });
     }
