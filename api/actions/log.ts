@@ -1,11 +1,12 @@
-// api/actions/log.ts  (versión Node, estable en Vercel)
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+// api/actions/log.ts  (versión Node robusta para Vercel)
+export const config = { runtime: 'nodejs20.x' };
+
 import { createClient } from '@supabase/supabase-js';
 
-const SB_URL = process.env.SUPABASE_URL!;
-const SB_SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const SB_URL = process.env.SUPABASE_URL as string;
+const SB_SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY as string;
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -14,8 +15,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: 'Credenciales de Supabase faltan' });
     }
 
-    // body puede venir como string o como objeto según el runtime
-    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
+    // En Vercel Node, req.body ya suele venir parseado si es JSON.
+    // Aun así, cubrimos el caso en que venga como string.
+    const bodyRaw = req.body ?? {};
+    const body = typeof bodyRaw === 'string' ? JSON.parse(bodyRaw || '{}') : bodyRaw;
+
     const externalId = String(body.externalId || '').trim();
     const actionId   = String(body.actionId || '').trim().toUpperCase();
     const qty        = Number(body.qty || 0);
@@ -26,7 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const sb = createClient(SB_URL, SB_SERVICE, { auth: { persistSession: false } });
 
-    // 1) Verifica que la acción existe y obtiene valores
+    // 1) Verifica que la acción existe
     const { data: act, error: actErr } = await sb
       .from('actions_catalog')
       .select('id,title,points_value,life_value')
@@ -39,6 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const points = Number(act.points_value || 0) * qty;
     const life   = Number(act.life_value || 0)   * qty;
 
+    // 2) Inserta log
     const insertRow = {
       external_id: externalId,
       action_id: actionId,
@@ -64,6 +69,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: 'Unhandled exception', details: String(e?.message || e) });
   }
 }
+
 
 
 
