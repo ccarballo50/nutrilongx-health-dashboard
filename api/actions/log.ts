@@ -1,4 +1,4 @@
-// api/actions/log.ts — adaptativo (sin cálculos) + modos de test + GET insert
+// api/actions/log.ts — inserción mínima y estable (external_id, action_id, qty)
 export const config = { runtime: "nodejs" };
 
 const SB_URL = process.env.SUPABASE_URL as string;
@@ -9,7 +9,6 @@ const H = {
   "content-type": "application/json",
   apikey: SB_SERVICE,
   Authorization: `Bearer ${SB_SERVICE}`,
-  // 👇 ESTA ES LA CLAVE: return=representation debe ir en el header, no en la query
   Prefer: "return=representation",
 };
 
@@ -21,87 +20,10 @@ function withTimeout<T>(p: Promise<T>, ms: number, stage: string): Promise<T> {
   });
 }
 
-function isMissingColumn(txt: string) {
-  try {
-    const j = JSON.parse(txt);
-    if (j?.code === "42703") return true;
-    if (typeof j?.message === "string" && j.message.includes("does not exist")) return true;
-  } catch {}
-  return typeof txt === "string" && txt.includes("does not exist");
-}
-
-// SELECT seguro sobre catálogo (prueba varias combinaciones de columnas)
-async function selectCatalogRow(actionId: string) {
-  const candidates = [
-    ["id","title","life_days","points"],
-    ["id","title","life_hours","points"],
-    ["id","title","life_days"],
-    ["id","title","life_hours"],
-    ["id","title"],
-  ];
-  for (const cols of candidates) {
-    const sel = encodeURIComponent(cols.join(","));
-    const url = `${base}/actions_catalog?id=eq.${encodeURIComponent(actionId)}&select=${sel}&limit=1`;
-    const r = await withTimeout(fetch(url, { headers: H }), 8000, "catalog-select");
-    const txt = await r.text();
-    if (r.ok) {
-      const arr = txt ? JSON.parse(txt) : [];
-      if (Array.isArray(arr) && arr.length) return { row: arr[0], used: cols };
-      return { row: null, used: cols };
-    }
-    if (isMissingColumn(txt)) continue;
-    throw new Error(`catalog ${r.status}: ${txt}`);
-  }
-  throw new Error(`No valid select over actions_catalog`);
-}
-
-// INSERT adaptativo sobre action_logs (ahora con Prefer en headers)
-async function insertLogAdaptive(payloadBase: Record<string, any>) {
-  const variants: Record<string, any>[] = [
-    payloadBase,
-    (() => { const p={...payloadBase}; if(p.life_days!=null&&p.life_hours==null){p.life_hours=p.life_days; delete p.life_days;} return p; })(),
-    (() => { const p={...payloadBase}; const v = p.life_days ?? p.life_hours; if(v!=null){delete p.life_days; delete p.life_hours; p.life = v;} return p; })(),
-    (() => { const p={...payloadBase}; delete p.life_days; delete p.life_hours; delete p.life; delete p.points; return p; })(),
-  ];
-
-  for (const body of variants) {
-    const r = await withTimeout(
-      fetch(`${base}/action_logs`, {             // 👈 sin ?return=representation
-        method: "POST",
-        headers: H,                              // 👈 Prefer en headers
-        body: JSON.stringify(body),
-      }),
-      8000,
-      "insert"
-    );
-    const txt = await r.text();
-    if (r.ok) {
-      const rep = txt ? JSON.parse(txt) : [];
-      return rep[0] ?? null;
-    }
-    if (isMissingColumn(txt)) continue;
-    throw new Error(`insert ${r.status}: ${txt}`);
-  }
-  throw new Error(`No insert variant accepted (columns mismatch)`);
-}
-
-function buildPayloadBase(catalogRow: any, externalId: string, actionId: string, qty: number) {
-  const payload: Record<string, any> = {
-    external_id: externalId,
-    action_id: actionId,
-    qty,
-  };
-  if ("title" in catalogRow)  payload.title = catalogRow.title ?? null;
-  if ("life_days"  in catalogRow) payload.life_days  = catalogRow.life_days;
-  if ("life_hours" in catalogRow) payload.life_hours = catalogRow.life_hours;
-  if ("points"     in catalogRow) payload.points     = catalogRow.points;
-  return payload;
-}
-
 export default async function handler(req: any, res: any) {
   try {
     if (!SB_URL || !SB_SERVICE) {
-      return res.status(500).json({ error: "Faltan SUPABASE_URL/SUPABASE_SERVICE_ROLE_KEY", stage: "env" });
+      return res.status(500).json({ error: "Faltan SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY", stage: "env" });
     }
 
     // Ping
@@ -109,40 +31,10 @@ export default async function handler(req: any, res: any) {
       return res.status(200).json({ ok: true, stage: "alive" });
     }
 
-    // Check catálogo
-    if (req.method === "GET" && req.query?.check === "catalog") {
-      const actionId = String(req.query.actionId || "").trim().toUpperCase();
-      if (!actionId) return res.status(400).json({ error: "actionId requerido", stage: "validate" });
-      const { row, used } = await selectCatalogRow(actionId);
-      if (!row) return res.status(404).json({ error: "actionId no existe", stage: "catalog" });
-      return res.status(200).json({ ok: true, stage: "dry", used, catalog_row: row, payload_base: buildPayloadBase(row, "demo-1", actionId, 1) });
+    // Validación + método
+    if (req.method !== "POST") {
+      return res.status(405).json({ error: "Method not allowed" });
     }
-
-    // Dry-run
-    if (req.method === "GET" && req.query?.dry === "1") {
-      const externalId = String(req.query.externalId || "").trim();
-      const actionId   = String(req.query.actionId   || "").trim().toUpperCase();
-      const qty        = Number(req.query.qty || 0);
-      if (!externalId || !actionId || !qty) return res.status(400).json({ error: "params inválidos", stage: "validate" });
-      const { row, used } = await selectCatalogRow(actionId);
-      if (!row) return res.status(404).json({ error: "actionId no existe", stage: "catalog" });
-      return res.status(200).json({ ok: true, stage: "dry", used, catalog_row: row, payload_base: buildPayloadBase(row, externalId, actionId, qty) });
-    }
-
-    // GET insert (para probar SIN POST)
-    if (req.method === "GET" && req.query?.insert === "1") {
-      const externalId = String(req.query.externalId || "").trim();
-      const actionId   = String(req.query.actionId   || "").trim().toUpperCase();
-      const qty        = Number(req.query.qty || 0);
-      if (!externalId || !actionId || !qty) return res.status(400).json({ error: "params inválidos", stage: "validate" });
-      const { row } = await selectCatalogRow(actionId);
-      if (!row) return res.status(404).json({ error: "actionId no existe", stage: "catalog" });
-      const inserted = await withTimeout(insertLogAdaptive(buildPayloadBase(row, externalId, actionId, qty)), 10000, "insert-adaptive");
-      return res.status(200).json({ ok: true, stage: "done", inserted });
-    }
-
-    // POST normal
-    if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
     const raw = req.body ?? {};
     const body = typeof raw === "string" ? JSON.parse(raw || "{}") : raw;
@@ -153,16 +45,45 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ error: "externalId, actionId y qty (>0) son obligatorios", stage: "validate" });
     }
 
-    const { row } = await selectCatalogRow(actionId);
-    if (!row) return res.status(404).json({ error: "actionId no existe en catálogo", stage: "catalog" });
+    // 1) Comprueba que la acción existe (sin columnas opcionales)
+    {
+      const url = `${base}/actions_catalog?id=eq.${encodeURIComponent(actionId)}&select=${encodeURIComponent("id")}&limit=1`;
+      const r = await withTimeout(fetch(url, { headers: H }), 8000, "catalog-select");
+      if (!r.ok) {
+        const txt = await r.text();
+        return res.status(r.status).send(txt);
+      }
+      const arr = await r.json();
+      if (!Array.isArray(arr) || !arr.length) {
+        return res.status(404).json({ error: "actionId no existe", stage: "catalog" });
+      }
+    }
 
-    const inserted = await withTimeout(
-      insertLogAdaptive(buildPayloadBase(row, externalId, actionId, qty)),
-      10000,
-      "insert-adaptive"
+    // 2) Inserta SÓLO lo mínimo (evita PGRST204 por columnas ajenas)
+    const row = { external_id: externalId, action_id: actionId, qty };
+    const ri = await withTimeout(
+      fetch(`${base}/action_logs`, {
+        method: "POST",
+        headers: H,
+        body: JSON.stringify(row),
+      }),
+      8000,
+      "insert"
     );
+    const txt = await ri.text();
+    if (!ri.ok) return res.status(ri.status).send(txt);
 
-    return res.status(200).json({ ok: true, stage: "done", id: inserted?.id, created_at: inserted?.created_at });
+    // Representation (si la tabla la soporta). Si no, devolvemos ok sin rep.
+    let rep: any = null;
+    try { rep = txt ? JSON.parse(txt) : null; } catch {}
+
+    const inserted = Array.isArray(rep) ? rep[0] : rep;
+    return res.status(200).json({
+      ok: true,
+      stage: "done",
+      id: inserted?.id ?? null,
+      created_at: inserted?.created_at ?? null,
+    });
   } catch (e: any) {
     return res.status(500).json({ error: "Unhandled exception", details: String(e?.message || e), stage: "catch" });
   }
