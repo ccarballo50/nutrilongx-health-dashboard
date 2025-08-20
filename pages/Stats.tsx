@@ -14,15 +14,15 @@ const onSubmit = async (e: React.FormEvent) => {
   setError("");
   setMessage("");
 
-  // helpers
-  const post = () =>
+  // helpers sin tipos genéricos
+  const doPost = () =>
     fetch("/api/actions/log", {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({ externalId: ext, actionId: act, qty: q }),
     });
 
-  const get = () => {
+  const doGet = () => {
     const qs = new URLSearchParams({
       externalId: ext,
       actionId: act,
@@ -31,41 +31,54 @@ const onSubmit = async (e: React.FormEvent) => {
     return fetch(`/api/actions/log?${qs}`, { method: "GET", cache: "no-cache" });
   };
 
-  // Si el POST tarda más de 3s, lanzamos GET en paralelo.
-  let done = false;
-  const take = async (label: "POST" | "GET", res: Response) => {
-    if (done) return;
-    const txt = await res.text();
+  let terminado = false;
+  let fallbackLanzado = false;
+  let timerId: any = null;
+
+  const manejarRespuesta = async (label: "POST" | "GET", res: Response) => {
+    if (terminado) return;
+    const texto = await res.text();
     let data: any = {};
-    try { data = txt ? JSON.parse(txt) : {}; } catch { data = { raw: txt }; }
+    try { data = texto ? JSON.parse(texto) : {}; } catch { data = { raw: texto }; }
     console.log(`[log] ${label} status:`, res.status, data);
 
-    if (res.ok && data?.ok) {
-      done = true;
+    if (res.ok && data && data.ok) {
+      terminado = true;
+      if (timerId) clearTimeout(timerId);
       setMessage(`✅ Acción registrada (${label}).`);
       await fetchProgress();
+      setLoading(false);
     } else {
       throw new Error(data?.error ?? data?.details ?? data?.message ?? `HTTP ${res.status}`);
     }
   };
 
   try {
-    const postPromise = post().then(r => take("POST", r));
-    const timer = new Promise<void>((resolve) => setTimeout(resolve, 3000)); // 3s
-    // cuando pasa el timer, disparamos GET; pero no cancelamos el POST (el primero que llegue gana)
-    const getAfterTimer = timer.then(() => get().then(r => take("GET", r)).catch(() => {}));
+    // Lanza POST
+    const postProm = doPost().then((r) => manejarRespuesta("POST", r));
 
-    await Promise.race([postPromise, getAfterTimer]);
+    // Si en 3s no ha resuelto, lanza GET en paralelo
+    timerId = setTimeout(() => {
+      if (!terminado && !fallbackLanzado) {
+        fallbackLanzado = true;
+        void doGet()
+          .then((r) => manejarRespuesta("GET", r))
+          .catch((err) => console.warn("[log] GET fallo:", err));
+      }
+    }, 3000);
 
-    // si el primero falló, espera al otro por si salva
-    if (!done) {
-      await Promise.allSettled([postPromise, getAfterTimer]);
-      if (!done) throw new Error("No se pudo registrar por POST ni por GET.");
+    // Espera a que termine cualquiera
+    await postProm;
+
+    // Si POST falló antes de que GET se lanzara/terminara, intenta un GET directo como último recurso
+    if (!terminado && !fallbackLanzado) {
+      const r = await doGet();
+      await manejarRespuesta("GET", r);
     }
   } catch (err: any) {
     console.error("[log] error:", err);
+    if (timerId) clearTimeout(timerId);
     setError(`No se pudo registrar la acción: ${err?.message ?? String(err)}`);
-  } finally {
     setLoading(false);
   }
 };
