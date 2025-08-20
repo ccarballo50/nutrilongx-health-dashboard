@@ -1,86 +1,68 @@
-// /api/actions/log.ts
-// Vercel function (Runtime: Node.js)
-import { createClient } from "@supabase/supabase-js";
+// api/actions/log.ts  (versión Node, estable en Vercel)
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { createClient } from '@supabase/supabase-js';
 
-function resJSON(code: number, payload: any) {
-  return new Response(JSON.stringify(payload), {
-    status: code,
-    headers: { "content-type": "application/json; charset=utf-8" },
-  });
-}
+const SB_URL = process.env.SUPABASE_URL!;
+const SB_SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
-export default async function handler(req: Request) {
-  if (req.method !== "POST") {
-    return resJSON(405, { error: "Method not allowed" });
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
-
-  // --- ENV obligatorias (Service Role SIEMPRE en backend) ---
-  const url = process.env.SUPABASE_URL;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !serviceKey) {
-    return resJSON(500, { error: "Missing SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY" });
-  }
-  const supabase = createClient(url, serviceKey, { auth: { persistSession: false } });
-
-  // --- Body ---
-  let body: any;
   try {
-    body = await req.json();
-  } catch {
-    return resJSON(400, { error: "Invalid JSON body" });
+    if (!SB_URL || !SB_SERVICE) {
+      return res.status(500).json({ error: 'Credenciales de Supabase faltan' });
+    }
+
+    // body puede venir como string o como objeto según el runtime
+    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
+    const externalId = String(body.externalId || '').trim();
+    const actionId   = String(body.actionId || '').trim().toUpperCase();
+    const qty        = Number(body.qty || 0);
+
+    if (!externalId || !actionId || !Number.isFinite(qty) || qty <= 0) {
+      return res.status(400).json({ error: 'externalId, actionId y qty (>0) son obligatorios' });
+    }
+
+    const sb = createClient(SB_URL, SB_SERVICE, { auth: { persistSession: false } });
+
+    // 1) Verifica que la acción existe y obtiene valores
+    const { data: act, error: actErr } = await sb
+      .from('actions_catalog')
+      .select('id,title,points_value,life_value')
+      .eq('id', actionId)
+      .maybeSingle();
+
+    if (actErr)  return res.status(400).json({ error: 'Catalog lookup failed', details: actErr });
+    if (!act)    return res.status(404).json({ error: 'actionId no existe en catálogo' });
+
+    const points = Number(act.points_value || 0) * qty;
+    const life   = Number(act.life_value || 0)   * qty;
+
+    const insertRow = {
+      external_id: externalId,
+      action_id: actionId,
+      qty,
+      points,
+      life,
+      title: act.title ?? null,
+    };
+
+    const { data: ins, error: insErr } = await sb
+      .from('action_logs')
+      .insert(insertRow)
+      .select('id, created_at')
+      .maybeSingle();
+
+    if (insErr) {
+      return res.status(400).json({ error: 'Insert in action_logs failed', details: insErr, row: insertRow });
+    }
+
+    return res.status(200).json({ ok: true, id: ins?.id, created_at: ins?.created_at });
+  } catch (e: any) {
+    console.error('[actions/log] exception', e);
+    return res.status(500).json({ error: 'Unhandled exception', details: String(e?.message || e) });
   }
-
-  let { externalId, actionId, qty } = body || {};
-  if (!externalId || !actionId) {
-    return resJSON(400, { error: "externalId and actionId are required" });
-  }
-  // normaliza
-  externalId = String(externalId).trim();
-  actionId = String(actionId).trim().toUpperCase();
-  qty = Number.isFinite(Number(qty)) ? Math.max(1, parseInt(String(qty), 10)) : 1;
-
-  // 1) Comprueba que el actionId exista en el catálogo
-  const { data: cat, error: catErr } = await supabase
-    .from("actions_catalog")
-    .select("id,pillar,level_code,life_hours,life_days,point_value")
-    .eq("id", actionId)
-    .maybeSingle();
-
-  if (catErr) {
-    return resJSON(500, { error: "Select actions_catalog failed", details: catErr });
-  }
-  if (!cat) {
-    return resJSON(404, { error: "actionId not found in actions_catalog", actionId });
-  }
-
-  const life_hours = Number(cat.life_hours || 0) * qty;
-  const life_days = Number(cat.life_days || 0) * qty;
-  const points = Number(cat.point_value || 0) * qty;
-
-  // 2) Inserta en action_logs
-  const insertRow = {
-    user_external_id: externalId,
-    action_id: actionId,
-    qty,
-    points,
-    life_hours,
-    life_days,
-    pillar: cat.pillar,
-    level_code: cat.level_code,
-  };
-
-  const { data: ins, error: insErr } = await supabase
-    .from("action_logs")
-    .insert(insertRow)
-    .select("id,created_at")
-    .maybeSingle();
-
-  if (insErr) {
-    // devolvemos el error de supabase para depurar
-    return resJSON(400, { error: "Insert in action_logs failed", details: insErr, row: insertRow });
-  }
-
-  return resJSON(200, { ok: true, id: ins?.id, created_at: ins?.created_at });
 }
 
 
