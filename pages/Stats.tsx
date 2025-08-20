@@ -5,7 +5,8 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
  * Stats – NutrilongX (Vite + Vercel)
  * - GET /api/progress?externalId=...
  * - POST /api/actions/log
- * - Botón de salud /api/hello para verificar API routes en Vercel
+ * - Botón de salud /api/hello para verificar API routes
+ * - AbortController para evitar cuelgues y estados colgantes
  */
 
 type ProgressResponse = {
@@ -25,6 +26,20 @@ type ProgressResponse = {
   [k: string]: any;
 };
 
+function toDetail(data: any, status?: number, txt?: string) {
+  if (data && typeof data === "object") {
+    return (
+      data.error ??
+      data.message ??
+      data.details ??
+      JSON.stringify(data)
+    );
+  }
+  if (typeof data === "string") return data;
+  if (txt) return txt.slice(0, 800);
+  return status ? `HTTP ${status}` : "Error desconocido";
+}
+
 export default function Stats() {
   // Form
   const [externalId, setExternalId] = useState("demo-1");
@@ -40,15 +55,17 @@ export default function Stats() {
   // Data
   const [progress, setProgress] = useState<ProgressResponse | null>(null);
 
-  // AbortControllers para evitar “cuelgues” por requests colgantes
+  // AbortControllers para requests
   const progressAbortRef = useRef<AbortController | null>(null);
   const logAbortRef = useRef<AbortController | null>(null);
 
-  const apiBase = ""; // relativo a tu dominio Vercel
+  // Base de API relativa (misma origin)
+  const apiBase = "";
 
   const fetchProgress = useCallback(async (id: string) => {
     if (!id.trim()) return;
-    // Cancela petición previa
+
+    // Cancelar petición anterior si existe
     if (progressAbortRef.current) progressAbortRef.current.abort();
     const ac = new AbortController();
     progressAbortRef.current = ac;
@@ -69,22 +86,19 @@ export default function Stats() {
         signal: ac.signal,
       });
 
-      // Lee como texto primero para depurar mejor respuestas no JSON
       const txt = await res.text();
       let data: any = null;
       try {
         data = JSON.parse(txt);
       } catch {
+        // Puede venir texto plano si hay error en server
         console.warn("Respuesta no JSON de /api/progress:", txt);
       }
 
       console.log("[progress] status", res.status, "data:", data ?? txt);
 
       if (!res.ok) {
-        const detail =
-          (data && (data.error || data.message || data.details)) ||
-          `HTTP ${res.status}`;
-        setErr(`Error al obtener progreso: ${detail}`);
+        setErr(`Error al obtener progreso: ${toDetail(data, res.status, txt)}`);
         return;
       }
       setProgress((data as ProgressResponse) ?? null);
@@ -102,12 +116,13 @@ export default function Stats() {
   }, []);
 
   useEffect(() => {
-    // Carga inicial y cada vez que cambie externalId
     fetchProgress(externalId);
   }, [externalId, fetchProgress]);
 
   async function onRegister(e: React.FormEvent) {
     e.preventDefault();
+
+    // Cancelar petición anterior si existe
     if (logAbortRef.current) logAbortRef.current.abort();
     const ac = new AbortController();
     logAbortRef.current = ac;
@@ -132,7 +147,10 @@ export default function Stats() {
 
       const res = await fetch(`${apiBase}/api/actions/log`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
         body: JSON.stringify(payload),
         cache: "no-store",
         signal: ac.signal,
@@ -149,14 +167,17 @@ export default function Stats() {
       console.log("[log] status", res.status, "data:", data ?? txt);
 
       if (!res.ok) {
-        const detail =
-          (data && (data.error || data.message || data.details)) ||
-          `HTTP ${res.status}`;
-        setErr(`No se pudo registrar la acción: ${detail}`);
+        setErr(`No se pudo registrar la acción: ${toDetail(data, res.status, txt)}`);
         return;
       }
 
-      setMsg("✅ Acción registrada correctamente.");
+      // Mostrar stage si viene del backend instrumentado
+      if (data?.stage) {
+        setMsg(`✅ Acción registrada (stage: ${data.stage}).`);
+      } else {
+        setMsg("✅ Acción registrada correctamente.");
+      }
+
       await fetchProgress(ext);
     } catch (e: any) {
       if (e?.name === "AbortError") {
@@ -183,7 +204,7 @@ export default function Stats() {
       const body = await r.text();
       console.log("[health] status", r.status, "body:", body);
       if (!r.ok) {
-        setErr(`/api/hello respondió ${r.status}`);
+        setErr(`/api/hello respondió ${r.status}: ${body}`);
       } else {
         setMsg("✅ API OK (/api/hello responde).");
       }
@@ -199,7 +220,7 @@ export default function Stats() {
 
   return (
     <div style={{ maxWidth: 920, margin: "0 auto", padding: 24 }}>
-      <h1 style={{ marginBottom: 6 }}>Stats</h1>
+      <h1 style={{ marginBottom: 6 }}>Estadísticas</h1>
       <p style={{ marginTop: 0, opacity: 0.8 }}>
         Registra acciones y consulta tu progreso acumulado.
       </p>
@@ -441,6 +462,7 @@ function Th({ children }: { children: React.ReactNode }) {
     </th>
   );
 }
+
 function Td({ children }: { children: React.ReactNode }) {
   return <td style={{ padding: "10px 12px", fontSize: 14 }}>{children}</td>;
 }
