@@ -1,12 +1,12 @@
 // /api/admin/actions/import.ts
-- import { supabase } from '@/src/lib/supabaseAdmin';
-+ import { supabaseAdmin } from '@lib/supabaseAdmin';
+
+import { supabaseAdmin } from '@lib/supabaseAdmin';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({error:'Method not allowed'});
   const { actions = [], sources = [] } = req.body ?? {};
 
-+ const supabase = supabaseAdmin();
+const supabase = supabaseAdmin();
 
   if (sources.length) {
     const r1 = await supabase.from('sources').upsert(sources, { onConflict: 'id' });
