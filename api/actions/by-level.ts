@@ -1,6 +1,6 @@
 // /api/actions/by-level.ts
-import type { VercelRequest, VercelResponse } from "vercel";
 
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 const url = process.env.SUPABASE_URL!;
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const base = `${url}/rest/v1`;
