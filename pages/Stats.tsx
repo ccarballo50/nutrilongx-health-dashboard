@@ -1,46 +1,35 @@
 // pages/Stats.tsx
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
-/**
- * Stats – NutrilongX (Vite + Vercel)
- * - GET /api/progress?externalId=...
- * - POST /api/actions/log
- * - Botón de salud /api/hello para verificar API routes
- * - AbortController para evitar cuelgues y estados colgantes
- */
-
-type ProgressResponse = {
-  ok?: boolean;
-  externalId?: string;
-  totals?: { actions?: number; points?: number; life?: number };
-  recent?: Array<{
-    id: string | number;
-    actionId: string;
-    qty: number;
-    points?: number;
-    life?: number;
-    created_at?: string;
-    title?: string;
-  }>;
-  by_pillar?: Record<string, number>;
+/** Tipos que cubren el shape actual de /api/progress */
+type ProgressItem = {
+  id?: string | number;
+  created_at?: string;
+  title?: string;
+  action_id?: string;
+  qty?: number;
+  points?: number;
+  life_days?: number;
   [k: string]: any;
 };
 
-function toDetail(data: any, status?: number, txt?: string) {
-  if (data && typeof data === "object") {
-    return (
-      data.error ??
-      data.message ??
-      data.details ??
-      JSON.stringify(data)
-    );
-  }
-  if (typeof data === "string") return data;
-  if (txt) return txt.slice(0, 800);
-  return status ? `HTTP ${status}` : "Error desconocido";
-}
+type ProgressResponse = {
+  ok?: boolean;
+  error?: string;
+  externalId?: string;
+  total_days?: number;    // vida total en días (según backend)
+  total_hours?: number;   // vida total en horas
+  by_pillar?: Record<string, number>; // vida por pilar (días)
+  recent?: ProgressItem[];            // actividad reciente
+  totals?: {                          // compat con versiones anteriores
+    actions?: number;
+    points?: number;
+    life?: number;
+  };
+  [k: string]: any;
+};
 
-export default function Stats() {
+export default function StatsPage() {
   // Form
   const [externalId, setExternalId] = useState("demo-1");
   const [actionId, setActionId] = useState("ALI-BRO-043");
@@ -49,270 +38,204 @@ export default function Stats() {
   // UI
   const [loading, setLoading] = useState(false);
   const [progressLoading, setProgressLoading] = useState(false);
-  const [msg, setMsg] = useState<string>("");
-  const [err, setErr] = useState<string>("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [health, setHealth] = useState<null | { ok: boolean; text: string }>(null);
 
-  // Data
+  // Datos
   const [progress, setProgress] = useState<ProgressResponse | null>(null);
 
-  // AbortControllers para requests
-  const progressAbortRef = useRef<AbortController | null>(null);
-  const logAbortRef = useRef<AbortController | null>(null);
+  const progressQuery = useMemo(() => {
+    const p = new URLSearchParams();
+    if (externalId.trim()) p.set("externalId", externalId.trim());
+    return p.toString();
+  }, [externalId]);
 
-  // Base de API relativa (misma origin)
-  const apiBase = "";
-
-  const fetchProgress = useCallback(async (id: string) => {
-    if (!id.trim()) return;
-
-    // Cancelar petición anterior si existe
-    if (progressAbortRef.current) progressAbortRef.current.abort();
-    const ac = new AbortController();
-    progressAbortRef.current = ac;
-
+  const fetchProgress = useCallback(async () => {
+    if (!externalId.trim()) return;
     setProgressLoading(true);
-    setErr("");
-    setMsg("");
-
+    setError("");
     try {
-      const url = `${apiBase}/api/progress?externalId=${encodeURIComponent(
-        id.trim()
-      )}`;
-      console.log("[progress] GET", url);
-      const res = await fetch(url, {
+      const res = await fetch(`/api/progress?${progressQuery}`, {
         method: "GET",
         headers: { Accept: "application/json" },
-        cache: "no-store",
-        signal: ac.signal,
       });
-
       const txt = await res.text();
-      let data: any = null;
-      try {
-        data = JSON.parse(txt);
-      } catch {
-        // Puede venir texto plano si hay error en server
-        console.warn("Respuesta no JSON de /api/progress:", txt);
-      }
-
-      console.log("[progress] status", res.status, "data:", data ?? txt);
-
+      const data: ProgressResponse = txt ? JSON.parse(txt) : {};
+      console.log("[progress] GET /api/progress?externalId=%s", externalId, data);
       if (!res.ok) {
-        setErr(`Error al obtener progreso: ${toDetail(data, res.status, txt)}`);
-        return;
+        setError(`Error al obtener progreso (${res.status}): ${data?.error ?? "desconocido"}`);
+      } else {
+        setProgress(data);
       }
-      setProgress((data as ProgressResponse) ?? null);
     } catch (e: any) {
-      if (e?.name === "AbortError") {
-        console.log("[progress] abortado");
-        return;
-      }
       console.error("[progress] exception:", e);
-      setErr(`Excepción al obtener progreso: ${e?.message ?? String(e)}`);
+      setError(`Excepción al obtener progreso: ${e?.message ?? String(e)}`);
     } finally {
-      if (progressAbortRef.current === ac) progressAbortRef.current = null;
       setProgressLoading(false);
+    }
+  }, [externalId, progressQuery]);
+
+  useEffect(() => {
+    fetchProgress();
+  }, [fetchProgress]);
+
+  const testHealth = useCallback(async () => {
+    try {
+      const r = await fetch("/api/hello");
+      const t = await r.text();
+      setHealth({ ok: r.ok, text: t || (r.ok ? "OK" : "ERROR") });
+      console.log("[health] GET /api/hello", r.status, t);
+    } catch (e: any) {
+      setHealth({ ok: false, text: e?.message ?? String(e) });
     }
   }, []);
 
   useEffect(() => {
-    fetchProgress(externalId);
-  }, [externalId, fetchProgress]);
+    // prueba rápida de salud a la carga
+    testHealth();
+  }, [testHealth]);
 
-  async function onRegister(e: React.FormEvent) {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Cancelar petición anterior si existe
-    if (logAbortRef.current) logAbortRef.current.abort();
-    const ac = new AbortController();
-    logAbortRef.current = ac;
-
-    setLoading(true);
-    setErr("");
-    setMsg("");
 
     const ext = externalId.trim();
     const act = actionId.trim().toUpperCase();
-    const q = Number(qty);
+    const q = Number(qty) || 0;
 
-    if (!ext || !act || !Number.isFinite(q) || q <= 0) {
-      setLoading(false);
-      setErr("Completa externalId, actionId y una cantidad válida (>0).");
+    if (!ext || !act || q <= 0) {
+      setError("Completa externalId, actionId y una cantidad válida (>0).");
       return;
     }
+
+    setLoading(true);
+    setError("");
+    setMessage("");
+
+    // Timeout para no quedar bloqueados si algo se cuelga
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 15000);
 
     try {
       const payload = { externalId: ext, actionId: act, qty: q };
       console.log("[log] POST /api/actions/log payload:", payload);
 
-      const res = await fetch(`${apiBase}/api/actions/log`, {
+      const res = await fetch("/api/actions/log", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(payload),
-        cache: "no-store",
-        signal: ac.signal,
+        signal: ctrl.signal,
       });
 
       const txt = await res.text();
-      let data: any = null;
-      try {
-        data = JSON.parse(txt);
-      } catch {
-        console.warn("Respuesta no JSON de /api/actions/log:", txt);
-      }
+      let data: any = {};
+      try { data = txt ? JSON.parse(txt) : {}; } catch { data = { raw: txt }; }
 
-      console.log("[log] status", res.status, "data:", data ?? txt);
+      console.log("[log] /api/actions/log status:", res.status, "data:", data);
 
-      if (!res.ok) {
-        setErr(`No se pudo registrar la acción: ${toDetail(data, res.status, txt)}`);
+      if (!res.ok || !data?.ok) {
+        setError(
+          `No se pudo registrar la acción: ${
+            data?.error ?? data?.details ?? data?.message ?? `HTTP ${res.status}`
+          }`
+        );
         return;
       }
 
-      // Mostrar stage si viene del backend instrumentado
-      if (data?.stage) {
-        setMsg(`✅ Acción registrada (stage: ${data.stage}).`);
+      setMessage("✅ Acción registrada correctamente.");
+      await fetchProgress();
+    } catch (err: any) {
+      if (err?.name === "AbortError") {
+        setError("La petición tardó demasiado (timeout). Inténtalo de nuevo.");
       } else {
-        setMsg("✅ Acción registrada correctamente.");
+        console.error("[log] exception /api/actions/log:", err);
+        setError(`Excepción al registrar: ${err?.message ?? String(err)}`);
       }
-
-      await fetchProgress(ext);
-    } catch (e: any) {
-      if (e?.name === "AbortError") {
-        console.log("[log] abortado");
-        return;
-      }
-      console.error("[log] exception:", e);
-      setErr(`Excepción al registrar: ${e?.message ?? String(e)}`);
     } finally {
-      if (logAbortRef.current === ac) logAbortRef.current = null;
+      clearTimeout(t);
       setLoading(false);
     }
-  }
+  };
 
-  async function testApiHealth() {
-    setErr("");
-    setMsg("");
-    try {
-      console.log("[health] GET /api/hello");
-      const r = await fetch(`${apiBase}/api/hello`, {
-        method: "GET",
-        cache: "no-store",
-      });
-      const body = await r.text();
-      console.log("[health] status", r.status, "body:", body);
-      if (!r.ok) {
-        setErr(`/api/hello respondió ${r.status}: ${body}`);
-      } else {
-        setMsg("✅ API OK (/api/hello responde).");
-      }
-    } catch (e: any) {
-      console.error("[health] exception:", e);
-      setErr(`Excepción llamando /api/hello: ${e?.message ?? String(e)}`);
-    }
-  }
+  // Derivados para la UI
+  const totalDays =
+    progress?.totals?.life ??
+    (typeof progress?.total_days === "number" ? progress?.total_days : 0);
 
-  const totals = progress?.totals ?? {};
-  const recent = progress?.recent ?? [];
-  const byPillar = progress?.by_pillar ?? {};
+  const actionsCount =
+    typeof progress?.totals?.actions === "number"
+      ? progress?.totals?.actions
+      : Array.isArray(progress?.recent)
+      ? progress!.recent!.length
+      : 0;
+
+  const pointsTotal = progress?.totals?.points ?? 0;
+
+  const byPillarEntries = Object.entries(progress?.by_pillar || {});
+
+  const recent = progress?.recent || [];
 
   return (
-    <div style={{ maxWidth: 920, margin: "0 auto", padding: 24 }}>
-      <h1 style={{ marginBottom: 6 }}>Estadísticas</h1>
-      <p style={{ marginTop: 0, opacity: 0.8 }}>
-        Registra acciones y consulta tu progreso acumulado.
-      </p>
+    <div style={{ maxWidth: 980, margin: "0 auto", padding: 24 }}>
+      <h1 style={{ marginBottom: 8 }}>Estadísticas</h1>
 
-      {/* Panel de salud */}
-      <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+      <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
         <button
-          onClick={testApiHealth}
-          style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #ddd" }}
+          onClick={testHealth}
+          style={btnSecondary}
+          title="Comprueba que la API responde"
         >
           Probar API
         </button>
         <button
-          onClick={() => fetchProgress(externalId)}
+          onClick={fetchProgress}
           disabled={progressLoading}
-          style={{
-            padding: "8px 12px",
-            borderRadius: 8,
-            border: "1px solid #ddd",
-            cursor: progressLoading ? "not-allowed" : "pointer",
-            opacity: progressLoading ? 0.6 : 1,
-          }}
+          style={btnSecondary}
         >
-          {progressLoading ? "Actualizando…" : "Actualizar progreso"}
+          {progressLoading ? "Actualizando..." : "Actualizar progreso"}
         </button>
       </div>
 
       {/* Formulario */}
       <form
-        onSubmit={onRegister}
+        onSubmit={onSubmit}
         style={{
           display: "grid",
-          gridTemplateColumns: "1.2fr 1fr 0.8fr auto",
+          gridTemplateColumns: "1fr 1fr 120px 140px",
           gap: 12,
           alignItems: "end",
           marginBottom: 16,
         }}
       >
-        <div>
-          <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
-            External ID
-          </label>
+        <Field label="External ID">
           <input
             value={externalId}
             onChange={(e) => setExternalId(e.target.value)}
-            placeholder="p.ej. demo-1"
+            placeholder="demo-1"
             autoComplete="off"
-            style={{
-              width: "100%",
-              padding: 10,
-              borderRadius: 8,
-              border: "1px solid #ddd",
-            }}
+            style={input}
           />
-        </div>
+        </Field>
 
-        <div>
-          <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
-            Action ID
-          </label>
+        <Field label="Action ID">
           <input
             value={actionId}
             onChange={(e) => setActionId(e.target.value)}
-            placeholder="p.ej. ALI-BRO-043"
+            placeholder="ALI-BRO-043"
             autoComplete="off"
-            style={{
-              width: "100%",
-              padding: 10,
-              borderRadius: 8,
-              border: "1px solid #ddd",
-              textTransform: "uppercase",
-            }}
+            style={{ ...input, textTransform: "uppercase" }}
           />
-        </div>
+        </Field>
 
-        <div>
-          <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
-            Cantidad
-          </label>
+        <Field label="Cantidad">
           <input
             type="number"
             min={1}
             value={qty}
             onChange={(e) => setQty(Number(e.target.value))}
-            style={{
-              width: "100%",
-              padding: 10,
-              borderRadius: 8,
-              border: "1px solid #ddd",
-            }}
+            style={input}
           />
-        </div>
+        </Field>
 
         <button
           type="submit"
@@ -321,7 +244,7 @@ export default function Stats() {
             padding: "12px 18px",
             borderRadius: 10,
             border: "none",
-            background: loading ? "#9ca3af" : "#16a34a",
+            background: loading ? "#a3a3a3" : "#16a34a",
             color: "#fff",
             fontWeight: 700,
             cursor: loading ? "not-allowed" : "pointer",
@@ -329,35 +252,34 @@ export default function Stats() {
           }}
           aria-busy={loading}
         >
-          {loading ? "Registrando…" : "Registrar"}
+          {loading ? "Registrando..." : "Registrar"}
         </button>
       </form>
 
-      {/* Mensajes */}
-      {msg && (
+      {/* Estado API */}
+      {health && (
         <div
           style={{
             marginBottom: 12,
             padding: 12,
             borderRadius: 8,
-            background: "#ecfdf5",
-            color: "#065f46",
+            background: health.ok ? "#ecfdf5" : "#fef2f2",
+            color: health.ok ? "#065f46" : "#991b1b",
           }}
         >
-          {msg}
+          {health.ok ? "API OK" : "API Error"} ({health.text || ""})
         </div>
       )}
-      {err && (
-        <div
-          style={{
-            marginBottom: 12,
-            padding: 12,
-            borderRadius: 8,
-            background: "#fef2f2",
-            color: "#991b1b",
-          }}
-        >
-          {err}
+
+      {/* Mensajes */}
+      {message && (
+        <div style={{ marginBottom: 12, padding: 12, borderRadius: 8, background: "#ecfdf5", color: "#065f46" }}>
+          {message}
+        </div>
+      )}
+      {error && (
+        <div style={{ marginBottom: 12, padding: 12, borderRadius: 8, background: "#fef2f2", color: "#991b1b" }}>
+          {error}
         </div>
       )}
 
@@ -367,22 +289,22 @@ export default function Stats() {
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
           gap: 12,
-          marginBottom: 16,
+          marginBottom: 18,
         }}
       >
-        <Card title="Acciones" value={String(totals.actions ?? 0)} loading={progressLoading} />
-        <Card title="Puntos" value={String(totals.points ?? 0)} loading={progressLoading} />
-        <Card title="Vida" value={String(totals.life ?? 0)} loading={progressLoading} />
+        <StatCard title="Acciones" value={String(actionsCount)} loading={progressLoading} />
+        <StatCard title="Puntos" value={String(pointsTotal)} loading={progressLoading} />
+        <StatCard title="Vida (días)" value={String(totalDays ?? 0)} loading={progressLoading} />
       </div>
 
       {/* Vida por pilar */}
-      {!!Object.keys(byPillar).length && (
+      {byPillarEntries.length > 0 && (
         <div style={{ marginBottom: 12 }}>
-          <h4 style={{ margin: "8px 0" }}>Vida ganada por pilar (días)</h4>
-          <ul style={{ margin: 0, paddingLeft: 16 }}>
-            {Object.entries(byPillar).map(([pillar, days]) => (
-              <li key={pillar}>
-                <strong>{pillar}:</strong> {days}
+          <h3 style={{ margin: "6px 0 8px" }}>Vida ganada por pilar (días)</h3>
+          <ul style={{ margin: 0, paddingLeft: 18 }}>
+            {byPillarEntries.map(([pillar, days]) => (
+              <li key={pillar} style={{ lineHeight: 1.6 }}>
+                <b>{pillar}:</b> {days}
               </li>
             ))}
           </ul>
@@ -390,9 +312,9 @@ export default function Stats() {
       )}
 
       {/* Actividad reciente */}
-      <h3 style={{ marginTop: 20 }}>Actividad reciente</h3>
-      {!recent?.length ? (
-        <div style={{ opacity: 0.7 }}>Sin registros aún.</div>
+      <h3 style={{ marginTop: 20, marginBottom: 8 }}>Actividad reciente</h3>
+      {!recent.length ? (
+        <p style={{ opacity: 0.75 }}>Sin registros aún.</p>
       ) : (
         <div style={{ border: "1px solid #eee", borderRadius: 12, overflow: "hidden" }}>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -408,13 +330,13 @@ export default function Stats() {
             </thead>
             <tbody>
               {recent.map((r, idx) => (
-                <tr key={`${r.id}-${idx}`} style={{ borderTop: "1px solid #f0f0f0" }}>
+                <tr key={`${r.id ?? idx}-${idx}`} style={{ borderTop: "1px solid #f0f0f0" }}>
                   <Td>{r.created_at ? new Date(r.created_at).toLocaleString() : "-"}</Td>
                   <Td>{r.title ?? "-"}</Td>
-                  <Td>{r.actionId}</Td>
-                  <Td>{r.qty}</Td>
-                  <Td>{r.points ?? "-"}</Td>
-                  <Td>{r.life ?? "-"}</Td>
+                  <Td>{r.action_id ?? "-"}</Td>
+                  <Td>{typeof r.qty === "number" ? r.qty : "-"}</Td>
+                  <Td>{typeof r.points === "number" ? r.points : "-"}</Td>
+                  <Td>{typeof r.life_days === "number" ? r.life_days : "-"}</Td>
                 </tr>
               ))}
             </tbody>
@@ -423,14 +345,24 @@ export default function Stats() {
       )}
 
       <p style={{ marginTop: 24, fontSize: 12, opacity: 0.6 }}>
-        Abre DevTools → Network y Console. Al pulsar <b>Registrar</b> verás el <b>POST /api/actions/log</b>,
-        y después el <b>GET /api/progress</b>.
+        Tip: abre DevTools → Network y Console. Al pulsar <b>Registrar</b> verás el <b>POST /api/actions/log</b> y después el <b>GET /api/progress</b>.
       </p>
     </div>
   );
 }
 
-function Card({ title, value, loading }: { title: string; value: string; loading?: boolean }) {
+/* ---------- Subcomponentes & estilos inline sencillos ---------- */
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>{label}</label>
+      {children}
+    </div>
+  );
+}
+
+function StatCard({ title, value, loading }: { title: string; value: string; loading?: boolean }) {
   return (
     <div
       style={{
@@ -462,10 +394,23 @@ function Th({ children }: { children: React.ReactNode }) {
     </th>
   );
 }
-
 function Td({ children }: { children: React.ReactNode }) {
   return <td style={{ padding: "10px 12px", fontSize: 14 }}>{children}</td>;
 }
 
+const input: React.CSSProperties = {
+  width: "100%",
+  padding: 10,
+  borderRadius: 8,
+  border: "1px solid #ddd",
+};
+
+const btnSecondary: React.CSSProperties = {
+  padding: "10px 14px",
+  borderRadius: 10,
+  border: "1px solid #ddd",
+  background: "#fff",
+  cursor: "pointer",
+};
 
 
