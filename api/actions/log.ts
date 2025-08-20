@@ -9,6 +9,8 @@ const H = {
   "content-type": "application/json",
   apikey: SB_SERVICE,
   Authorization: `Bearer ${SB_SERVICE}`,
+  // 👇 ESTA ES LA CLAVE: return=representation debe ir en el header, no en la query
+  Prefer: "return=representation",
 };
 
 function withTimeout<T>(p: Promise<T>, ms: number, stage: string): Promise<T> {
@@ -18,6 +20,7 @@ function withTimeout<T>(p: Promise<T>, ms: number, stage: string): Promise<T> {
      .catch(e => { clearTimeout(t); reject(e); });
   });
 }
+
 function isMissingColumn(txt: string) {
   try {
     const j = JSON.parse(txt);
@@ -27,7 +30,7 @@ function isMissingColumn(txt: string) {
   return typeof txt === "string" && txt.includes("does not exist");
 }
 
-// 1) SELECT seguro sobre catálogo (prueba varias columnas hasta que pase)
+// SELECT seguro sobre catálogo (prueba varias combinaciones de columnas)
 async function selectCatalogRow(actionId: string) {
   const candidates = [
     ["id","title","life_days","points"],
@@ -36,7 +39,6 @@ async function selectCatalogRow(actionId: string) {
     ["id","title","life_hours"],
     ["id","title"],
   ];
-  const tried: Array<{sel:string,status:number}> = [];
   for (const cols of candidates) {
     const sel = encodeURIComponent(cols.join(","));
     const url = `${base}/actions_catalog?id=eq.${encodeURIComponent(actionId)}&select=${sel}&limit=1`;
@@ -45,18 +47,18 @@ async function selectCatalogRow(actionId: string) {
     if (r.ok) {
       const arr = txt ? JSON.parse(txt) : [];
       if (Array.isArray(arr) && arr.length) return { row: arr[0], used: cols };
-      return { row: null, used: cols }; // select OK pero no hay fila -> actionId inexistente
+      return { row: null, used: cols };
     }
-    if (isMissingColumn(txt)) { tried.push({ sel: cols.join(","), status: r.status }); continue; }
+    if (isMissingColumn(txt)) continue;
     throw new Error(`catalog ${r.status}: ${txt}`);
   }
-  throw new Error(`No valid select; tried: ${tried.map(t=>t.sel).join(" | ")}`);
+  throw new Error(`No valid select over actions_catalog`);
 }
 
-// 2) INSERT adaptativo sobre action_logs
+// INSERT adaptativo sobre action_logs (ahora con Prefer en headers)
 async function insertLogAdaptive(payloadBase: Record<string, any>) {
   const variants: Record<string, any>[] = [
-    payloadBase, // con life_days/points si vienen del catálogo
+    payloadBase,
     (() => { const p={...payloadBase}; if(p.life_days!=null&&p.life_hours==null){p.life_hours=p.life_days; delete p.life_days;} return p; })(),
     (() => { const p={...payloadBase}; const v = p.life_days ?? p.life_hours; if(v!=null){delete p.life_days; delete p.life_hours; p.life = v;} return p; })(),
     (() => { const p={...payloadBase}; delete p.life_days; delete p.life_hours; delete p.life; delete p.points; return p; })(),
@@ -64,7 +66,11 @@ async function insertLogAdaptive(payloadBase: Record<string, any>) {
 
   for (const body of variants) {
     const r = await withTimeout(
-      fetch(`${base}/action_logs?return=representation`, { method: "POST", headers: H, body: JSON.stringify(body) }),
+      fetch(`${base}/action_logs`, {             // 👈 sin ?return=representation
+        method: "POST",
+        headers: H,                              // 👈 Prefer en headers
+        body: JSON.stringify(body),
+      }),
       8000,
       "insert"
     );
@@ -73,7 +79,7 @@ async function insertLogAdaptive(payloadBase: Record<string, any>) {
       const rep = txt ? JSON.parse(txt) : [];
       return rep[0] ?? null;
     }
-    if (isMissingColumn(txt)) continue; // prueba siguiente variante
+    if (isMissingColumn(txt)) continue;
     throw new Error(`insert ${r.status}: ${txt}`);
   }
   throw new Error(`No insert variant accepted (columns mismatch)`);
@@ -84,8 +90,8 @@ function buildPayloadBase(catalogRow: any, externalId: string, actionId: string,
     external_id: externalId,
     action_id: actionId,
     qty,
-    title: catalogRow?.title ?? null,
   };
+  if ("title" in catalogRow)  payload.title = catalogRow.title ?? null;
   if ("life_days"  in catalogRow) payload.life_days  = catalogRow.life_days;
   if ("life_hours" in catalogRow) payload.life_hours = catalogRow.life_hours;
   if ("points"     in catalogRow) payload.points     = catalogRow.points;
@@ -103,41 +109,35 @@ export default async function handler(req: any, res: any) {
       return res.status(200).json({ ok: true, stage: "alive" });
     }
 
-    // CHECK catálogo (diagnóstico)
+    // Check catálogo
     if (req.method === "GET" && req.query?.check === "catalog") {
       const actionId = String(req.query.actionId || "").trim().toUpperCase();
       if (!actionId) return res.status(400).json({ error: "actionId requerido", stage: "validate" });
       const { row, used } = await selectCatalogRow(actionId);
       if (!row) return res.status(404).json({ error: "actionId no existe", stage: "catalog" });
-      return res.status(200).json({ ok: true, stage: "catalog", used, item: row });
+      return res.status(200).json({ ok: true, stage: "dry", used, catalog_row: row, payload_base: buildPayloadBase(row, "demo-1", actionId, 1) });
     }
 
-    // DRY-RUN (diagnóstico)
+    // Dry-run
     if (req.method === "GET" && req.query?.dry === "1") {
       const externalId = String(req.query.externalId || "").trim();
       const actionId   = String(req.query.actionId   || "").trim().toUpperCase();
       const qty        = Number(req.query.qty || 0);
       if (!externalId || !actionId || !qty) return res.status(400).json({ error: "params inválidos", stage: "validate" });
-
       const { row, used } = await selectCatalogRow(actionId);
       if (!row) return res.status(404).json({ error: "actionId no existe", stage: "catalog" });
-
-      const payloadBase = buildPayloadBase(row, externalId, actionId, qty);
-      return res.status(200).json({ ok: true, stage: "dry", used, catalog_row: row, payload_base: payloadBase });
+      return res.status(200).json({ ok: true, stage: "dry", used, catalog_row: row, payload_base: buildPayloadBase(row, externalId, actionId, qty) });
     }
 
-    // ⚠️ GET insert (para probar inserción sin POST)
+    // GET insert (para probar SIN POST)
     if (req.method === "GET" && req.query?.insert === "1") {
       const externalId = String(req.query.externalId || "").trim();
       const actionId   = String(req.query.actionId   || "").trim().toUpperCase();
       const qty        = Number(req.query.qty || 0);
       if (!externalId || !actionId || !qty) return res.status(400).json({ error: "params inválidos", stage: "validate" });
-
       const { row } = await selectCatalogRow(actionId);
       if (!row) return res.status(404).json({ error: "actionId no existe", stage: "catalog" });
-
-      const payloadBase = buildPayloadBase(row, externalId, actionId, qty);
-      const inserted = await withTimeout(insertLogAdaptive(payloadBase), 10000, "insert-adaptive");
+      const inserted = await withTimeout(insertLogAdaptive(buildPayloadBase(row, externalId, actionId, qty)), 10000, "insert-adaptive");
       return res.status(200).json({ ok: true, stage: "done", inserted });
     }
 
@@ -146,7 +146,6 @@ export default async function handler(req: any, res: any) {
 
     const raw = req.body ?? {};
     const body = typeof raw === "string" ? JSON.parse(raw || "{}") : raw;
-
     const externalId = String(body.externalId || "").trim();
     const actionId   = String(body.actionId   || "").trim().toUpperCase();
     const qty        = Number(body.qty || 0);
@@ -157,8 +156,11 @@ export default async function handler(req: any, res: any) {
     const { row } = await selectCatalogRow(actionId);
     if (!row) return res.status(404).json({ error: "actionId no existe en catálogo", stage: "catalog" });
 
-    const payloadBase = buildPayloadBase(row, externalId, actionId, qty);
-    const inserted = await withTimeout(insertLogAdaptive(payloadBase), 10000, "insert-adaptive");
+    const inserted = await withTimeout(
+      insertLogAdaptive(buildPayloadBase(row, externalId, actionId, qty)),
+      10000,
+      "insert-adaptive"
+    );
 
     return res.status(200).json({ ok: true, stage: "done", id: inserted?.id, created_at: inserted?.created_at });
   } catch (e: any) {
