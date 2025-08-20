@@ -1,7 +1,10 @@
 // pages/Stats.tsx
 import React, { useEffect, useMemo, useState } from "react";
 
+/** Shape que devuelve /api/progress actualmente */
 type Progress = {
+  ok?: boolean;
+  error?: string;
   externalId?: string;
   total_days?: number;
   total_hours?: number;
@@ -16,31 +19,24 @@ type Progress = {
     life_days?: number;
   }>;
   totals?: { actions?: number; points?: number; life?: number };
-  error?: string;
 };
 
+const n2 = (x: number) => Math.round((x + Number.EPSILON) * 100) / 100; // 2 decimales
+
 export default function StatsPage() {
-  // Form
+  // Formulario
   const [externalId, setExternalId] = useState("demo-1");
   const [actionId, setActionId] = useState("ALI-BRO-043");
   const [qty, setQty] = useState(1);
 
   // UI
   const [loading, setLoading] = useState(false);
+  const [progressLoading, setProgressLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  // Data
+  // Datos
   const [progress, setProgress] = useState<Progress | null>(null);
-  const recent = progress?.recent || [];
-  const totalDays =
-    progress?.totals?.life ??
-    (typeof progress?.total_days === "number" ? progress.total_days : 0);
-  const actionsCount =
-    typeof progress?.totals?.actions === "number"
-      ? progress.totals.actions
-      : recent.length;
-  const pointsTotal = progress?.totals?.points ?? 0;
 
   const progressQS = useMemo(() => {
     const p = new URLSearchParams();
@@ -49,6 +45,7 @@ export default function StatsPage() {
   }, [externalId]);
 
   async function fetchProgress() {
+    setProgressLoading(true);
     setError("");
     try {
       const r = await fetch(`/api/progress?${progressQS}`, {
@@ -57,7 +54,7 @@ export default function StatsPage() {
         cache: "no-store",
       });
       const t = await r.text();
-      const data = t ? JSON.parse(t) : {};
+      const data: Progress = t ? JSON.parse(t) : {};
       console.log("[progress] status", r.status, data);
       if (!r.ok) {
         setError(data?.error || `Error progreso HTTP ${r.status}`);
@@ -67,6 +64,8 @@ export default function StatsPage() {
     } catch (e: any) {
       console.error("[progress] exception", e);
       setError(e?.message || String(e));
+    } finally {
+      setProgressLoading(false);
     }
   }
 
@@ -74,8 +73,28 @@ export default function StatsPage() {
     fetchProgress();
   }, [progressQS]);
 
+  // === KPIs (solo UI) usando el shape ACTUAL del backend ===
+  const lifeDays =
+    progress?.totals?.life ??
+    (typeof progress?.total_days === "number" ? progress.total_days : 0);
+
+  const actionsCount =
+    typeof progress?.totals?.actions === "number"
+      ? progress.totals.actions
+      : Array.isArray(progress?.recent)
+      ? progress.recent.length
+      : 0;
+
+  const pointsTotal =
+    typeof progress?.totals?.points === "number"
+      ? progress.totals.points
+      : Array.isArray(progress?.recent)
+      ? progress.recent.reduce((sum, r) => sum + (Number(r.points) || 0), 0)
+      : 0;
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+
     const ext = externalId.trim();
     const act = actionId.trim().toUpperCase();
     const q = Number(qty) || 0;
@@ -90,7 +109,7 @@ export default function StatsPage() {
     setError("");
 
     try {
-      // *** REGISTRO POR GET (igual que la URL que te funciona) ***
+      // Registro por GET (igual que la URL que ya te funciona)
       const qs = new URLSearchParams({
         externalId: ext,
         actionId: act,
@@ -104,7 +123,11 @@ export default function StatsPage() {
       });
       const t = await r.text();
       let data: any = {};
-      try { data = t ? JSON.parse(t) : {}; } catch { data = { raw: t }; }
+      try {
+        data = t ? JSON.parse(t) : {};
+      } catch {
+        data = { raw: t };
+      }
       console.log("[log] GET status", r.status, data);
 
       if (!r.ok || !data?.ok) {
@@ -122,17 +145,21 @@ export default function StatsPage() {
     }
   }
 
+  const recent = progress?.recent || [];
+  const byPillar = progress?.by_pillar || {};
+
   return (
     <div style={{ maxWidth: 960, margin: "0 auto", padding: 24 }}>
       <h1>Estadísticas</h1>
       <p>Registra acciones y consulta tu progreso acumulado.</p>
 
       <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
-        <button onClick={fetchProgress} style={btnSecondary}>
-          Actualizar progreso
+        <button onClick={fetchProgress} disabled={progressLoading} style={btnSecondary}>
+          {progressLoading ? "Actualizando..." : "Actualizar progreso"}
         </button>
       </div>
 
+      {/* Formulario */}
       <form
         onSubmit={onSubmit}
         style={{
@@ -191,6 +218,7 @@ export default function StatsPage() {
         </button>
       </form>
 
+      {/* Mensajes */}
       {message && (
         <div style={{ ...alert, background: "#ecfdf5", color: "#065f46" }}>{message}</div>
       )}
@@ -198,6 +226,7 @@ export default function StatsPage() {
         <div style={{ ...alert, background: "#fef2f2", color: "#991b1b" }}>{error}</div>
       )}
 
+      {/* KPIs */}
       <div
         style={{
           display: "grid",
@@ -208,17 +237,17 @@ export default function StatsPage() {
       >
         <StatCard title="Acciones" value={String(actionsCount)} />
         <StatCard title="Puntos" value={String(pointsTotal)} />
-        <StatCard title="Vida (días)" value={String(totalDays || 0)} />
+        <StatCard title="Vida (días)" value={String(n2(lifeDays))} />
       </div>
 
       {/* Vida por pilar */}
-      {!!progress?.by_pillar && (
+      {Object.keys(byPillar).length > 0 && (
         <div style={{ marginBottom: 12 }}>
           <h3 style={{ margin: "6px 0 8px" }}>Vida ganada por pilar (días)</h3>
           <ul style={{ margin: 0, paddingLeft: 18 }}>
-            {Object.entries(progress.by_pillar).map(([pillar, days]) => (
+            {Object.entries(byPillar).map(([pillar, days]) => (
               <li key={pillar} style={{ lineHeight: 1.6 }}>
-                <b>{pillar}:</b> {days}
+                <b>{pillar}:</b> {n2(Number(days))}
               </li>
             ))}
           </ul>
@@ -250,7 +279,7 @@ export default function StatsPage() {
                   <Td>{r.action_id || "-"}</Td>
                   <Td>{typeof r.qty === "number" ? r.qty : "-"}</Td>
                   <Td>{typeof r.points === "number" ? r.points : "-"}</Td>
-                  <Td>{typeof r.life_days === "number" ? r.life_days : "-"}</Td>
+                  <Td>{typeof r.life_days === "number" ? n2(r.life_days) : "-"}</Td>
                 </tr>
               ))}
             </tbody>
@@ -261,6 +290,7 @@ export default function StatsPage() {
   );
 }
 
+/* ---------- UI helpers ---------- */
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
@@ -309,6 +339,7 @@ const alert: React.CSSProperties = {
   padding: 12,
   borderRadius: 8,
 };
+
 
 
 
