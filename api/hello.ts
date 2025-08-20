@@ -1,8 +1,6 @@
-export const config = { runtime: 'edge' };
+// api/hello.ts
+export const config = { runtime: 'nodejs' };
 
-export default function handler() {
-  return new Response('ok', {
-    headers: { 'content-type': 'text/plain' },
-    status: 200,
-  });
+export default function handler(_req: any, res: any) {
+  res.status(200).send('ok');
 }
