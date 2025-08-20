@@ -1,91 +1,109 @@
-// api/actions/log.ts — inserción mínima y estable (external_id, action_id, qty)
+// api/actions/log.ts
+// Inserta en action_logs leyendo level/pillar/life_days del catálogo
+// y calculando base_hours = life_days * 24 (redondeado a 2 decimales).
+
 export const config = { runtime: "nodejs" };
 
-const SB_URL = process.env.SUPABASE_URL as string;
-const SB_SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY as string;
-const base = `${(SB_URL || "").replace(/\/$/, "")}/rest/v1`;
+const SB_URL = (process.env.SUPABASE_URL || "").replace(/\/$/, "");
+const SB_SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+const BASE = `${SB_URL}/rest/v1`;
 
 const H = {
-  "content-type": "application/json",
   apikey: SB_SERVICE,
   Authorization: `Bearer ${SB_SERVICE}`,
+  "content-type": "application/json",
   Prefer: "return=representation",
 };
 
-function withTimeout<T>(p: Promise<T>, ms: number, stage: string): Promise<T> {
-  return new Promise((resolve, reject) => {
-    const t = setTimeout(() => reject(new Error(`timeout at ${stage} (${ms}ms)`)), ms);
-    p.then(v => { clearTimeout(t); resolve(v); })
-     .catch(e => { clearTimeout(t); reject(e); });
-  });
+function r2(n: number) {
+  return Math.round(n * 100) / 100;
+}
+
+async function fetchJSON(url: string, init?: RequestInit) {
+  const res = await fetch(url, init);
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : null;
+  return { ok: res.ok, status: res.status, data, raw: text };
 }
 
 export default async function handler(req: any, res: any) {
   try {
     if (!SB_URL || !SB_SERVICE) {
-      return res.status(500).json({ error: "Faltan SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY", stage: "env" });
+      return res.status(500).json({ error: "Faltan SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY" });
     }
-
-    // Ping
-    if (req.method === "GET" && req.query?.ping === "1") {
-      return res.status(200).json({ ok: true, stage: "alive" });
-    }
-
-    // Validación + método
-    if (req.method !== "POST") {
+    if (req.method !== "POST" && req.method !== "GET") {
       return res.status(405).json({ error: "Method not allowed" });
     }
 
-    const raw = req.body ?? {};
-    const body = typeof raw === "string" ? JSON.parse(raw || "{}") : raw;
-    const externalId = String(body.externalId || "").trim();
-    const actionId   = String(body.actionId   || "").trim().toUpperCase();
-    const qty        = Number(body.qty || 0);
+    // Admitimos GET (dry-run) y POST (real)
+    const input =
+      req.method === "GET"
+        ? req.query
+        : typeof req.body === "string"
+        ? JSON.parse(req.body || "{}")
+        : req.body || {};
+
+    const externalId = String(input.externalId || "").trim();
+    const actionId = String(input.actionId || "").trim().toUpperCase();
+    const qty = Number(input.qty || 0);
+    const dry = String(input.dry || "").trim() === "1" || String(input.check || "").trim() === "catalog";
+
     if (!externalId || !actionId || !Number.isFinite(qty) || qty <= 0) {
-      return res.status(400).json({ error: "externalId, actionId y qty (>0) son obligatorios", stage: "validate" });
+      return res.status(400).json({ error: "externalId, actionId y qty (>0) son obligatorios" });
     }
 
-    // 1) Comprueba que la acción existe (sin columnas opcionales)
-    {
-      const url = `${base}/actions_catalog?id=eq.${encodeURIComponent(actionId)}&select=${encodeURIComponent("id")}&limit=1`;
-      const r = await withTimeout(fetch(url, { headers: H }), 8000, "catalog-select");
-      if (!r.ok) {
-        const txt = await r.text();
-        return res.status(r.status).send(txt);
-      }
-      const arr = await r.json();
-      if (!Array.isArray(arr) || !arr.length) {
-        return res.status(404).json({ error: "actionId no existe", stage: "catalog" });
-      }
+    // 1) Leer del catálogo lo que la BD necesita
+    const sel = encodeURIComponent("id,level,pillar,life_days");
+    const catURL = `${BASE}/actions_catalog?id=eq.${encodeURIComponent(actionId)}&select=${sel}&limit=1`;
+    const cat = await fetchJSON(catURL, { headers: H });
+    if (!cat.ok) return res.status(cat.status).send(cat.raw);
+    const row = (cat.data || [])[0];
+    if (!row) return res.status(404).json({ error: "actionId no existe en catálogo" });
+
+    const lifeDays = Number(row.life_days ?? 0);
+    const base_hours = r2(lifeDays * 24);
+
+    if (dry) {
+      return res.status(200).json({
+        ok: true,
+        stage: "dry",
+        catalog_row: { id: row.id, level: row.level, pillar: row.pillar, life_days: lifeDays },
+        payload_base: {
+          user_external_id: externalId,
+          action_id: actionId,
+          qty,
+          level: row.level,
+          pillar: row.pillar,
+          base_hours,
+        },
+      });
     }
 
-    // 2) Inserta SÓLO lo mínimo (evita PGRST204 por columnas ajenas)
-    const row = { external_id: externalId, action_id: actionId, qty };
-    const ri = await withTimeout(
-      fetch(`${base}/action_logs`, {
-        method: "POST",
-        headers: H,
-        body: JSON.stringify(row),
-      }),
-      8000,
-      "insert"
-    );
-    const txt = await ri.text();
-    if (!ri.ok) return res.status(ri.status).send(txt);
+    // 2) Insertar en action_logs (solo las columnas que tu tabla exige)
+    const insertRow = {
+      user_external_id: externalId,
+      action_id: actionId,
+      qty,
+      level: row.level,
+      pillar: row.pillar,
+      base_hours, // numeric
+    };
 
-    // Representation (si la tabla la soporta). Si no, devolvemos ok sin rep.
-    let rep: any = null;
-    try { rep = txt ? JSON.parse(txt) : null; } catch {}
+    const ins = await fetchJSON(`${BASE}/action_logs`, {
+      method: "POST",
+      headers: H,
+      body: JSON.stringify([insertRow]),
+    });
+    if (!ins.ok) return res.status(ins.status).send(ins.raw);
 
-    const inserted = Array.isArray(rep) ? rep[0] : rep;
+    const inserted = Array.isArray(ins.data) ? ins.data[0] : ins.data;
     return res.status(200).json({
       ok: true,
-      stage: "done",
       id: inserted?.id ?? null,
       created_at: inserted?.created_at ?? null,
     });
   } catch (e: any) {
-    return res.status(500).json({ error: "Unhandled exception", details: String(e?.message || e), stage: "catch" });
+    return res.status(500).json({ error: "Unhandled exception", details: String(e?.message || e) });
   }
 }
 
