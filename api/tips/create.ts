@@ -1,6 +1,7 @@
 export const config = { runtime: 'edge' };
 
 import { supabaseAdmin } from '../../lib/supabaseAdmin';
+import { isAdminAuthorized, unauthorizedEdgeResponse } from '../../lib/adminAuth';
 
 type Payload = {
   title: string;
@@ -19,6 +20,7 @@ type Payload = {
 
 export default async function handler(req: Request) {
   if (req.method !== 'POST') return new Response('Method not allowed', { status: 405 });
+  if (!isAdminAuthorized(req.headers.get('x-admin-key'))) return unauthorizedEdgeResponse();
 
   const body = (await req.json()) as Payload;
   if (!body?.title || !body?.body) return new Response('Missing title/body', { status: 400 });
