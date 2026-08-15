@@ -131,6 +131,11 @@ async function main() {
   }
 
   // 5) infografias
+  // Nota: en el JSON, infografias[].fuentes es un texto libre tipo
+  // "ACC2023 · CAPPUCCIO2010" (a diferencia de content_pieces/retos_insignia,
+  // donde fuentes ya es un array). La columna en Supabase es text[], así que
+  // hay que trocearlo aquí — si se pasa el string tal cual, el insert falla
+  // por tipo incompatible.
   const infografias = (data.infografias || []).map((i) => ({
     pilar_visible: i.pilar_visible,
     titulo: i.titulo,
@@ -139,7 +144,12 @@ async function main() {
     dato_contexto: i.dato_contexto,
     puntos_clave: i.puntos_clave || [],
     microhabito: i.microhabito,
-    fuentes: i.fuentes || [],
+    fuentes: Array.isArray(i.fuentes)
+      ? i.fuentes
+      : String(i.fuentes || "")
+          .split("·")
+          .map((f) => f.trim())
+          .filter(Boolean),
     imagen_url: null, // pendiente: subir el PNG final a Supabase Storage y rellenar aquí
     estado: "aprobado",
   }));
