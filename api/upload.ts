@@ -1,11 +1,13 @@
 export const config = { runtime: 'edge' };
 
 import { supabaseAdmin } from '../lib/supabaseAdmin';
+import { isAdminAuthorized, unauthorizedEdgeResponse } from '../lib/adminAuth';
 
 export default async function handler(req: Request) {
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
   }
+  if (!isAdminAuthorized(req.headers.get('x-admin-key'))) return unauthorizedEdgeResponse();
   try {
     const fileName = (req.headers.get('x-filename') || `upload-${Date.now()}`)
       .replace(/[^a-zA-Z0-9_.-]/g, '_');

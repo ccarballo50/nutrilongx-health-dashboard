@@ -77,8 +77,7 @@ export interface AppState {
 }
 
 export type AppAction =
-  | { type: 'HYDRATE'; payload: AppState } & any
-  |
+  | { type: 'HYDRATE'; payload: AppState }
   | { type: 'LOGIN' }
   | { type: 'COMPLETE_ROUTINE'; payload: string }
   | { type: 'ADD_JOURNAL_ENTRY'; payload: MindEntry }

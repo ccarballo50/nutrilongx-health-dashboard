@@ -1,9 +1,15 @@
 // /api/admin/actions/import.ts
 
-import { supabaseAdmin } from '@lib/supabaseAdmin';
+// Nota: se usa ruta relativa (no el alias '@lib') porque el bundler de
+// funciones serverless de Vercel no garantiza resolver los path aliases de
+// tsconfig/vite para el directorio /api — el resto de endpoints ya usaban
+// rutas relativas por este motivo.
+import { supabaseAdmin } from '../../../lib/supabaseAdmin';
+import { isAdminAuthorized, sendUnauthorizedNode } from '../../../lib/adminAuth';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({error:'Method not allowed'});
+  if (!isAdminAuthorized(req.headers['x-admin-key'])) return sendUnauthorizedNode(res);
   const { actions = [], sources = [] } = req.body ?? {};
 
 const supabase = supabaseAdmin();
