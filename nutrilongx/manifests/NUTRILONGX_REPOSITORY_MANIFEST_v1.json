@@ -1,6 +1,6 @@
 {
   "manifest_id": "NUTRILONGX_REPOSITORY_MANIFEST_v1",
-  "generated_at": "2026-08-19T07:06:35.131529+00:00",
+  "generated_at": "2026-08-19T07:13:53.159274+00:00",
   "total_files": 61,
   "files": [
     {
@@ -16,8 +16,8 @@
     {
       "relative_path": "nutrilongx/clinical/missing/NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md",
       "filename": "NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md",
-      "sha256": "cf45f943f4609b751ca0de1c01de85f2bd2f38071a7e550987fce61feef13e24",
-      "size_bytes": 4391,
+      "sha256": "05fa2d6a52510783087cc1d8bc5ff9670dd442e262c7ee3adc09836c327d10db",
+      "size_bytes": 5535,
       "domain": "clinical",
       "artifact_type": "governance_record",
       "version": "1",
@@ -549,9 +549,9 @@
       "sha256": "a062770e96396d096b62268a2d2747620aafc7dadb1f509386adaa301d47ca7c",
       "size_bytes": 34565,
       "domain": "nutrition",
-      "artifact_type": "source_workbook",
+      "artifact_type": "SOURCE",
       "version": "1.1",
-      "status": "SOURCE_LOCATED_NOT_CONSUMED"
+      "status": "RECOVERED_PENDING_CONTENT_VALIDATION"
     },
     {
       "relative_path": "nutrilongx/nutrition/sources/NUTRILONGX_RECIPES_MASTER_v1.6_RETAIL_AGNOSTIC.json",
@@ -586,8 +586,8 @@
     {
       "relative_path": "nutrilongx/registry/NUTRILONGX_CANONICAL_REGISTRY_v1.md",
       "filename": "NUTRILONGX_CANONICAL_REGISTRY_v1.md",
-      "sha256": "5e53bd5fe64d9fc8e7308534310b96bd87703c58a6c2ce174296f19e4bb99cc4",
-      "size_bytes": 9634,
+      "sha256": "5abb8055725c9bed5a3347fe85d2c7d357a7499e2202493b3c69bbe46120c264",
+      "size_bytes": 10768,
       "domain": "governance",
       "artifact_type": "canonical_registry_human",
       "version": "1",
@@ -596,8 +596,8 @@
     {
       "relative_path": "nutrilongx/registry/NUTRILONGX_PROJECT_STATE_v1.md",
       "filename": "NUTRILONGX_PROJECT_STATE_v1.md",
-      "sha256": "caf79df38b942bb507afee23445921164df53c0370e2388c04d07e8483325764",
-      "size_bytes": 3377,
+      "sha256": "6d2a6f684b9f3e452db7d61c7013276f947e917c7567bc8a75f26cd4429d8772",
+      "size_bytes": 4161,
       "domain": "governance",
       "artifact_type": "project_state",
       "version": "1",

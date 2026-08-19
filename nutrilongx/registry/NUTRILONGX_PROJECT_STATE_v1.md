@@ -54,13 +54,18 @@ que los propios artefactos declaran.
 
 - Sin master clínico recuperado. Carpetas `clinical/profiles/`,
   `clinical/thresholds/`, `clinical/rules/` vacías intencionadamente.
-- Las 4 especificaciones originales (`NUTRIENT_THRESHOLDS_v1.0`,
-  `CLINICAL_PROFILES_v1.0`, `CLINICAL_RULES_v1.0`, `Motor_Recetas_v1_1.xlsx`)
-  tienen fila propia `REFERENCED_NOT_RECOVERED` en el artifact registry, sin
-  `relative_path` cuando no se ha localizado fichero físico.
+- 3 especificaciones (`NUTRIENT_THRESHOLDS_v1.0`, `CLINICAL_PROFILES_v1.0`,
+  `CLINICAL_RULES_v1.0`) siguen `REFERENCED_NOT_RECOVERED` en el artifact
+  registry, sin `relative_path` (ningún fichero físico localizado).
+- `Motor_Recetas_v1_1.xlsx` **ya no** se representa como
+  `REFERENCED_NOT_RECOVERED`: tiene una única fila física real
+  (`artifact_type: SOURCE`, `status: RECOVERED_PENDING_CONTENT_VALIDATION`,
+  `source_of_truth: false`) — localizado, no auditado en contenido, no
+  validado como fuente clínica. No implica recuperación de las 3
+  especificaciones anteriores.
   `clinical/missing/NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md` es un registro
-  de gobernanza `ACTIVE` que narra el gap — no sustituye ni reconstruye
-  ninguna de las 4.
+  de gobernanza `ACTIVE` que narra ambos estados — no sustituye ni
+  reconstruye ninguna de las 3 specs pendientes.
 
 ## INFRASTRUCTURE
 

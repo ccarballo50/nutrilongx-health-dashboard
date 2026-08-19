@@ -1,7 +1,7 @@
 {
   "registry_id": "NUTRILONGX_ARTIFACT_REGISTRY_v1",
-  "generated_at": "2026-08-19T07:06:35.131529+00:00",
-  "total_artifacts": 65,
+  "generated_at": "2026-08-19T07:13:53.159274+00:00",
+  "total_artifacts": 64,
   "artifacts": [
     {
       "artifact_id": "README.md",
@@ -36,10 +36,10 @@
       "frozen": false,
       "supersedes": null,
       "superseded_by": null,
-      "sha256": "cf45f943f4609b751ca0de1c01de85f2bd2f38071a7e550987fce61feef13e24",
-      "size_bytes": 4391,
+      "sha256": "05fa2d6a52510783087cc1d8bc5ff9670dd442e262c7ee3adc09836c327d10db",
+      "size_bytes": 5535,
       "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
-      "notes": "Registro de gobernanza generado durante la consolidacion. Documenta que 4 especificaciones fueron referenciadas y no recuperadas; NO las sustituye ni reconstruye. Las 4 tienen su propia entrada REFERENCED_NOT_RECOVERED independiente en este mismo registry."
+      "notes": "Registro de gobernanza generado durante la consolidacion. Documenta 3 especificaciones REFERENCED_NOT_RECOVERED (sin fichero fisico) y 1 fichero origen RECOVERED_PENDING_CONTENT_VALIDATION (localizado, no auditado en contenido). NO sustituye ni reconstruye ninguna de las 3 specs clinicas. Las 3 tienen su propia fila REFERENCED_NOT_RECOVERED independiente en este registry; el Excel localizado tiene su fila real en nutrition/sources/, una sola representacion logica, sin placeholder duplicado."
     },
     {
       "artifact_id": "exercise_archive_NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1.json",
@@ -1035,9 +1035,9 @@
       "relative_path": "nutrilongx/nutrition/sources/NUTRILONGX_Motor_Recetas_v1_1.xlsx",
       "original_source_path": "NutriLongX/Nuevo NUTRILONGX/ (localizado por busqueda dirigida, Prioridad 3)",
       "domain": "nutrition",
-      "artifact_type": "source_workbook",
+      "artifact_type": "SOURCE",
       "version": "1.1",
-      "status": "SOURCE_LOCATED_NOT_CONSUMED",
+      "status": "RECOVERED_PENDING_CONTENT_VALIDATION",
       "source_of_truth": false,
       "production_ready": false,
       "frozen": false,
@@ -1046,7 +1046,7 @@
       "sha256": "a062770e96396d096b62268a2d2747620aafc7dadb1f509386adaa301d47ca7c",
       "size_bytes": 34565,
       "provenance": "NutriLongX/Nuevo NUTRILONGX/ (localizado por busqueda dirigida, Prioridad 3)",
-      "notes": "El master lo declara REFERENCED_NOT_RECOVERED en su propia procedencia. Localizado ahora, no usado para modificar el master. Ver clinical/missing/."
+      "notes": "Unica representacion logica de este artefacto (ver QA-R1/R3: no existe una segunda fila placeholder para el mismo fichero). Clasificado SOURCE, no LEGACY_SOURCE: a diferencia de los ficheros de gamification/sources/legacy/ (fase Excel 2025, explicitamente sustituida por el catalogo canonico JSON), este workbook sigue citado como 'generated_from_workbook' en el source_lineage del propio NUTRILONGX_ALIMENTACION_MASTER_v1.json FROZEN vigente -- pertenece al linaje activo del master actual, no a un sistema ya reemplazado. RECOVERED_PENDING_CONTENT_VALIDATION significa exclusivamente: el fichero fisico esperado se ha localizado (path + SHA-256 reales), pero NO se ha auditado que su contenido corresponda exactamente a la especificacion citada durante la construccion del master. NO implica que NUTRIENT_THRESHOLDS_v1.0, CLINICAL_PROFILES_v1.0 o CLINICAL_RULES_v1.0 se hayan recuperado, ni que este fichero sea fuente canonica o clinica validada. No se ha auditado su contenido interno en esta fase."
     },
     {
       "artifact_id": "nutrition_sources_NUTRILONGX_RECIPES_MASTER_v1.6_RETAIL_AGNOSTIC.json",
@@ -1119,8 +1119,8 @@
       "frozen": false,
       "supersedes": null,
       "superseded_by": null,
-      "sha256": "5e53bd5fe64d9fc8e7308534310b96bd87703c58a6c2ce174296f19e4bb99cc4",
-      "size_bytes": 9634,
+      "sha256": "5abb8055725c9bed5a3347fe85d2c7d357a7499e2202493b3c69bbe46120c264",
+      "size_bytes": 10768,
       "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
       "notes": null
     },
@@ -1138,8 +1138,8 @@
       "frozen": false,
       "supersedes": null,
       "superseded_by": null,
-      "sha256": "caf79df38b942bb507afee23445921164df53c0370e2388c04d07e8483325764",
-      "size_bytes": 3377,
+      "sha256": "6d2a6f684b9f3e452db7d61c7013276f947e917c7567bc8a75f26cd4429d8772",
+      "size_bytes": 4161,
       "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
       "notes": null
     },
@@ -1218,25 +1218,6 @@
       "size_bytes": null,
       "provenance": "referenced_in NUTRILONGX_ALIMENTACION_MASTER_v1.json.specs_recovery_status",
       "notes": "Referenciada por 58/58 recetas en NUTRILONGX_ALIMENTACION_MASTER_v1.json (specs_recovery_status). No localizada como fichero fisico independiente en ninguna ruta auditada. No se ha reconstruido ni inferido su contenido. Narrativa completa: nutrilongx/clinical/missing/NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md"
-    },
-    {
-      "artifact_id": "REFERENCED_NUTRILONGX_Motor_Recetas_v1_1_xlsx",
-      "filename": "NUTRILONGX_Motor_Recetas_v1_1.xlsx",
-      "relative_path": "nutrilongx/nutrition/sources/NUTRILONGX_Motor_Recetas_v1_1.xlsx",
-      "original_source_path": null,
-      "domain": "clinical",
-      "artifact_type": "referenced_spec",
-      "version": "1.0",
-      "status": "REFERENCED_NOT_RECOVERED",
-      "source_of_truth": false,
-      "production_ready": false,
-      "frozen": false,
-      "supersedes": null,
-      "superseded_by": null,
-      "sha256": null,
-      "size_bytes": null,
-      "provenance": "referenced_in NUTRILONGX_ALIMENTACION_MASTER_v1.json.specs_recovery_status",
-      "notes": "Referenciada por 58/58 recetas en NUTRILONGX_ALIMENTACION_MASTER_v1.json (specs_recovery_status), que la declara REFERENCED_NOT_RECOVERED en su propia procedencia de build. Un fichero con este nombre SI se localizo fisicamente en esta auditoria -- ver la entrada de artefacto independiente en nutrilongx/nutrition/sources/NUTRILONGX_Motor_Recetas_v1_1.xlsx (SOURCE_LOCATED_NOT_CONSUMED) para su SHA-256 real. Esta fila sigue siendo el placeholder de gobernanza del gap original, no sustituye a la fila del fichero real. Narrativa completa: nutrilongx/clinical/missing/NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md"
     }
   ]
 }

@@ -70,17 +70,25 @@ Regla para cualquier humano o agente que lea esto en el futuro:
   `documentos nuevos/` — ver nota en `clinical/missing/`.
 - Supporting: `nutrition/supporting/NUTRILONGX_ADHERENCIA_DOMESTICA_RECETAS_v1.md`.
 - **REFERENCED_NOT_RECOVERED** (declarado por el propio master, confirmado
-  tras la auditoría): `NUTRILONGX_NUTRIENT_THRESHOLDS_v1.0`,
-  `NUTRILONGX_CLINICAL_PROFILES_v1.0`, `NUTRILONGX_CLINICAL_RULES_v1.0`, y
-  `NUTRILONGX_Motor_Recetas_v1_1.xlsx` (esta última pese a que un fichero con
-  ese nombre sí se localizó físicamente — ver más abajo). **Las 4 tienen su
-  propia fila independiente** en `NUTRILONGX_ARTIFACT_REGISTRY_v1.json`
-  (`artifact_type: referenced_spec`, `status: REFERENCED_NOT_RECOVERED`, sin
-  `relative_path` cuando no hay fichero físico).
+  tras la auditoría, sin fichero físico localizado): `NUTRILONGX_NUTRIENT_THRESHOLDS_v1.0`,
+  `NUTRILONGX_CLINICAL_PROFILES_v1.0`, `NUTRILONGX_CLINICAL_RULES_v1.0`.
+  **Las 3 tienen su propia fila independiente** en
+  `NUTRILONGX_ARTIFACT_REGISTRY_v1.json` (`artifact_type: referenced_spec`,
+  `status: REFERENCED_NOT_RECOVERED`, sin `relative_path`).
+- `NUTRILONGX_Motor_Recetas_v1_1.xlsx` **sí se ha localizado físicamente**
+  (`nutrition/sources/`, SHA-256 real) y tiene **una única fila lógica** en
+  el registry: `artifact_type: SOURCE`, `status:
+  RECOVERED_PENDING_CONTENT_VALIDATION`, `source_of_truth: false`. No existe
+  una segunda fila placeholder para este mismo fichero — se corrigió una
+  inconsistencia previa que lo representaba simultáneamente como fichero
+  real y como `REFERENCED_NOT_RECOVERED`.
+  `RECOVERED_PENDING_CONTENT_VALIDATION` **no implica** que las 3 specs de
+  arriba se hayan recuperado ni que este Excel sea fuente clínica validada.
 - `clinical/missing/NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md` es el **registro
-  de gobernanza** que narra ese gap (`artifact_type: governance_record`,
+  de gobernanza** que narra ambos estados (`artifact_type: governance_record`,
   `status: ACTIVE`, `source_of_truth: false`) — documenta el hallazgo, **no
-  sustituye ni reconstruye** ninguna de las 4 especificaciones originales.
+  sustituye ni reconstruye** ninguna de las 3 especificaciones pendientes ni
+  valida el contenido del Excel localizado.
 - **Hallazgo adyacente sin clasificar** (no persistido, requiere decisión de
   César): un corpus doctrinal de validación/corrección de recetas v1.2 y una
   versión anterior sin versionar, en `Nuevo NUTRILONGX/`. Ver
