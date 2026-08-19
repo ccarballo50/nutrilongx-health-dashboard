@@ -1,0 +1,12 @@
+column_name,data_type,is_nullable,column_default
+id,uuid,NO,gen_random_uuid()
+user_external_id,text,NO,null
+action_id,text,NO,null
+level,text,NO,null
+pillar,text,NO,null
+base_hours,numeric,NO,null
+qty,numeric,YES,1
+coach_verified,boolean,YES,false
+community,boolean,YES,false
+created_at,timestamp with time zone,YES,now()
+external_id,text,YES,null

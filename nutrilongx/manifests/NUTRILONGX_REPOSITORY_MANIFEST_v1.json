@@ -1,0 +1,617 @@
+{
+  "manifest_id": "NUTRILONGX_REPOSITORY_MANIFEST_v1",
+  "generated_at": "2026-08-19T06:52:54.290517+00:00",
+  "total_files": 61,
+  "files": [
+    {
+      "relative_path": "nutrilongx/README.md",
+      "filename": "README.md",
+      "sha256": "41032c21354ed463969ccea83043b27c1ce57c4eb0a84e3703fa05dee0ed7b8e",
+      "size_bytes": 5405,
+      "domain": "governance",
+      "artifact_type": "readme",
+      "version": "1",
+      "status": "ACTIVE"
+    },
+    {
+      "relative_path": "nutrilongx/clinical/missing/NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md",
+      "filename": "NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md",
+      "sha256": "70b2ae8a029a449566a8c0998124c1b5907709ae3514a98c5928fdccac2cc2fb",
+      "size_bytes": 3361,
+      "domain": "clinical",
+      "artifact_type": "gap_registry",
+      "version": "1",
+      "status": "REFERENCED_NOT_RECOVERED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/archive/NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1.json",
+      "filename": "NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1.json",
+      "sha256": "e1c4cb6b51b06e578c7bf7d0e1d9509a80761f0d17ecb0322f1d6e35fdea734f",
+      "size_bytes": 170347,
+      "domain": "exercise",
+      "artifact_type": "library",
+      "version": "1.0",
+      "status": "SUPERSEDED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/archive/NUTRILONGX_EJERCICIO_MASTER_SCHEMA_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_MASTER_SCHEMA_v1.md",
+      "sha256": "21041c809667265237368d6793eea3f26b1a8c9cfb5d2119dda626c71c32855d",
+      "size_bytes": 33223,
+      "domain": "exercise",
+      "artifact_type": "schema",
+      "version": "1.0",
+      "status": "SUPERSEDED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/archive/NUTRILONGX_EJERCICIO_PHASE3A_PILOT_PLAN_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_PHASE3A_PILOT_PLAN_v1.md",
+      "sha256": "326f2ef14a4f0380e99d7036d9c61a6c20a26ab251bd6f85d9efc3088ef7d21d",
+      "size_bytes": 21111,
+      "domain": "exercise",
+      "artifact_type": "governance",
+      "version": "1.0",
+      "status": "SUPERSEDED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/governance/NUTRILONGX_EJERCICIO_ENTITY_CLASSIFICATION_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_ENTITY_CLASSIFICATION_v1.md",
+      "sha256": "025ed818d327773e48fc7943171d7e82ad72b178990578b76192601514daa4f8",
+      "size_bytes": 13243,
+      "domain": "exercise",
+      "artifact_type": "governance",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/governance/NUTRILONGX_EJERCICIO_GOVERNANCE_CHANGELOG_v1.1.md",
+      "filename": "NUTRILONGX_EJERCICIO_GOVERNANCE_CHANGELOG_v1.1.md",
+      "sha256": "aacd85e821e448720ed4da3b0d779e29229da29f896e3be61c9bb456027da85e",
+      "size_bytes": 5747,
+      "domain": "exercise",
+      "artifact_type": "governance",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/governance/NUTRILONGX_EJERCICIO_PHASE2_TO_3_CHANGELOG_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_PHASE2_TO_3_CHANGELOG_v1.md",
+      "sha256": "6ea9fc7e7666e884cac21d41c42e281fad9aea788a6b4fc121523fad6ea1ba5a",
+      "size_bytes": 6318,
+      "domain": "exercise",
+      "artifact_type": "governance",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/governance/NUTRILONGX_EJERCICIO_PHASE3A_CANONICALIZATION_CHANGELOG_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_PHASE3A_CANONICALIZATION_CHANGELOG_v1.md",
+      "sha256": "1e38647acff46305d0bc62d19ba030c25f8a67c4a527040c14df737db9f997fe",
+      "size_bytes": 3969,
+      "domain": "exercise",
+      "artifact_type": "governance",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/governance/NUTRILONGX_EJERCICIO_PHASE3A_PILOT_PLAN_v1.1.md",
+      "filename": "NUTRILONGX_EJERCICIO_PHASE3A_PILOT_PLAN_v1.1.md",
+      "sha256": "597b485722b54ce6e32479e577e61c4f58a99e115befb6fc8917727de6fa943a",
+      "size_bytes": 9494,
+      "domain": "exercise",
+      "artifact_type": "governance",
+      "version": "1.1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/governance/NUTRILONGX_EJERCICIO_PHASE3A_TO_3B_CHANGELOG_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_PHASE3A_TO_3B_CHANGELOG_v1.md",
+      "sha256": "9f2569bdd35433c61ebea6642a08f4e764ca11d75a29f8f18a510bb4727a84b7",
+      "size_bytes": 6074,
+      "domain": "exercise",
+      "artifact_type": "governance",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/governance/NUTRILONGX_EJERCICIO_PHASE3B_SAFETY_COVERAGE_PLAN_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_PHASE3B_SAFETY_COVERAGE_PLAN_v1.md",
+      "sha256": "a000cab0b6b960c0fe9c09fbab5d4113ef5c90d324f2e4c46a262f3f635df181",
+      "size_bytes": 11401,
+      "domain": "exercise",
+      "artifact_type": "governance",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/library/NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1.1.json",
+      "filename": "NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1.1.json",
+      "sha256": "e2e1c2a7552b67b3e36821ad304a83a7b70acb0c549c87121424f85b3584ac6d",
+      "size_bytes": 168326,
+      "domain": "exercise",
+      "artifact_type": "canonical_library",
+      "version": "1.1",
+      "status": "FROZEN"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/mappings/NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1_TO_v1.1_MAPPING.csv",
+      "filename": "NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1_TO_v1.1_MAPPING.csv",
+      "sha256": "383337c0ca30b6b2eb6320fed3c37c331a3bb5fa21eb05574b3f34ef1e772e15",
+      "size_bytes": 2668,
+      "domain": "exercise",
+      "artifact_type": "mapping_table",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/reports/NUTRILONGX_EJERCICIO_EXERCISE_IDENTITY_AUDIT_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_EXERCISE_IDENTITY_AUDIT_v1.md",
+      "sha256": "831d78c9292c1ea7b9b043fb2634feddf2453f63d5205b291fe331deec4edbde",
+      "size_bytes": 18477,
+      "domain": "exercise",
+      "artifact_type": "report",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/reports/NUTRILONGX_EJERCICIO_LIBRARY_PILOT_BUILD_REPORT_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_LIBRARY_PILOT_BUILD_REPORT_v1.md",
+      "sha256": "58c731bc0f92a3c09f7ad0421caa10203ec2706590add8aad8584b702df37cee",
+      "size_bytes": 9897,
+      "domain": "exercise",
+      "artifact_type": "report",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/reports/NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1.1_BUILD_REPORT.md",
+      "filename": "NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1.1_BUILD_REPORT.md",
+      "sha256": "312d99d32ff3f61e8f672d5c9283926f4d771dfb59c321408b293f704ad4460c",
+      "size_bytes": 7182,
+      "domain": "exercise",
+      "artifact_type": "report",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/research/NUTRILONGX_EJERCICIO_PHASE3B_TARGETED_RESEARCH_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_PHASE3B_TARGETED_RESEARCH_v1.md",
+      "sha256": "db631258233c86b2af8538ebcb3f7124e12ce33031e5104cb6992a4ecc5e3ea7",
+      "size_bytes": 16859,
+      "domain": "exercise",
+      "artifact_type": "research_evidence",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/research/NUTRILONGX_EJERCICIO_RESEARCH_REQUIRED_RETAINED_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_RESEARCH_REQUIRED_RETAINED_v1.md",
+      "sha256": "6db29619a45df3a4d4347130780a6581c2cbdd7615246bd097f577249dfd7766",
+      "size_bytes": 4726,
+      "domain": "exercise",
+      "artifact_type": "research_evidence",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/safety/NUTRILONGX_EJERCICIO_PHASE3B_CHANGELOG_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_PHASE3B_CHANGELOG_v1.md",
+      "sha256": "3584196ac463c1b0f8d57ff3628ded0800e78974f19948b4b5250305fc2125cf",
+      "size_bytes": 5157,
+      "domain": "exercise",
+      "artifact_type": "safety_support",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/safety/NUTRILONGX_EJERCICIO_PHASE3B_EVIDENCE_TO_RULE_MAPPING_v1.csv",
+      "filename": "NUTRILONGX_EJERCICIO_PHASE3B_EVIDENCE_TO_RULE_MAPPING_v1.csv",
+      "sha256": "40e90b6e2470b2050032f66ee7f405108ad8c58d81950b822fbf07c5e05b7b88",
+      "size_bytes": 8301,
+      "domain": "exercise",
+      "artifact_type": "safety_support",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/safety/NUTRILONGX_EJERCICIO_PHASE3B_UNRESOLVED_GAPS_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_PHASE3B_UNRESOLVED_GAPS_v1.md",
+      "sha256": "58d19054456ce4179d14bce47439fae5f5bfc07094b764be831fadf266fe9c5e",
+      "size_bytes": 5965,
+      "domain": "exercise",
+      "artifact_type": "safety_support",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/safety/NUTRILONGX_EJERCICIO_SAFETY_RULES_BUILD_REPORT_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_SAFETY_RULES_BUILD_REPORT_v1.md",
+      "sha256": "a8504e21d3ef402ca714c075c4fce06fa9d5b926aa61cfe242a5732361e7e0e7",
+      "size_bytes": 8421,
+      "domain": "exercise",
+      "artifact_type": "safety_support",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/safety/NUTRILONGX_EJERCICIO_SAFETY_RULES_v1.json",
+      "filename": "NUTRILONGX_EJERCICIO_SAFETY_RULES_v1.json",
+      "sha256": "be5a5573547f3c73def3ef9a5b5df80343090a6b43888cde220a1626d4bd94b2",
+      "size_bytes": 39113,
+      "domain": "exercise",
+      "artifact_type": "safety_rules",
+      "version": "1",
+      "status": "APPROVED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/schemas/NUTRILONGX_EJERCICIO_MASTER_SCHEMA_v1.1.md",
+      "filename": "NUTRILONGX_EJERCICIO_MASTER_SCHEMA_v1.1.md",
+      "sha256": "d5695d436c7fd0dfa85a30dae355b727b27a615414bfe9a08c00cbc80475baea",
+      "size_bytes": 15738,
+      "domain": "exercise",
+      "artifact_type": "schema",
+      "version": "1.1.0",
+      "status": "SCHEMA_APPROVED_NOT_YET_BUILT"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/schemas/NUTRILONGX_EJERCICIO_PROVENANCE_SCHEMA_AMENDMENT_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_PROVENANCE_SCHEMA_AMENDMENT_v1.md",
+      "sha256": "2cb127c19f16adce4df323df9a67566628daacb0b9151b7a890178c1af9909f3",
+      "size_bytes": 6686,
+      "domain": "exercise",
+      "artifact_type": "schema_proposal",
+      "version": "1",
+      "status": "PROPOSED_NOT_APPLIED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/schemas/NUTRILONGX_EJERCICIO_SAFETY_RULE_SCHEMA_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_SAFETY_RULE_SCHEMA_v1.md",
+      "sha256": "ea18ad927c7bdfe6699e59e3b65873f32875b32b192768c162005349d9ef9f89",
+      "size_bytes": 13065,
+      "domain": "exercise",
+      "artifact_type": "schema",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/exercise/schemas/NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md",
+      "filename": "NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md",
+      "sha256": "be3356e197a27cf1971b42c334fbdbed05e357cc7c363b6eb5694224e3542fda",
+      "size_bytes": 40584,
+      "domain": "exercise",
+      "artifact_type": "spec",
+      "version": "1",
+      "status": "APPROVED_WITH_GOVERNANCE_DECISIONS"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/audits/NUTRILONGX_AUDITORIA_FASE0_v1.md",
+      "filename": "NUTRILONGX_AUDITORIA_FASE0_v1.md",
+      "sha256": "acc642931ca461c4b7f865281e7858214a3c0940af48b891ba6c7c5c18ede0cb",
+      "size_bytes": 28311,
+      "domain": "gamification",
+      "artifact_type": "audit",
+      "version": "0",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/canonical/NUTRILONGX_ACTIONS_CATALOG_CANONICAL_v1.json",
+      "filename": "NUTRILONGX_ACTIONS_CATALOG_CANONICAL_v1.json",
+      "sha256": "63c3ccdecae4b3f8428d3f8d7c8f2f01e34f52897356f7a95b47debc47ceceba",
+      "size_bytes": 596510,
+      "domain": "gamification",
+      "artifact_type": "canonical_catalog",
+      "version": "1.0.0",
+      "status": "FROZEN"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/canonical/NUTRILONGX_GAMIFICATION_ENGINE_CANONICAL_v1.json",
+      "filename": "NUTRILONGX_GAMIFICATION_ENGINE_CANONICAL_v1.json",
+      "sha256": "db26b9b4b4581fe7338613ba6922559748730a15f342b39978d57cf66ec80e42",
+      "size_bytes": 15729,
+      "domain": "gamification",
+      "artifact_type": "canonical_engine",
+      "version": "1.0.0",
+      "status": "FROZEN"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/mappings/NUTRILONGX_LEGACY_MAPPING_REPORT_v1.md",
+      "filename": "NUTRILONGX_LEGACY_MAPPING_REPORT_v1.md",
+      "sha256": "12cdc24fbf4dad975458c23f3033095ceda6a4a769eef37e4837c66730a40aec",
+      "size_bytes": 10077,
+      "domain": "gamification",
+      "artifact_type": "mapping_report",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/mappings/legacy_to_canonical_mapping.csv",
+      "filename": "legacy_to_canonical_mapping.csv",
+      "sha256": "14168970543a4490f083c3e2ba8d741c8884ee8ff47205701eaea4a08e5b3a25",
+      "size_bytes": 70834,
+      "domain": "gamification",
+      "artifact_type": "mapping_table",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/sources/legacy/NUTRILONGX_README.txt",
+      "filename": "NUTRILONGX_README.txt",
+      "sha256": "f62b03c4bd55a7705385cc14757b5448d30ad1bc8f7edcf4e48902f82a4892eb",
+      "size_bytes": 669,
+      "domain": "gamification",
+      "artifact_type": "legacy_source",
+      "version": "n/a",
+      "status": "LEGACY_SOURCE"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/sources/legacy/NUTRILONGX_creditos.xlsx",
+      "filename": "NUTRILONGX_creditos.xlsx",
+      "sha256": "279b5e70cfa163188af2032d4bcf8a6ae99bed2688600e184422cb11c495d76a",
+      "size_bytes": 33659,
+      "domain": "gamification",
+      "artifact_type": "legacy_source",
+      "version": "n/a",
+      "status": "LEGACY_SOURCE"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/sources/legacy/NUTRILONGX_creditos_v3.xlsx",
+      "filename": "NUTRILONGX_creditos_v3.xlsx",
+      "sha256": "f9259b8e57a716eaf1ab89e53947b4ed78474e27f0936e7c968f90653de3afe8",
+      "size_bytes": 51048,
+      "domain": "gamification",
+      "artifact_type": "legacy_source",
+      "version": "n/a",
+      "status": "LEGACY_SOURCE"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/sources/legacy/PLAN DE GAMIFICACIÓN NUTRILONGX.pdf",
+      "filename": "PLAN DE GAMIFICACIÓN NUTRILONGX.pdf",
+      "sha256": "f6d047ce70010169ea8de8b6e008f3160abc71cfeb204497054c863635805c7c",
+      "size_bytes": 106241,
+      "domain": "gamification",
+      "artifact_type": "legacy_source",
+      "version": "n/a",
+      "status": "LEGACY_SOURCE"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/sources/legacy/actions_catalog.json",
+      "filename": "actions_catalog.json",
+      "sha256": "1b5e1daf674954c7b072359b98654e339c8fc4ec1fa39b58c5a236ebd8ae0406",
+      "size_bytes": 348505,
+      "domain": "gamification",
+      "artifact_type": "legacy_source",
+      "version": "n/a",
+      "status": "LEGACY_SOURCE"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/sources/legacy/actions_catalog1.txt",
+      "filename": "actions_catalog1.txt",
+      "sha256": "78a68ead6e99ea2f5a7aacbcc57d0df54fe6cc53133fa0b0cb669bb996a1f493",
+      "size_bytes": 270884,
+      "domain": "gamification",
+      "artifact_type": "legacy_source",
+      "version": "n/a",
+      "status": "LEGACY_SOURCE"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/sources/legacy/engine_config.json",
+      "filename": "engine_config.json",
+      "sha256": "73beb85af0c20061f39bc200449333683a21224e5e92df870bc7ad8a927fa5fa",
+      "size_bytes": 5050,
+      "domain": "gamification",
+      "artifact_type": "legacy_source",
+      "version": "n/a",
+      "status": "LEGACY_SOURCE"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/sources/legacy/engine_reference.ts",
+      "filename": "engine_reference.ts",
+      "sha256": "93f096b383c2a96539c1b81cf42ef3365b485b062e8333a9ac300a7b9c27682d",
+      "size_bytes": 4652,
+      "domain": "gamification",
+      "artifact_type": "legacy_source",
+      "version": "n/a",
+      "status": "LEGACY_SOURCE"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/sources/legacy/excel_to_json_upsert.py",
+      "filename": "excel_to_json_upsert.py",
+      "sha256": "c3b6482c8cf3be0195d8a9d355af5e39724da27fac886d84ec9574e3d9e2a31b",
+      "size_bytes": 8197,
+      "domain": "gamification",
+      "artifact_type": "legacy_source",
+      "version": "n/a",
+      "status": "LEGACY_SOURCE"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/sources/legacy/excel_to_json_upsert1.py",
+      "filename": "excel_to_json_upsert1.py",
+      "sha256": "5bdf1b12ab4b8dd04bab9b1bb587c86818ce54bb713622a42bcde9802d5fbaf7",
+      "size_bytes": 10244,
+      "domain": "gamification",
+      "artifact_type": "legacy_source",
+      "version": "n/a",
+      "status": "LEGACY_SOURCE"
+    },
+    {
+      "relative_path": "nutrilongx/gamification/sources/legacy/excel_to_json_upsert2.py",
+      "filename": "excel_to_json_upsert2.py",
+      "sha256": "4949a112a49a6f39ecc0e29c8c244bd345cb0036a54609ae1e33e60a262df1e1",
+      "size_bytes": 10586,
+      "domain": "gamification",
+      "artifact_type": "legacy_source",
+      "version": "n/a",
+      "status": "LEGACY_SOURCE"
+    },
+    {
+      "relative_path": "nutrilongx/governance/audits/NUTRILONGX_SUPABASE_SCHEMA_RECONCILIATION_NOTE_v1.md",
+      "filename": "NUTRILONGX_SUPABASE_SCHEMA_RECONCILIATION_NOTE_v1.md",
+      "sha256": "1e032a0f908b6706a749205eff84d72be00c331943342795075f527f07f9ae57",
+      "size_bytes": 3454,
+      "domain": "infrastructure",
+      "artifact_type": "reconciliation_note",
+      "version": "1",
+      "status": "CONFLICT_REGISTERED"
+    },
+    {
+      "relative_path": "nutrilongx/governance/audits/Supabase Snippet Schema Inspection for Actions Catalog and Logs (1).csv",
+      "filename": "Supabase Snippet Schema Inspection for Actions Catalog and Logs (1).csv",
+      "sha256": "e6036d23744393205583312993f472903790e2adf47e7f5f592a26b4f7c97459",
+      "size_bytes": 119,
+      "domain": "infrastructure",
+      "artifact_type": "schema_snapshot",
+      "version": "n/a",
+      "status": "AUDIT_EVIDENCE"
+    },
+    {
+      "relative_path": "nutrilongx/governance/audits/Supabase Snippet Schema Inspection for Actions Catalog and Logs (2).csv",
+      "filename": "Supabase Snippet Schema Inspection for Actions Catalog and Logs (2).csv",
+      "sha256": "b154e0fa6f9134b04d1b40052c15819cf070da7c539b8f9deb3c1fabfd603fed",
+      "size_bytes": 105,
+      "domain": "infrastructure",
+      "artifact_type": "schema_snapshot",
+      "version": "n/a",
+      "status": "AUDIT_EVIDENCE"
+    },
+    {
+      "relative_path": "nutrilongx/governance/audits/Supabase Snippet Schema Inspection for Actions Catalog and Logs.csv",
+      "filename": "Supabase Snippet Schema Inspection for Actions Catalog and Logs.csv",
+      "sha256": "fd0228c3c26a0e55e714c9989f288cf83c21c73a4583552b91e01efe94a9936b",
+      "size_bytes": 358,
+      "domain": "infrastructure",
+      "artifact_type": "schema_snapshot",
+      "version": "n/a",
+      "status": "AUDIT_EVIDENCE"
+    },
+    {
+      "relative_path": "nutrilongx/governance/audits/Supabase Snippet Untitled query.csv",
+      "filename": "Supabase Snippet Untitled query.csv",
+      "sha256": "3c6207d13671306f673a0da3e3fa5cb157f2aabf953220a283eff60cbc373075",
+      "size_bytes": 956,
+      "domain": "infrastructure",
+      "artifact_type": "schema_snapshot",
+      "version": "n/a",
+      "status": "AUDIT_EVIDENCE"
+    },
+    {
+      "relative_path": "nutrilongx/nutrition/canonical/NUTRILONGX_ALIMENTACION_MASTER_v1.json",
+      "filename": "NUTRILONGX_ALIMENTACION_MASTER_v1.json",
+      "sha256": "d045a0833d1645e1e53ffd24612b5a9f00f58509d2b0abdb5998f0c877b699d3",
+      "size_bytes": 770443,
+      "domain": "nutrition",
+      "artifact_type": "canonical_master",
+      "version": "1.0.0",
+      "status": "FROZEN"
+    },
+    {
+      "relative_path": "nutrilongx/nutrition/reports/NUTRILONGX_ALIMENTACION_FASE1B_PREP_v1.md",
+      "filename": "NUTRILONGX_ALIMENTACION_FASE1B_PREP_v1.md",
+      "sha256": "c4708c1e380e2d92ac244ac25a8be95ebdf8eb40fb32e667cfdaca382ffaa91b",
+      "size_bytes": 18196,
+      "domain": "nutrition",
+      "artifact_type": "report",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/nutrition/reports/NUTRILONGX_ALIMENTACION_MASTER_AUDIT_PHASE1_v1.md",
+      "filename": "NUTRILONGX_ALIMENTACION_MASTER_AUDIT_PHASE1_v1.md",
+      "sha256": "66fa079de6126e119883ef64ebea61774c2b651ef2dd681fd964ec540ee633b0",
+      "size_bytes": 22935,
+      "domain": "nutrition",
+      "artifact_type": "report",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/nutrition/reports/NUTRILONGX_ALIMENTACION_MASTER_BUILD_REPORT_v1.md",
+      "filename": "NUTRILONGX_ALIMENTACION_MASTER_BUILD_REPORT_v1.md",
+      "sha256": "5adab0def124ebd7667a24b3728fbf89cae0414a69e68385af504ec8a439c66e",
+      "size_bytes": 8653,
+      "domain": "nutrition",
+      "artifact_type": "report",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/nutrition/schemas/NUTRILONGX_ALIMENTACION_MASTER_SCHEMA_v1.md",
+      "filename": "NUTRILONGX_ALIMENTACION_MASTER_SCHEMA_v1.md",
+      "sha256": "3d17142c2f28f1ac21a1f43a1b8bff8a1f6a213974d16fd8591831f4d8349403",
+      "size_bytes": 23509,
+      "domain": "nutrition",
+      "artifact_type": "schema",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/nutrition/sources/NUTRILONGX_Motor_Recetas_v1_1.xlsx",
+      "filename": "NUTRILONGX_Motor_Recetas_v1_1.xlsx",
+      "sha256": "a062770e96396d096b62268a2d2747620aafc7dadb1f509386adaa301d47ca7c",
+      "size_bytes": 34565,
+      "domain": "nutrition",
+      "artifact_type": "source_workbook",
+      "version": "1.1",
+      "status": "SOURCE_LOCATED_NOT_CONSUMED"
+    },
+    {
+      "relative_path": "nutrilongx/nutrition/sources/NUTRILONGX_RECIPES_MASTER_v1.6_RETAIL_AGNOSTIC.json",
+      "filename": "NUTRILONGX_RECIPES_MASTER_v1.6_RETAIL_AGNOSTIC.json",
+      "sha256": "e4f0fc04c3091ca81e69cada70304edc3cf915d0f19d3d39a05e94be0d036780",
+      "size_bytes": 570349,
+      "domain": "nutrition",
+      "artifact_type": "source_recipes",
+      "version": "1.6",
+      "status": "SOURCE"
+    },
+    {
+      "relative_path": "nutrilongx/nutrition/sources/NUTRILONGX_RECIPES_MASTER_v1.7_BATCH_AND_COMPOSITION_GAPS.json",
+      "filename": "NUTRILONGX_RECIPES_MASTER_v1.7_BATCH_AND_COMPOSITION_GAPS.json",
+      "sha256": "42feb60aab938ad33d15888b03214195791e8996c1614a205a2e386ac864aaa9",
+      "size_bytes": 585025,
+      "domain": "nutrition",
+      "artifact_type": "source_recipes",
+      "version": "1.7",
+      "status": "SOURCE"
+    },
+    {
+      "relative_path": "nutrilongx/nutrition/supporting/NUTRILONGX_ADHERENCIA_DOMESTICA_RECETAS_v1.md",
+      "filename": "NUTRILONGX_ADHERENCIA_DOMESTICA_RECETAS_v1.md",
+      "sha256": "0709f73328cf69fbd9a45d8c7b89ad62c76839bafa7489871d7de4bfbaca72fe",
+      "size_bytes": 20983,
+      "domain": "nutrition",
+      "artifact_type": "supporting",
+      "version": "1",
+      "status": "SUPPORTING"
+    },
+    {
+      "relative_path": "nutrilongx/registry/NUTRILONGX_CANONICAL_REGISTRY_v1.md",
+      "filename": "NUTRILONGX_CANONICAL_REGISTRY_v1.md",
+      "sha256": "5e53bd5fe64d9fc8e7308534310b96bd87703c58a6c2ce174296f19e4bb99cc4",
+      "size_bytes": 9634,
+      "domain": "governance",
+      "artifact_type": "canonical_registry_human",
+      "version": "1",
+      "status": "ACTIVE"
+    },
+    {
+      "relative_path": "nutrilongx/registry/NUTRILONGX_PROJECT_STATE_v1.md",
+      "filename": "NUTRILONGX_PROJECT_STATE_v1.md",
+      "sha256": "caf79df38b942bb507afee23445921164df53c0370e2388c04d07e8483325764",
+      "size_bytes": 3377,
+      "domain": "governance",
+      "artifact_type": "project_state",
+      "version": "1",
+      "status": "ACTIVE"
+    },
+    {
+      "relative_path": "nutrilongx/registry/NUTRILONGX_STAGING_RECONCILIATION_v1.md",
+      "filename": "NUTRILONGX_STAGING_RECONCILIATION_v1.md",
+      "sha256": "45c7cd3fd7235f45591b1602bd798d729feae24f8cdc409813c473b537787ede",
+      "size_bytes": 12925,
+      "domain": "governance",
+      "artifact_type": "staging_reconciliation",
+      "version": "1",
+      "status": "ACTIVE"
+    }
+  ]
+}

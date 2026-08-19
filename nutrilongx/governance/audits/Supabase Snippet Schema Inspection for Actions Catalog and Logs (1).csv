@@ -1,0 +1,2 @@
+constraint_name,column_name,references_table,references_column
+action_logs_action_id_fkey,action_id,actions_catalog,id

@@ -1,0 +1,5281 @@
+{
+  "document_id": "NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1",
+  "document_type": "EXERCISE_LIBRARY_PILOT",
+  "schema_version_reference": "NUTRILONGX_EJERCICIO_MASTER_SCHEMA_v1.2",
+  "generated_at_note": "2026-08-18 (Fase 3A REAL -- ver NUTRILONGX_EJERCICIO_LIBRARY_PILOT_BUILD_REPORT_v1.md)",
+  "scope_note": "Piloto real de biblioteca de contenido EXERCISE + EXERCISE_VARIANT unicamente. NO es NUTRILONGX_EJERCICIO_MASTER_v1.json. NO incluye SESSION_TEMPLATE, PROGRAM_TEMPLATE, BEHAVIOURAL_CONTENT, PRESCRIPTION ni EXECUTION -- ninguna de estas claves existe en este documento, ni siquiera como arrays vacios, por diseno.",
+  "counts": {
+    "exercise_count": 25,
+    "exercise_variant_count": 20
+  },
+  "vocabulary_references": {
+    "equipment_vocabulary_version": "v1.1",
+    "movement_pattern_vocabulary_version": "v1.0",
+    "functional_relevance_vocabulary_version": "v1.0",
+    "domain_vocabulary_version": "v1.0",
+    "muscle_nomenclature_status": "NOT_STANDARDIZED"
+  },
+  "exercise_library": [
+    {
+      "exercise_id": "exercise.cardiorespiratory.caminata_ritmo_moderado",
+      "title": "Caminata a ritmo moderado",
+      "primary_domain": "CARDIORESPIRATORY",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "GA",
+        "LO"
+      ],
+      "functional_relevance": [
+        "GSP",
+        "ADL"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": false,
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "HOME",
+        "OUT"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "tren inferior general"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 1,
+        "candidate_name": "caminata_ritmo_moderado",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.cardiorespiratory.caminata_vigorosa",
+      "title": "Caminata vigorosa",
+      "primary_domain": "CARDIORESPIRATORY",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "GA",
+        "LO"
+      ],
+      "functional_relevance": [
+        "GSP"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": false,
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "HOME",
+        "OUT"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "tren inferior general"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 2,
+        "candidate_name": "caminata_vigorosa",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.cardiorespiratory.caminata_por_cuestas",
+      "title": "Caminata por cuestas",
+      "primary_domain": "CARDIORESPIRATORY",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "GA",
+        "LO"
+      ],
+      "functional_relevance": [
+        "GSP",
+        "STC"
+      ],
+      "impact_level": "MODERATE",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "OUT"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "tren inferior general",
+          "gemelos"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 4,
+        "candidate_name": "caminata_por_cuestas",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.cardiorespiratory.trote_suave",
+      "title": "Trote suave",
+      "primary_domain": "CARDIORESPIRATORY",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "GA",
+        "LO"
+      ],
+      "functional_relevance": [
+        "GSP"
+      ],
+      "impact_level": "MODERATE",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": false,
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "OUT"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "tren inferior general"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 5,
+        "candidate_name": "trote_suave",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.cardiorespiratory.ciclismo_continuo",
+      "title": "Ciclismo continuo",
+      "primary_domain": "CARDIORESPIRATORY",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "LO"
+      ],
+      "functional_relevance": [
+        "GSP"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": false,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "CARDIO_EQUIPMENT_BIKE"
+      ],
+      "context_compatible": [
+        "GYM",
+        "HOME",
+        "OUT"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "cuadriceps",
+          "gluteo"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 6,
+        "candidate_name": "ciclismo_continuo",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.cardiorespiratory.natacion_continua",
+      "title": "Natación continua",
+      "primary_domain": "CARDIORESPIRATORY",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "LO",
+        "PU",
+        "PL"
+      ],
+      "functional_relevance": [
+        "GSP"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": false,
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": false,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": true
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "POOL"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "cuerpo completo"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 7,
+        "candidate_name": "natacion_continua",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.cardiorespiratory.remo_ergometro",
+      "title": "Remo en ergómetro",
+      "primary_domain": "CARDIORESPIRATORY",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "HI",
+        "PL"
+      ],
+      "functional_relevance": [
+        "CAR"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": true,
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": false,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "MODERATE",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "CARDIO_EQUIPMENT_ROWER"
+      ],
+      "context_compatible": [
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "dorsal ancho",
+          "isquiotibiales"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 8,
+        "candidate_name": "remo_ergometro",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.cardiorespiratory.nordic_walking",
+      "title": "Nordic walking",
+      "primary_domain": "CARDIORESPIRATORY",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "GA",
+        "LO",
+        "PU",
+        "PL"
+      ],
+      "functional_relevance": [
+        "GSP",
+        "BAL"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "TREKKING_POLES"
+      ],
+      "context_compatible": [
+        "OUT"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "tren inferior general",
+          "tren superior general"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 9,
+        "candidate_name": "nordic_walking",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.cardiorespiratory.baile_recreativo",
+      "title": "Baile recreativo",
+      "primary_domain": "CARDIORESPIRATORY",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "LO",
+        "RO"
+      ],
+      "functional_relevance": [
+        "GSP",
+        "BAL"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "cuerpo completo"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 10,
+        "candidate_name": "baile_recreativo",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.resistance.sentadilla",
+      "title": "Sentadilla",
+      "primary_domain": "RESISTANCE",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "SQ"
+      ],
+      "functional_relevance": [
+        "GUF",
+        "ADL"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": true,
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT",
+        "DUMBBELL",
+        "KETTLEBELL"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "cuadriceps",
+          "gluteo"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 11,
+        "candidate_name": "sentadilla",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.resistance.bisagra_de_cadera_kb",
+      "title": "Bisagra de cadera con kettlebell",
+      "primary_domain": "RESISTANCE",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "HI"
+      ],
+      "functional_relevance": [
+        "ADL",
+        "CAR"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": true,
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "MODERATE",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "KETTLEBELL",
+        "DUMBBELL"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "isquiotibiales",
+          "gluteo",
+          "erectores espinales"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 12,
+        "candidate_name": "bisagra_de_cadera_kb",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.resistance.flexiones",
+      "title": "Flexiones",
+      "primary_domain": "RESISTANCE",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "PU"
+      ],
+      "functional_relevance": [
+        "ADL"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": true,
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": false,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "pectoral",
+          "triceps"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 13,
+        "candidate_name": "flexiones",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.resistance.remo_con_carga",
+      "title": "Remo con carga",
+      "primary_domain": "RESISTANCE",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "PL"
+      ],
+      "functional_relevance": [
+        "ADL"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": true,
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "MODERATE",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "DUMBBELL",
+        "RESISTANCE_BAND",
+        "MACHINE"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "dorsal ancho",
+          "romboides"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 14,
+        "candidate_name": "remo_con_carga",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.resistance.plancha_isometrica",
+      "title": "Plancha isométrica",
+      "primary_domain": "RESISTANCE",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "IH"
+      ],
+      "functional_relevance": [
+        "ADL"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": true,
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": false,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "core"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 15,
+        "candidate_name": "plancha_isometrica",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.resistance.zancadas",
+      "title": "Zancadas",
+      "primary_domain": "RESISTANCE",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "SQ",
+        "GA"
+      ],
+      "functional_relevance": [
+        "GUF",
+        "GSP",
+        "ADL"
+      ],
+      "impact_level": "MODERATE",
+      "balance_requirement_level": "HIGH",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": true,
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT",
+        "DUMBBELL"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "cuadriceps",
+          "gluteo"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 16,
+        "candidate_name": "zancadas",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.resistance.farmer_carry",
+      "title": "Farmer carry",
+      "primary_domain": "RESISTANCE",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "CA"
+      ],
+      "functional_relevance": [
+        "CAR",
+        "ADL"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": true,
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "HIGH",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "DUMBBELL",
+        "KETTLEBELL"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "antebrazo",
+          "trapecio",
+          "core"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 17,
+        "candidate_name": "farmer_carry",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.resistance.burpees",
+      "title": "Burpees",
+      "primary_domain": "RESISTANCE",
+      "secondary_domains": [],
+      "training_format": [
+        "HIIT"
+      ],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "SQ",
+        "PU",
+        "LO"
+      ],
+      "functional_relevance": [
+        "ADL"
+      ],
+      "impact_level": "HIGH",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": true,
+      "technical_complexity": "HIGH",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": true,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "cuerpo completo"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 19,
+        "candidate_name": "burpees",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.flexibility.movilidad_cadera_dirigida",
+      "title": "Movilidad de cadera dirigida",
+      "primary_domain": "FLEXIBILITY",
+      "secondary_domains": [
+        "RESISTANCE"
+      ],
+      "training_format": [],
+      "mobility_type": "ACTIVE_MOBILITY",
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "HI",
+        "RO"
+      ],
+      "functional_relevance": [
+        "ADL",
+        "GUF"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": false,
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": false,
+        "requires_floor_transition": true,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "flexores de cadera",
+          "gluteo"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 25,
+        "candidate_name": "movilidad_cadera_dirigida",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.neuromotor.equilibrio_unipodal",
+      "title": "Equilibrio unipodal",
+      "primary_domain": "NEUROMOTOR",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": true,
+      "movement_pattern": [
+        "IH"
+      ],
+      "functional_relevance": [
+        "BAL"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "HIGH",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "estabilizadores de tobillo y cadera"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 26,
+        "candidate_name": "equilibrio_unipodal",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.neuromotor.marcha_en_tandem",
+      "title": "Marcha en tándem",
+      "primary_domain": "NEUROMOTOR",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": true,
+      "movement_pattern": [
+        "GA"
+      ],
+      "functional_relevance": [
+        "BAL",
+        "GSP"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "HIGH",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "estabilizadores de tobillo y cadera"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 27,
+        "candidate_name": "marcha_en_tandem",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.neuromotor.sentarse_levantarse_silla",
+      "title": "Sentarse y levantarse de la silla",
+      "primary_domain": "NEUROMOTOR",
+      "secondary_domains": [
+        "RESISTANCE"
+      ],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": true,
+      "movement_pattern": [
+        "SQ",
+        "GA"
+      ],
+      "functional_relevance": [
+        "GUF",
+        "ADL"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "HOME"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "cuadriceps",
+          "gluteo"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 28,
+        "candidate_name": "sentarse_levantarse_silla",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.resistance.transicion_desde_el_suelo",
+      "title": "Transición desde el suelo",
+      "primary_domain": "RESISTANCE",
+      "secondary_domains": [
+        "NEUROMOTOR"
+      ],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "SQ",
+        "HI",
+        "PU"
+      ],
+      "functional_relevance": [
+        "GUF",
+        "ADL"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "HIGH",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": true,
+      "technical_complexity": "HIGH",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": true,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "context_compatible": [
+        "HOME"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "cuerpo completo"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 29,
+        "candidate_name": "transicion_desde_el_suelo",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.resistance.press_de_hombros",
+      "title": "Press de hombros",
+      "primary_domain": "RESISTANCE",
+      "secondary_domains": [],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "PU"
+      ],
+      "functional_relevance": [
+        "ADL",
+        "REA"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": true,
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "MODERATE",
+        "requires_overhead_shoulder_rom": true
+      },
+      "equipment_required": [
+        "DUMBBELL",
+        "FREE_WEIGHT_BARBELL"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "deltoides",
+          "triceps"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 37,
+        "candidate_name": "press_de_hombros",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.resistance.elevacion_de_cadera_glutea",
+      "title": "Elevación de cadera glútea",
+      "primary_domain": "RESISTANCE",
+      "secondary_domains": [
+        "NEUROMOTOR"
+      ],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "HI"
+      ],
+      "functional_relevance": [
+        "ADL",
+        "GUF"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": true,
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": false,
+        "requires_floor_transition": true,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT",
+        "DUMBBELL"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "gluteo",
+          "isquiotibiales"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 38,
+        "candidate_name": "elevacion_de_cadera_glutea",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    },
+    {
+      "exercise_id": "exercise.resistance.subida_al_cajon_step_up",
+      "title": "Subida al cajón (step-up)",
+      "primary_domain": "RESISTANCE",
+      "secondary_domains": [
+        "NEUROMOTOR"
+      ],
+      "training_format": [],
+      "mobility_type": null,
+      "fall_prevention_goal": false,
+      "movement_pattern": [
+        "SQ",
+        "GA"
+      ],
+      "functional_relevance": [
+        "STC",
+        "GUF",
+        "ADL"
+      ],
+      "impact_level": "MODERATE",
+      "balance_requirement_level": "HIGH",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": true,
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT",
+        "DUMBBELL"
+      ],
+      "context_compatible": [
+        "HOME",
+        "GYM"
+      ],
+      "target_structures": {
+        "vocabulary_status": "NOT_STANDARDIZED",
+        "value": [
+          "cuadriceps",
+          "gluteo"
+        ],
+        "note": "sin fuente GUIDELINE de nomenclatura muscular estandarizada localizada en Fase 1 - texto libre"
+      },
+      "typical_reps_range": null,
+      "typical_duration_range": null,
+      "safety_refs": [],
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; la variante concreta no esta definida por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 40,
+        "candidate_name": "subida_al_cajon_step_up",
+        "transformation_notes": "Retenido como EXERCISE tras Entity Purity Pass (v1.1)."
+      }
+    }
+  ],
+  "exercise_variants": [
+    {
+      "variant_id": "exercise_variant.resistance.sentadilla_asistida_silla",
+      "base_exercise_id": "exercise.resistance.sentadilla",
+      "relationship_type": "REGRESSION",
+      "progression_stage": -1,
+      "delta_description": "Apoyo en silla, rango de movimiento reducido, sin carga externa.",
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": false,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "sentadilla_asistida_silla",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.sentadilla_goblet_cargada",
+      "base_exercise_id": "exercise.resistance.sentadilla",
+      "relationship_type": "LOAD_VARIANT",
+      "progression_stage": 1,
+      "delta_description": "Mismo rango de movimiento y demanda de estabilidad que la base; se añade carga externa sostenida al pecho.",
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "DUMBBELL",
+        "KETTLEBELL"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": true,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "sentadilla_goblet_cargada",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.bisagra_cadera_tecnica_sin_carga",
+      "base_exercise_id": "exercise.resistance.bisagra_de_cadera_kb",
+      "relationship_type": "REGRESSION",
+      "progression_stage": -1,
+      "delta_description": "Patrón de bisagra practicado con un palo/dowel de contacto, sin carga externa, foco en técnica.",
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": false,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "bisagra_cadera_tecnica_sin_carga",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.flexiones_de_rodillas",
+      "base_exercise_id": "exercise.resistance.flexiones",
+      "relationship_type": "REGRESSION",
+      "progression_stage": -1,
+      "delta_description": "Apoyo en rodillas en vez de pies, reduce el brazo de palanca y la carga relativa.",
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": false,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": false,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "flexiones_de_rodillas",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.flexiones_pies_elevados",
+      "base_exercise_id": "exercise.resistance.flexiones",
+      "relationship_type": "PROGRESSION",
+      "progression_stage": 1,
+      "delta_description": "Pies elevados sobre una superficie, aumenta la carga relativa sobre el tren superior.",
+      "technical_complexity": "HIGH",
+      "functional_requirement": {
+        "requires_standing_balance": false,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": true,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "flexiones_pies_elevados",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.remo_en_maquina_guiada",
+      "base_exercise_id": "exercise.resistance.remo_con_carga",
+      "relationship_type": "TECHNICAL_VARIANT",
+      "progression_stage": 0,
+      "delta_description": "Mismo patrón de tracción horizontal, trayectoria guiada por máquina — menor demanda de estabilización que la versión libre. Fusión aprobada de la candidata original #39.",
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": false,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "MODERATE",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "MACHINE"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": true,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": 39,
+        "candidate_name": "remo_en_maquina_guiada",
+        "transformation_notes": "Fusion aprobada: candidata original #39 (remo_en_maquina_guiada) pasa a ser EXERCISE_VARIANT de #14 (remo_con_carga) en vez de familia base independiente, conservando su provenance propia."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.plancha_de_rodillas",
+      "base_exercise_id": "exercise.resistance.plancha_isometrica",
+      "relationship_type": "REGRESSION",
+      "progression_stage": -1,
+      "delta_description": "Apoyo en rodillas en vez de pies, reduce el brazo de palanca sobre el core.",
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": false,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": false,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "plancha_de_rodillas",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.plancha_con_elevacion_extremidad",
+      "base_exercise_id": "exercise.resistance.plancha_isometrica",
+      "relationship_type": "PROGRESSION",
+      "progression_stage": 1,
+      "delta_description": "Se eleva un brazo o pierna manteniendo la posición, reduce la base de apoyo y aumenta la demanda anti-rotación.",
+      "technical_complexity": "HIGH",
+      "functional_requirement": {
+        "requires_standing_balance": false,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "HIGH",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": true,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "plancha_con_elevacion_extremidad",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.zancada_estatica_con_apoyo",
+      "base_exercise_id": "exercise.resistance.zancadas",
+      "relationship_type": "REGRESSION",
+      "progression_stage": -1,
+      "delta_description": "Se mantiene un punto de apoyo externo (pared/silla) para reducir la demanda de equilibrio dinámico.",
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "zancada_estatica_con_apoyo",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.zancada_cargada_mancuernas",
+      "base_exercise_id": "exercise.resistance.zancadas",
+      "relationship_type": "LOAD_VARIANT",
+      "progression_stage": 1,
+      "delta_description": "Mismo patrón y demanda de equilibrio que la base; se añade carga externa en ambas manos.",
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "DUMBBELL"
+      ],
+      "impact_level": "MODERATE",
+      "balance_requirement_level": "HIGH",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": true,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "zancada_cargada_mancuernas",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.carga_unilateral_suitcase",
+      "base_exercise_id": "exercise.resistance.farmer_carry",
+      "relationship_type": "PROGRESSION",
+      "progression_stage": 1,
+      "delta_description": "Carga en una sola mano en vez de bilateral, aumenta la demanda de estabilización anti-lateral del tronco.",
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "HIGH",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "DUMBBELL",
+        "KETTLEBELL"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "HIGH",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": true,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "carga_unilateral_suitcase",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.burpee_sin_salto",
+      "base_exercise_id": "exercise.resistance.burpees",
+      "relationship_type": "REGRESSION",
+      "progression_stage": -1,
+      "delta_description": "Sustituye el salto/impacto final y la fase de flexión en el suelo por transiciones controladas paso a paso, reduce el impacto y la complejidad técnica.",
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": true,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": true,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "burpee_sin_salto",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.neuromotor.equilibrio_unipodal_con_apoyo",
+      "base_exercise_id": "exercise.neuromotor.equilibrio_unipodal",
+      "relationship_type": "REGRESSION",
+      "progression_stage": -1,
+      "delta_description": "Contacto ligero con pared o silla disponible, reduce la exigencia de equilibrio puro.",
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "equilibrio_unipodal_con_apoyo",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.neuromotor.equilibrio_unipodal_superficie_inestable",
+      "base_exercise_id": "exercise.neuromotor.equilibrio_unipodal",
+      "relationship_type": "PROGRESSION",
+      "progression_stage": 1,
+      "delta_description": "Se realiza sobre una superficie inestable (cojín/similar), aumenta la exigencia propioceptiva.",
+      "technical_complexity": "HIGH",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "HIGH",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "equilibrio_unipodal_superficie_inestable",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.neuromotor.sentarse_levantarse_con_apoyo_manos",
+      "base_exercise_id": "exercise.neuromotor.sentarse_levantarse_silla",
+      "relationship_type": "REGRESSION",
+      "progression_stage": -1,
+      "delta_description": "Se permite el uso de las manos/reposabrazos como apoyo, reduce la demanda de fuerza de tren inferior.",
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "sentarse_levantarse_con_apoyo_manos",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.neuromotor.sentarse_levantarse_sin_apoyo_silla_baja",
+      "base_exercise_id": "exercise.neuromotor.sentarse_levantarse_silla",
+      "relationship_type": "PROGRESSION",
+      "progression_stage": 1,
+      "delta_description": "Sin uso de manos y con una silla de menor altura, aumenta la demanda de fuerza y control de tren inferior.",
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "HIGH",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "sentarse_levantarse_sin_apoyo_silla_baja",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.transicion_suelo_con_apoyo_mobiliario",
+      "base_exercise_id": "exercise.resistance.transicion_desde_el_suelo",
+      "relationship_type": "REGRESSION",
+      "progression_stage": -1,
+      "delta_description": "Se permite usar una silla/mueble estable como punto de apoyo intermedio durante la transición.",
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": true,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "HIGH",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "transicion_suelo_con_apoyo_mobiliario",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.press_hombros_banda_elastica",
+      "base_exercise_id": "exercise.resistance.press_de_hombros",
+      "relationship_type": "REGRESSION",
+      "progression_stage": -1,
+      "delta_description": "Sustituye la carga axial de mancuerna/barra por resistencia elástica, perfil de carga variable y típicamente menor pico de carga.",
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": true
+      },
+      "equipment_required": [
+        "RESISTANCE_BAND"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "LOW",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": false,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "press_hombros_banda_elastica",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.elevacion_cadera_una_pierna",
+      "base_exercise_id": "exercise.resistance.elevacion_de_cadera_glutea",
+      "relationship_type": "PROGRESSION",
+      "progression_stage": 1,
+      "delta_description": "Apoyo unilateral en vez de bilateral, aumenta la demanda de fuerza y estabilidad por pierna.",
+      "technical_complexity": "MODERATE",
+      "functional_requirement": {
+        "requires_standing_balance": false,
+        "requires_floor_transition": true,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": false,
+      "valsalva_risk_relevant": true,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "elevacion_cadera_una_pierna",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    },
+    {
+      "variant_id": "exercise_variant.resistance.step_up_altura_reducida",
+      "base_exercise_id": "exercise.resistance.subida_al_cajon_step_up",
+      "relationship_type": "REGRESSION",
+      "progression_stage": -1,
+      "delta_description": "Cajón de menor altura, reduce el rango de movimiento de cadera/rodilla y la demanda de equilibrio.",
+      "technical_complexity": "LOW",
+      "functional_requirement": {
+        "requires_standing_balance": true,
+        "requires_floor_transition": false,
+        "requires_grip_strength": "LOW",
+        "requires_overhead_shoulder_rom": false
+      },
+      "equipment_required": [
+        "BODYWEIGHT"
+      ],
+      "impact_level": "LOW",
+      "balance_requirement_level": "MODERATE",
+      "fall_risk_relevant": true,
+      "valsalva_risk_relevant": false,
+      "media": {
+        "image": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "demonstration_video": {
+          "status": "NO_SOURCE_PROVIDED",
+          "url": null
+        },
+        "technique_instructions": {
+          "status": "NO_SOURCE_PROVIDED",
+          "text": null
+        },
+        "common_errors": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        },
+        "safety_cues": {
+          "status": "NO_SOURCE_PROVIDED",
+          "items": []
+        }
+      },
+      "scientific_provenance": [
+        {
+          "content_category": "EDITORIAL_DESCRIPTIVE",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": null
+        },
+        {
+          "content_category": "TECHNIQUE_CLAIM",
+          "source_status": "EDITORIAL_CONTENT",
+          "source_ids": [],
+          "note": "descripcion de ejecucion biomecanica estandar, sin afirmacion de eficacia especifica"
+        },
+        {
+          "content_category": "DOSAGE_FITT_VP",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACSM_GETP11"
+          ],
+          "note": "marco general de dosis (rango orientativo), la fuente no define esta variante concreta"
+        },
+        {
+          "content_category": "PROGRESSION_CLAIM",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "KRAEMER2002_RATAMESS",
+            "NASM_OPT"
+          ],
+          "note": "el marco general de progresion/regresion esta respaldado; esta variante concreta no esta definida explicitamente por la fuente"
+        },
+        {
+          "content_category": "CLINICAL_BENEFIT_CLAIM",
+          "source_status": "NOT_APPLICABLE",
+          "source_ids": [],
+          "note": "no se afirma beneficio clinico especifico en esta fase"
+        },
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_NOT_IDENTIFIED",
+          "source_ids": [],
+          "note": "safety_rule pendiente de Fase 3B/3B-R"
+        }
+      ],
+      "review": {
+        "review_status": "PENDING_HUMAN_REVIEW",
+        "reviewer": null,
+        "reviewed_at": null,
+        "review_flags": [
+          "AI_GENERATED_UNREVIEWED"
+        ]
+      },
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "created_at": null,
+      "last_modified_at": null,
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "status": "DRAFT",
+      "provenance_trace": {
+        "original_candidate_number": null,
+        "candidate_name": "step_up_altura_reducida",
+        "transformation_notes": "Regresion/progresion biomecanica justificada tras Entity Purity Pass."
+      }
+    }
+  ]
+}

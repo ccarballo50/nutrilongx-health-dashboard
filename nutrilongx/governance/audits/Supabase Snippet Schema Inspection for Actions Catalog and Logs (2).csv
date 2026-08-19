@@ -1,0 +1,6 @@
+column_name,data_type
+action_id,text
+base_hours,numeric
+level,text
+pillar,text
+user_external_id,text
