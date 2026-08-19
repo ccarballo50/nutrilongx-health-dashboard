@@ -2,7 +2,10 @@
 
 Estado del propio documento: **`ACTIVE`** (registro de gobernanza vigente).
 Generado: 2026-08-19. Actualizado 2026-08-19 tras corrección de gobernanza
-(ver `docs: reconcile recovered nutrition source status`).
+(`docs: reconcile recovered nutrition source status`) y de nuevo tras el
+cierre de la auditoría de contenido del workbook (`docs: close nutrition
+workbook recovery audit` — ver
+`nutrition/reports/NUTRILONGX_MOTOR_RECETAS_WORKBOOK_AUDIT_v1.md`).
 
 `artifact_type`: `governance_record`. `domain`: `clinical`.
 `source_of_truth`: `false`. `production_ready`: `false`. `frozen`: `false`.
@@ -23,20 +26,30 @@ Generado: 2026-08-19. Actualizado 2026-08-19 tras corrección de gobernanza
   1. `NUTRILONGX_NUTRIENT_THRESHOLDS_v1.0`
   2. `NUTRILONGX_CLINICAL_PROFILES_v1.0`
   3. `NUTRILONGX_CLINICAL_RULES_v1.0`
-- **1 fichero origen pasa a `RECOVERED_PENDING_CONTENT_VALIDATION`**:
+- **1 fichero origen es `RECOVERED_PARTIAL_SOURCE`** (actualizado
+  2026-08-19, tras auditoría de contenido — antes `RECOVERED_PENDING_CONTENT_VALIDATION`):
   4. `NUTRILONGX_Motor_Recetas_v1_1.xlsx` — localizado físicamente, con
      `relative_path` y SHA-256 reales en `nutrition/sources/`. **Una sola
      fila lógica**, no una fila real más un placeholder duplicado.
 
-`RECOVERED_PENDING_CONTENT_VALIDATION` significa exclusivamente: *"el
-fichero físico esperado ha sido recuperado, pero todavía no se ha auditado
-que su contenido corresponda exactamente a la especificación citada durante
-la construcción del Master"*. **No significa** que `NUTRIENT_THRESHOLDS`,
-`CLINICAL_PROFILES` o `CLINICAL_RULES` se hayan recuperado, que sus reglas
-estén validadas, ni que este Excel sea fuente canónica o clínica validada.
-El Excel **no sustituye automáticamente** a ninguna de las 3 specs
-pendientes — son objetos de gobernanza distintos, sin relación de
-equivalencia declarada.
+**Resultado de la auditoría de contenido** (`nutrition/reports/NUTRILONGX_MOTOR_RECETAS_WORKBOOK_AUDIT_v1.md`,
+aprobada por César 2026-08-19, WORKBOOK_AUDIT_READY_FOR_GOVERNANCE_REVIEW):
+el workbook **es** fuente real de contenido/receta para **8 de las 58
+recetas** (`NLX-001`–`NLX-008`), pero **las 3 specs clínicas siguen
+`NOT_FOUND` dentro de él** — 0 fórmulas en todo el libro, 0 tabla de
+umbrales, y solo una matriz de 10 categorías de salida (`APTO_*`) sin
+definición de perfiles ni reglas que la produjeran. La propia hoja de
+instrucciones del workbook declara que la hoja de definición de perfiles
+(`PERFILES_CLIENTE`) **nunca se llegó a construir**.
+
+`RECOVERED_PARTIAL_SOURCE` significa exclusivamente: *"el fichero físico se
+ha recuperado y su contenido se ha auditado; es fuente parcial (8/58
+recetas de contenido), no fuente de ninguna de las 3 specs clínicas"*. **No
+significa** que `NUTRIENT_THRESHOLDS`, `CLINICAL_PROFILES` o
+`CLINICAL_RULES` se hayan recuperado, que sus reglas estén validadas, ni que
+este Excel sea fuente canónica o clínica validada. El Excel **no sustituye**
+a ninguna de las 3 specs pendientes — son objetos de gobernanza distintos,
+sin relación de equivalencia declarada.
 
 ## Registro
 
@@ -45,7 +58,7 @@ equivalencia declarada.
 | `NUTRILONGX_NUTRIENT_THRESHOLDS_v1.0` | 58/58 recetas | `frozen_specs.nutrient_thresholds` + `recipes[].validation.nutrient_threshold_version` | `REFERENCED_NOT_RECOVERED` |
 | `NUTRILONGX_CLINICAL_PROFILES_v1.0` | 58/58 recetas | `frozen_specs.clinical_profiles` + `recipes[].validation.clinical_profiles_version` | `REFERENCED_NOT_RECOVERED` |
 | `NUTRILONGX_CLINICAL_RULES_v1.0` | 58/58 recetas | `recipes[].observed_legacy_clinical_outputs.<profile>.rule_set_version` + `validation.clinical_rule_version` (no declarada en `frozen_specs`) | `REFERENCED_NOT_RECOVERED` |
-| `NUTRILONGX_Motor_Recetas_v1_1.xlsx` | 58/58 recetas | `source_lineage.generated_from_workbook` | `RECOVERED_PENDING_CONTENT_VALIDATION` |
+| `NUTRILONGX_Motor_Recetas_v1_1.xlsx` | 58/58 recetas | `source_lineage.generated_from_workbook` | `RECOVERED_PARTIAL_SOURCE` |
 
 ## Nota sobre `NUTRILONGX_Motor_Recetas_v1_1.xlsx`
 
@@ -55,15 +68,15 @@ momento en que se construyó el master (2026-08-18) ese workbook no estaba
 disponible para quien lo generó. **Esa declaración sigue siendo cierta sobre
 el propio master FROZEN y no se ha modificado.**
 
-Esta auditoría **sí ha localizado un fichero con ese nombre exacto** fuera
-del repositorio, en:
+Esta auditoría localizó un fichero con ese nombre exacto fuera del
+repositorio, en:
 
 ```
 C:\Users\CESAR CC\Desktop\Cesar\inteligencia artificial\NutrilongX\Nuevo NUTRILONGX\NUTRILONGX_Motor_Recetas_v1_1.xlsx
 ```
 (SHA-256: `a062770e96396d096b62268a2d2747620aafc7dadb1f509386adaa301d47ca7c`, 34.565 bytes, fecha de modificación 2025-06-26)
 
-Se ha persistido como fichero real en `nutrition/sources/`, clasificado
+Se persistió como fichero real en `nutrition/sources/`, clasificado
 `artifact_type: SOURCE` (no `LEGACY_SOURCE`): a diferencia de los ficheros
 de `gamification/sources/legacy/` (fase Excel 2025, explícitamente sustituida
 por el catálogo canónico JSON), este workbook sigue citado como
@@ -71,10 +84,18 @@ por el catálogo canónico JSON), este workbook sigue citado como
 vigente — pertenece al linaje activo del master actual, no a un sistema ya
 reemplazado.
 
-**No se ha usado para reconstruir, corregir o completar nada del master
-FROZEN, ni se ha auditado su contenido interno**, ni se ha comprobado que
-sea la misma versión exacta que generó `NUTRILONGX_RECIPES_MASTER_v1.6/v1.7`.
-Esa auditoría de contenido queda explícitamente fuera de esta fase.
+**Su contenido interno ya se ha auditado (READ-ONLY, 2026-08-19)** — ver
+`nutrition/reports/NUTRILONGX_MOTOR_RECETAS_WORKBOOK_AUDIT_v1.md`, aprobado
+por César. Resultado: fuente real de contenido/receta para **8/58 recetas**
+(`NLX-001`–`NLX-008`), **0 fórmulas** en todo el libro, **0 tabla de
+umbrales**, **0 definición de perfiles clínicos** (la hoja `PERFILES_CLIENTE`
+nunca se construyó, según la propia hoja de instrucciones del workbook). Las
+14 categorías clínicas del Master (`HTA, DM2, CKD_MILD/MODERATE/ADVANCED,
+HF, DYSLIPIDEMIA, HYPERURICEMIA_GOUT, OBESITY, MENOPAUSE, PREGNANCY,
+OLDER_ADULT, ONCOLOGY, IMMUNOSUPPRESSION`) no coinciden literalmente con las
+10 categorías `APTO_*` del workbook. **No se ha usado para reconstruir,
+corregir o completar nada del master FROZEN**, ni se ha comprobado que sea
+la misma versión exacta que generó `NUTRILONGX_RECIPES_MASTER_v1.6/v1.7`.
 
 ## Qué NO se ha hecho
 
@@ -82,18 +103,21 @@ Esa auditoría de contenido queda explícitamente fuera de esta fase.
 - No se han inferido perfiles clínicos.
 - No se han inferido reglas clínicas.
 - No se ha modificado `NUTRILONGX_ALIMENTACION_MASTER_v1.json`.
-- No se ha auditado el contenido interno de `NUTRILONGX_Motor_Recetas_v1_1.xlsx`.
+- No se ha modificado `NUTRILONGX_Motor_Recetas_v1_1.xlsx` (SHA-256 antes/después
+  idéntico, ver el informe de auditoría).
 - No se afirma en ningún documento de este knowledge base que las reglas
-  clínicas hayan sido recuperadas.
+  clínicas, los perfiles o los umbrales hayan sido recuperados.
 
 ## Próximo paso (requiere César)
 
 1. Confirmar si las 3 especificaciones (`THRESHOLDS`, `CLINICAL_PROFILES`,
    `CLINICAL_RULES`) existen en algún otro soporte y, si es así, añadirlas a
    `documentos nuevos/` para una futura ronda de reconciliación.
-2. Decidir si `NUTRILONGX_Motor_Recetas_v1_1.xlsx` es la misma versión que
-   generó `v1.6/v1.7`, y autorizar (o no) una auditoría de su contenido
-   interno como fase separada — no iniciada aquí.
+2. Confirmar si existe una versión posterior de
+   `NUTRILONGX_Motor_Recetas_v1_1.xlsx` (con la hoja `PERFILES_CLIENTE` ya
+   construida, mencionada como plan de "Sprint 3" dentro del propio
+   workbook) en algún soporte no auditado todavía.
 
-Hasta entonces, las 3 specs permanecen como gap documentado y el Excel como
-fuente localizada sin validar — ninguno bloquea el resto del knowledge base.
+Hasta entonces, las 3 specs permanecen como gap documentado y el Excel queda
+cerrado como `RECOVERED_PARTIAL_SOURCE` — ninguno bloquea el resto del
+knowledge base.

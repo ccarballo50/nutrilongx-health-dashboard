@@ -1,7 +1,7 @@
 {
   "manifest_id": "NUTRILONGX_REPOSITORY_MANIFEST_v1",
-  "generated_at": "2026-08-19T07:13:53.159274+00:00",
-  "total_files": 61,
+  "generated_at": "2026-08-19T09:56:56.074637+00:00",
+  "total_files": 64,
   "files": [
     {
       "relative_path": "nutrilongx/README.md",
@@ -16,8 +16,8 @@
     {
       "relative_path": "nutrilongx/clinical/missing/NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md",
       "filename": "NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md",
-      "sha256": "05fa2d6a52510783087cc1d8bc5ff9670dd442e262c7ee3adc09836c327d10db",
-      "size_bytes": 5535,
+      "sha256": "b01be608681ef6cc5d6d3ed215bed3eb8c4aadad808568214d04fb8437f54582",
+      "size_bytes": 7143,
       "domain": "clinical",
       "artifact_type": "governance_record",
       "version": "1",
@@ -136,8 +136,8 @@
     {
       "relative_path": "nutrilongx/exercise/mappings/NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1_TO_v1.1_MAPPING.csv",
       "filename": "NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1_TO_v1.1_MAPPING.csv",
-      "sha256": "383337c0ca30b6b2eb6320fed3c37c331a3bb5fa21eb05574b3f34ef1e772e15",
-      "size_bytes": 2668,
+      "sha256": "3b4a2ccbf08376a67cebf9172fcad4b368643101293dc9f2eaa7dfe20ec51fcc",
+      "size_bytes": 2642,
       "domain": "exercise",
       "artifact_type": "mapping_table",
       "version": "1",
@@ -206,8 +206,8 @@
     {
       "relative_path": "nutrilongx/exercise/safety/NUTRILONGX_EJERCICIO_PHASE3B_EVIDENCE_TO_RULE_MAPPING_v1.csv",
       "filename": "NUTRILONGX_EJERCICIO_PHASE3B_EVIDENCE_TO_RULE_MAPPING_v1.csv",
-      "sha256": "40e90b6e2470b2050032f66ee7f405108ad8c58d81950b822fbf07c5e05b7b88",
-      "size_bytes": 8301,
+      "sha256": "0031095ce29036a9571c457f30b60910d11c7416be294ea2a39da85084047e42",
+      "size_bytes": 8284,
       "domain": "exercise",
       "artifact_type": "safety_support",
       "version": "1",
@@ -376,8 +376,8 @@
     {
       "relative_path": "nutrilongx/gamification/sources/legacy/actions_catalog.json",
       "filename": "actions_catalog.json",
-      "sha256": "1b5e1daf674954c7b072359b98654e339c8fc4ec1fa39b58c5a236ebd8ae0406",
-      "size_bytes": 348505,
+      "sha256": "eeac4da74248632f227cbf86bde5d99822adff76c986c7fe754684903c1de978",
+      "size_bytes": 339405,
       "domain": "gamification",
       "artifact_type": "legacy_source",
       "version": "n/a",
@@ -386,8 +386,8 @@
     {
       "relative_path": "nutrilongx/gamification/sources/legacy/actions_catalog1.txt",
       "filename": "actions_catalog1.txt",
-      "sha256": "78a68ead6e99ea2f5a7aacbcc57d0df54fe6cc53133fa0b0cb669bb996a1f493",
-      "size_bytes": 270884,
+      "sha256": "a267bc7bcbfb78ee76c7a24c9c693b34e515eb1b084283e1621d6b60bce8d090",
+      "size_bytes": 261783,
       "domain": "gamification",
       "artifact_type": "legacy_source",
       "version": "n/a",
@@ -456,8 +456,8 @@
     {
       "relative_path": "nutrilongx/governance/audits/Supabase Snippet Schema Inspection for Actions Catalog and Logs (1).csv",
       "filename": "Supabase Snippet Schema Inspection for Actions Catalog and Logs (1).csv",
-      "sha256": "e6036d23744393205583312993f472903790e2adf47e7f5f592a26b4f7c97459",
-      "size_bytes": 119,
+      "sha256": "329f7b23c8162a259ea83e9a71d564071327ee57ecbb34119bf867d8d3fbf1c7",
+      "size_bytes": 118,
       "domain": "infrastructure",
       "artifact_type": "schema_snapshot",
       "version": "n/a",
@@ -466,8 +466,8 @@
     {
       "relative_path": "nutrilongx/governance/audits/Supabase Snippet Schema Inspection for Actions Catalog and Logs (2).csv",
       "filename": "Supabase Snippet Schema Inspection for Actions Catalog and Logs (2).csv",
-      "sha256": "b154e0fa6f9134b04d1b40052c15819cf070da7c539b8f9deb3c1fabfd603fed",
-      "size_bytes": 105,
+      "sha256": "5cbe1263c6519bebbc8ca39da04a82c5b1d4df27a603611e54cacf45ac604248",
+      "size_bytes": 100,
       "domain": "infrastructure",
       "artifact_type": "schema_snapshot",
       "version": "n/a",
@@ -476,8 +476,8 @@
     {
       "relative_path": "nutrilongx/governance/audits/Supabase Snippet Schema Inspection for Actions Catalog and Logs.csv",
       "filename": "Supabase Snippet Schema Inspection for Actions Catalog and Logs.csv",
-      "sha256": "fd0228c3c26a0e55e714c9989f288cf83c21c73a4583552b91e01efe94a9936b",
-      "size_bytes": 358,
+      "sha256": "6e29a30dccafa4d396cdc7736b925bae03941245aa2b1a5830b305dedc8f71fe",
+      "size_bytes": 347,
       "domain": "infrastructure",
       "artifact_type": "schema_snapshot",
       "version": "n/a",
@@ -486,8 +486,8 @@
     {
       "relative_path": "nutrilongx/governance/audits/Supabase Snippet Untitled query.csv",
       "filename": "Supabase Snippet Untitled query.csv",
-      "sha256": "3c6207d13671306f673a0da3e3fa5cb157f2aabf953220a283eff60cbc373075",
-      "size_bytes": 956,
+      "sha256": "ddbd2a64acf71327f46d9c0cb0a719a967eb95d0035a00da5a397b99faa1418e",
+      "size_bytes": 914,
       "domain": "infrastructure",
       "artifact_type": "schema_snapshot",
       "version": "n/a",
@@ -534,6 +534,36 @@
       "status": "APPROVED"
     },
     {
+      "relative_path": "nutrilongx/nutrition/reports/NUTRILONGX_MOTOR_RECETAS_WORKBOOK_AUDIT_v1.md",
+      "filename": "NUTRILONGX_MOTOR_RECETAS_WORKBOOK_AUDIT_v1.md",
+      "sha256": "fe86ecba3cc8410efdcff79b6a6aef7db6254bcb8b90ce5ea205d923eb000cec",
+      "size_bytes": 29469,
+      "domain": "nutrition",
+      "artifact_type": "AUDIT",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/nutrition/reports/NUTRILONGX_MOTOR_RECETAS_WORKBOOK_RULE_CANDIDATES_v1.csv",
+      "filename": "NUTRILONGX_MOTOR_RECETAS_WORKBOOK_RULE_CANDIDATES_v1.csv",
+      "sha256": "8305cb1fe2daf837a86284f0b63519fdb324b70d01ab6bf5b9cc0ad3f9bd7192",
+      "size_bytes": 3389,
+      "domain": "nutrition",
+      "artifact_type": "AUDIT_SUPPORT",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/nutrition/reports/NUTRILONGX_MOTOR_RECETAS_WORKBOOK_SHEET_INVENTORY_v1.csv",
+      "filename": "NUTRILONGX_MOTOR_RECETAS_WORKBOOK_SHEET_INVENTORY_v1.csv",
+      "sha256": "3397eb65374e256efa8388ed5218af365230651502b1c695c67dc86099ab7b43",
+      "size_bytes": 2840,
+      "domain": "nutrition",
+      "artifact_type": "AUDIT_SUPPORT",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
       "relative_path": "nutrilongx/nutrition/schemas/NUTRILONGX_ALIMENTACION_MASTER_SCHEMA_v1.md",
       "filename": "NUTRILONGX_ALIMENTACION_MASTER_SCHEMA_v1.md",
       "sha256": "3d17142c2f28f1ac21a1f43a1b8bff8a1f6a213974d16fd8591831f4d8349403",
@@ -551,7 +581,7 @@
       "domain": "nutrition",
       "artifact_type": "SOURCE",
       "version": "1.1",
-      "status": "RECOVERED_PENDING_CONTENT_VALIDATION"
+      "status": "RECOVERED_PARTIAL_SOURCE"
     },
     {
       "relative_path": "nutrilongx/nutrition/sources/NUTRILONGX_RECIPES_MASTER_v1.6_RETAIL_AGNOSTIC.json",
@@ -586,8 +616,8 @@
     {
       "relative_path": "nutrilongx/registry/NUTRILONGX_CANONICAL_REGISTRY_v1.md",
       "filename": "NUTRILONGX_CANONICAL_REGISTRY_v1.md",
-      "sha256": "5abb8055725c9bed5a3347fe85d2c7d357a7499e2202493b3c69bbe46120c264",
-      "size_bytes": 10768,
+      "sha256": "4fe5536c8deedeaedfad3ed92c395142cd2be9df0f0a088394fcf46fca9f04c2",
+      "size_bytes": 11748,
       "domain": "governance",
       "artifact_type": "canonical_registry_human",
       "version": "1",
@@ -596,8 +626,8 @@
     {
       "relative_path": "nutrilongx/registry/NUTRILONGX_PROJECT_STATE_v1.md",
       "filename": "NUTRILONGX_PROJECT_STATE_v1.md",
-      "sha256": "6d2a6f684b9f3e452db7d61c7013276f947e917c7567bc8a75f26cd4429d8772",
-      "size_bytes": 4161,
+      "sha256": "6c363e210285b242fe0200aacbd90a78183b7e316bd495e59879f35c98dae1ce",
+      "size_bytes": 5084,
       "domain": "governance",
       "artifact_type": "project_state",
       "version": "1",
