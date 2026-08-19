@@ -71,8 +71,16 @@ Regla para cualquier humano o agente que lea esto en el futuro:
 - Supporting: `nutrition/supporting/NUTRILONGX_ADHERENCIA_DOMESTICA_RECETAS_v1.md`.
 - **REFERENCED_NOT_RECOVERED** (declarado por el propio master, confirmado
   tras la auditoría): `NUTRILONGX_NUTRIENT_THRESHOLDS_v1.0`,
-  `NUTRILONGX_CLINICAL_PROFILES_v1.0`, `NUTRILONGX_CLINICAL_RULES_v1.0`. Ver
-  `clinical/missing/NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md`.
+  `NUTRILONGX_CLINICAL_PROFILES_v1.0`, `NUTRILONGX_CLINICAL_RULES_v1.0`, y
+  `NUTRILONGX_Motor_Recetas_v1_1.xlsx` (esta última pese a que un fichero con
+  ese nombre sí se localizó físicamente — ver más abajo). **Las 4 tienen su
+  propia fila independiente** en `NUTRILONGX_ARTIFACT_REGISTRY_v1.json`
+  (`artifact_type: referenced_spec`, `status: REFERENCED_NOT_RECOVERED`, sin
+  `relative_path` cuando no hay fichero físico).
+- `clinical/missing/NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md` es el **registro
+  de gobernanza** que narra ese gap (`artifact_type: governance_record`,
+  `status: ACTIVE`, `source_of_truth: false`) — documenta el hallazgo, **no
+  sustituye ni reconstruye** ninguna de las 4 especificaciones originales.
 - **Hallazgo adyacente sin clasificar** (no persistido, requiere decisión de
   César): un corpus doctrinal de validación/corrección de recetas v1.2 y una
   versión anterior sin versionar, en `Nuevo NUTRILONGX/`. Ver

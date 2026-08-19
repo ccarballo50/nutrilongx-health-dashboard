@@ -1,7 +1,23 @@
 # NUTRILONGX — Especificaciones clínicas referenciadas y no recuperadas (v1)
 
-Estado: `REFERENCED_NOT_RECOVERED`
+Estado del propio documento: **`ACTIVE`** (registro de gobernanza vigente).
 Generado: 2026-08-19, como parte de `docs: persist NutriLongX canonical knowledge base v1`.
+
+`artifact_type`: `governance_record`. `domain`: `clinical`.
+`source_of_truth`: `false`. `production_ready`: `false`. `frozen`: `false`.
+
+> **Aviso explícito de alcance — léase antes que nada:**
+> Este documento **documenta que 4 especificaciones fueron referenciadas y no
+> recuperadas** durante esta auditoría. **No es, no sustituye, ni reconstruye
+> en ningún grado** a ninguna de las 4 especificaciones originales:
+> `NUTRILONGX_NUTRIENT_THRESHOLDS_v1.0`, `NUTRILONGX_CLINICAL_PROFILES_v1.0`,
+> `NUTRILONGX_CLINICAL_RULES_v1.0`, `NUTRILONGX_Motor_Recetas_v1_1.xlsx`. No
+> contiene umbrales, perfiles ni reglas clínicas inventados o inferidos. Las
+> 4 especificaciones originales tienen su propia entrada independiente en
+> `NUTRILONGX_ARTIFACT_REGISTRY_v1.json`, con `status: REFERENCED_NOT_RECOVERED`
+> y sin `relative_path` cuando no se ha localizado fichero físico — este
+> documento es solo la narrativa de gobernanza que las acompaña, no las
+> reemplaza como registro.
 
 ## Qué es este documento
 

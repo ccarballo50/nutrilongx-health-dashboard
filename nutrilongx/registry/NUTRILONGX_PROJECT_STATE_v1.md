@@ -54,6 +54,13 @@ que los propios artefactos declaran.
 
 - Sin master clínico recuperado. Carpetas `clinical/profiles/`,
   `clinical/thresholds/`, `clinical/rules/` vacías intencionadamente.
+- Las 4 especificaciones originales (`NUTRIENT_THRESHOLDS_v1.0`,
+  `CLINICAL_PROFILES_v1.0`, `CLINICAL_RULES_v1.0`, `Motor_Recetas_v1_1.xlsx`)
+  tienen fila propia `REFERENCED_NOT_RECOVERED` en el artifact registry, sin
+  `relative_path` cuando no se ha localizado fichero físico.
+  `clinical/missing/NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md` es un registro
+  de gobernanza `ACTIVE` que narra el gap — no sustituye ni reconstruye
+  ninguna de las 4.
 
 ## INFRASTRUCTURE
 

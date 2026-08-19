@@ -1,6 +1,6 @@
 {
   "manifest_id": "NUTRILONGX_REPOSITORY_MANIFEST_v1",
-  "generated_at": "2026-08-19T06:52:54.290517+00:00",
+  "generated_at": "2026-08-19T07:06:35.131529+00:00",
   "total_files": 61,
   "files": [
     {
@@ -16,12 +16,12 @@
     {
       "relative_path": "nutrilongx/clinical/missing/NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md",
       "filename": "NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md",
-      "sha256": "70b2ae8a029a449566a8c0998124c1b5907709ae3514a98c5928fdccac2cc2fb",
-      "size_bytes": 3361,
+      "sha256": "cf45f943f4609b751ca0de1c01de85f2bd2f38071a7e550987fce61feef13e24",
+      "size_bytes": 4391,
       "domain": "clinical",
-      "artifact_type": "gap_registry",
+      "artifact_type": "governance_record",
       "version": "1",
-      "status": "REFERENCED_NOT_RECOVERED"
+      "status": "ACTIVE"
     },
     {
       "relative_path": "nutrilongx/exercise/archive/NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1.json",
