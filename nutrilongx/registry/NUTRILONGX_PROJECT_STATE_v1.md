@@ -17,6 +17,25 @@ solo un `ACTION_LOG` validado, vía el motor canónico. No se ha construido
 ningún `action_log`, `ACTION_ACCREDITATION_RULE` ni conector de evidencia
 real en esta fase — son contratos conceptuales.
 
+## STANDALONE BACKEND v1 (2026-08-20)
+
+- **Specs**: `APPROVED` — 5 documentos persistidos como canon (arquitectura,
+  modelo de datos, contrato de funciones Apps Script, auditoría Supabase
+  existente, plan de implementación). Ver sección `STANDALONE BACKEND v1`
+  de `NUTRILONGX_CANONICAL_REGISTRY_v1.md`.
+- **Implementation**: `NOT_STARTED`. No se ha ejecutado SQL, no se ha creado
+  `0002_*.sql`, no se ha tocado Supabase, no se ha escrito ningún Apps
+  Script, no se ha cambiado frontend/backend funcional.
+- **Next gate**: `READY_FOR_STANDALONE_BACKEND_IMPLEMENTATION`.
+- Decisiones CORE CENTRAL congeladas: `content_registry` añadido (17 tablas
+  objetivo, no 16); las 6 tablas legacy de Mente migran a `mind_content` sin
+  `DROP` inicial; Google Apps Script pasa a ser la service/function layer
+  standalone (retirada progresiva de browser→Supabase directo y APIs
+  funcionales legacy de Vercel tras cutover validado).
+- Ningún estado `FROZEN`/`FROZEN_FOR_INTEGRATION` previo (Gamification,
+  Nutrition, Exercise) se altera por esta fase — se preservan tal cual
+  abajo.
+
 ## GAMIFICATION
 
 status: `FROZEN_FOR_INTEGRATION`.

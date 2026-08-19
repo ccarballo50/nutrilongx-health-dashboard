@@ -192,6 +192,53 @@ propio: `SCHEMA_APPROVED_NOT_YET_BUILT`).
   **vacíos intencionadamente** — no se ha inventado ni inferido contenido
   clínico para rellenarlos.
 
+## STANDALONE BACKEND v1
+
+**Estado: specs `APPROVED`, implementación `NOT_STARTED`** (2026-08-20).
+Decisión de CORE CENTRAL, subordinada a — y consistente con — el
+`DOMAIN_INTEGRATION_CONTRACT_v1` y el `DOMAIN_FREEZE_DECISION_v1` ya
+`FROZEN`. Ningún artefacto FROZEN previo (Masters/Library/Safety/Catalog/
+Engine) se ha modificado para producir esta sección.
+
+**Fuente de verdad** de las 5 specs siguientes: cada documento es
+`source_of_truth: true` para su propio dominio (excepto la auditoría, que es
+evidencia, no fuente):
+
+- `governance/decisions/NUTRILONGX_STANDALONE_ARCHITECTURE_DECISION_v1.md`
+  — decisión arquitectónica: añade `content_registry` (17 tablas objetivo);
+  las 6 tablas legacy de Mente (`content_pieces, retos_insignia, videos,
+  video_bloques, infografias, subpilar_mapeo`) migran a `mind_content` **sin
+  DROP inicial**; Google Apps Script pasa a ser la **service/function layer
+  standalone** — los accesos directos browser→Supabase y las APIs
+  funcionales legacy de Vercel se retiran progresivamente tras cutover
+  validado. **Esta decisión prevalece explícitamente** sobre la redacción
+  conceptual previa de `NUTRILONGX_CONSOLE_API_BOUNDARY_v1.md` (que
+  describía Apps Script como mero cliente de otra API) — se mantiene, sin
+  excepción, la frontera ya congelada: Dashboard/Apps Script **no**
+  redefinen catálogo, DVG, motor ni safety rules.
+- `governance/architecture/NUTRILONGX_STANDALONE_DATA_MODEL_v1.md` — modelo
+  de datos conceptual de las 17 tablas objetivo (`clients` … `audit_log`).
+  Ningún SQL ejecutado.
+- `governance/architecture/NUTRILONGX_APPS_SCRIPT_FUNCTION_CONTRACT_v1.md`
+  — contrato funcional (`clients.*`, `content.*`, `evidence.*`, `actions.*`,
+  `gamification.*`, `progress.*`, `safety.*`), envelopes de éxito/error,
+  idempotencia. Ningún Apps Script implementado.
+- `governance/audits/NUTRILONGX_EXISTING_SUPABASE_AUDIT_v1.md` — auditoría
+  read-only de estructuras Supabase-facing existentes (migración `0001`,
+  `api/pilares/mente`, `api/content/create.ts`, `actions_catalog`/
+  `action_logs` históricos), clasificadas `KEEP`/`ADAPT`/`MIGRATE`/
+  `DEPRECATE`. **No autoriza ninguna eliminación.** `source_of_truth: false`
+  — es evidencia, no fuente de contenido; consistente con el conflicto ya
+  registrado y no resuelto en `NUTRILONGX_SUPABASE_SCHEMA_RECONCILIATION_NOTE_v1.md`.
+- `governance/implementation/NUTRILONGX_BACKEND_IMPLEMENTATION_PLAN_v1.md`
+  — secuencia de implementación (Fase 0–8). Ninguna fase ejecutada.
+
+Los 5 documentos son `frozen: true` (no se editan in situ; una revisión
+futura requeriría `_v2`) y `production_ready: false` — son especificaciones
+aprobadas previas a implementación, no el backend en sí.
+
+**Siguiente gate**: `READY_FOR_STANDALONE_BACKEND_IMPLEMENTATION`.
+
 ## INFRASTRUCTURE
 
 - **Separación explícita, per encargo**: este registro documenta
