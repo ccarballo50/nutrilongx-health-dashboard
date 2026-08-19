@@ -4,7 +4,22 @@ Fecha: 2026-08-19. Refleja exclusivamente lo verificado durante esta
 consolidación documental. No se inventa ni se extrapola nada más allá de lo
 que los propios artefactos declaran.
 
+## DOMAIN INTEGRATION CONTRACT (2026-08-19)
+
+Los 3 dominios pasan a `FROZEN_FOR_INTEGRATION` — arquitectura estable para
+diseñar backend/APIs/Supabase/consola, **sin** implicar `PRODUCTION_READY`.
+Ver `governance/decisions/NUTRILONGX_DOMAIN_FREEZE_DECISION_v1.md` y
+`governance/architecture/NUTRILONGX_DOMAIN_INTEGRATION_CONTRACT_v1.md`
+(+ `SOURCE_OF_TRUTH_MATRIX_v1.md`, `ACTION_ACCREDITATION_CONTRACT_v1.md`,
+`CONSOLE_API_BOUNDARY_v1.md`). Regla fundamental fijada: `RECIPE`,
+`EXERCISE`, `SESSION`, `PROGRAM`, `CONTENT` nunca generan DVG por existir —
+solo un `ACTION_LOG` validado, vía el motor canónico. No se ha construido
+ningún `action_log`, `ACTION_ACCREDITATION_RULE` ni conector de evidencia
+real en esta fase — son contratos conceptuales.
+
 ## GAMIFICATION
+
+status: `FROZEN_FOR_INTEGRATION`.
 
 - Canónico v1 construido y **FROZEN**.
 - 119 action families canónicas (de 600 filas legacy), 4 dominios
@@ -14,6 +29,8 @@ que los propios artefactos declaran.
   Supabase** — ver sección INFRASTRUCTURE.
 
 ## NUTRITION
+
+status: `FROZEN_FOR_INTEGRATION`.
 
 - `ALIMENTACION_MASTER_v1` **FROZEN**.
 - 58 recetas.
@@ -28,6 +45,8 @@ que los propios artefactos declaran.
   modificar el master.
 
 ## EXERCISE
+
+status: `FROZEN_FOR_INTEGRATION`. Explícitamente **no** `PRODUCTION_READY`.
 
 - `MASTER_SCHEMA_v1.2` referenciado como vigente por 7 documentos
   distintos, pero **el fichero físico no se ha recuperado**; el schema
