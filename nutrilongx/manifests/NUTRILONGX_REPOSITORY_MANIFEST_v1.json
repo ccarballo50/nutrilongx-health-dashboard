@@ -1,7 +1,7 @@
 {
   "manifest_id": "NUTRILONGX_REPOSITORY_MANIFEST_v1",
-  "generated_at": "2026-08-19T11:26:46.260488+00:00",
-  "total_files": 69,
+  "generated_at": "2026-08-19T23:39:29.302491+00:00",
+  "total_files": 74,
   "files": [
     {
       "relative_path": "nutrilongx/README.md",
@@ -454,6 +454,16 @@
       "status": "APPROVED"
     },
     {
+      "relative_path": "nutrilongx/governance/architecture/NUTRILONGX_APPS_SCRIPT_FUNCTION_CONTRACT_v1.md",
+      "filename": "NUTRILONGX_APPS_SCRIPT_FUNCTION_CONTRACT_v1.md",
+      "sha256": "94e79c2118ebd90a5c380c48860e47515fd7c4ff5ba511f581c491a0e4d30887",
+      "size_bytes": 9719,
+      "domain": "governance",
+      "artifact_type": "api_function_contract",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
       "relative_path": "nutrilongx/governance/architecture/NUTRILONGX_CONSOLE_API_BOUNDARY_v1.md",
       "filename": "NUTRILONGX_CONSOLE_API_BOUNDARY_v1.md",
       "sha256": "c6a12b72bf79155f47cf72386d8ddaa55ae8d5c75fb1c444c36c11cdb421dd97",
@@ -480,6 +490,26 @@
       "size_bytes": 3526,
       "domain": "governance",
       "artifact_type": "ARCHITECTURE_CONTRACT",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/governance/architecture/NUTRILONGX_STANDALONE_DATA_MODEL_v1.md",
+      "filename": "NUTRILONGX_STANDALONE_DATA_MODEL_v1.md",
+      "sha256": "67a2122bf24ae00f3aa76ba01bab9abd099fd2b956d48c622ba66377d95e14a2",
+      "size_bytes": 14989,
+      "domain": "governance",
+      "artifact_type": "data_model",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/governance/audits/NUTRILONGX_EXISTING_SUPABASE_AUDIT_v1.md",
+      "filename": "NUTRILONGX_EXISTING_SUPABASE_AUDIT_v1.md",
+      "sha256": "00f852eafc11d66a0054d404566f94ac6f022ae7742a59226fc980b4beb26476",
+      "size_bytes": 6686,
+      "domain": "governance",
+      "artifact_type": "audit",
       "version": "1",
       "status": "APPROVED"
     },
@@ -540,6 +570,26 @@
       "size_bytes": 2958,
       "domain": "governance",
       "artifact_type": "GOVERNANCE_DECISION",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/governance/decisions/NUTRILONGX_STANDALONE_ARCHITECTURE_DECISION_v1.md",
+      "filename": "NUTRILONGX_STANDALONE_ARCHITECTURE_DECISION_v1.md",
+      "sha256": "2d2873da9587d330cb9b961c37515af4d67b040facfbba69deabed2cc8cc26cd",
+      "size_bytes": 8373,
+      "domain": "governance",
+      "artifact_type": "architecture_decision",
+      "version": "1",
+      "status": "APPROVED"
+    },
+    {
+      "relative_path": "nutrilongx/governance/implementation/NUTRILONGX_BACKEND_IMPLEMENTATION_PLAN_v1.md",
+      "filename": "NUTRILONGX_BACKEND_IMPLEMENTATION_PLAN_v1.md",
+      "sha256": "f2692bef665b501d01dd84e8a595eb5e80bf68ec8dc3385ce8d8771fc19009ca",
+      "size_bytes": 4856,
+      "domain": "governance",
+      "artifact_type": "implementation_plan",
       "version": "1",
       "status": "APPROVED"
     },
@@ -666,8 +716,8 @@
     {
       "relative_path": "nutrilongx/registry/NUTRILONGX_CANONICAL_REGISTRY_v1.md",
       "filename": "NUTRILONGX_CANONICAL_REGISTRY_v1.md",
-      "sha256": "cc98edd0e30e60cc29cc142b1352671ea78f619720728a0585cfe89a0ef44a58",
-      "size_bytes": 12442,
+      "sha256": "62e9686d4775f6a163a4441c768d8d5fe58841cc1bf52faa0f685b682fa19a83",
+      "size_bytes": 15259,
       "domain": "governance",
       "artifact_type": "canonical_registry_human",
       "version": "1",
@@ -676,8 +726,8 @@
     {
       "relative_path": "nutrilongx/registry/NUTRILONGX_PROJECT_STATE_v1.md",
       "filename": "NUTRILONGX_PROJECT_STATE_v1.md",
-      "sha256": "6e2f30b8591feeed1ee6eb3e398e61a1bbaecafb921b1ae3fde4a44448b60fcd",
-      "size_bytes": 5993,
+      "sha256": "1a32cc4efa2328bb2a442778a974787b8aece60c4d87846aeae507a929a9e346",
+      "size_bytes": 7084,
       "domain": "governance",
       "artifact_type": "project_state",
       "version": "1",
