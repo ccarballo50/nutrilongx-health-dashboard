@@ -1,0 +1,641 @@
+{
+  "document_id": "NUTRILONGX_EJERCICIO_SAFETY_RULES_v1",
+  "document_type": "SAFETY_RULES",
+  "schema_version_reference": "NUTRILONGX_EJERCICIO_SAFETY_RULE_SCHEMA_v1",
+  "applies_to_library_pilot_version": "NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1.1 (FROZEN, no modificado)",
+  "generated_at_note": "2026-08-19 (Fase 3B -- ver NUTRILONGX_EJERCICIO_SAFETY_RULES_BUILD_REPORT_v1.md)",
+  "scope_note": "Reglas de seguridad formales derivadas de NUTRILONGX_EJERCICIO_PHASE3B_TARGETED_RESEARCH_v1.md (4 de los 6 gaps investigados) y de fuentes ya catalogadas en Fase 1 (2 reglas: preparticipacion HTA, exclusion HIIT en renal). NO incluye SESSION_TEMPLATE, PROGRAM_TEMPLATE, BEHAVIOURAL_CONTENT, PRESCRIPTION ni EXECUTION -- ninguna de estas claves existe en este documento. NO se ha modificado ninguna identidad EXERCISE/EXERCISE_VARIANT de LIBRARY_PILOT_v1.1 (FROZEN).",
+  "counts": {
+    "safety_rule_count": 12
+  },
+  "safety_rules": [
+    {
+      "safety_rule_id": "safety_rule.hta.preparticipation_severe_uncontrolled_baseline",
+      "target_entity_type": "CLINICAL_PROFILE_GATE",
+      "applies_to": {
+        "scope": "profile_baseline"
+      },
+      "clinical_profile_id": "hta",
+      "safety_status": "RELATIVE_CONTRAINDICATION",
+      "condition_trigger": "Usuario con perfil clinical_profile_id=hta y presion arterial no controlada (>200/110 mmHg segun estratificacion ACSM/ACC-AHA) previo al inicio de cualquier programa de ejercicio estructurado.",
+      "recommendation_adaptation": "Requiere valoracion/clearance medico antes de iniciar cualquier EXERCISE de dominio RESISTANCE o CARDIORESPIRATORY de intensidad moderada-vigorosa; no aplica a actividad ligera cotidiana ya autorizada por el medico.",
+      "supervision_requirement": "NOT_APPLICABLE",
+      "medical_clearance_required": true,
+      "evidence_strength": "STRONG",
+      "evidence_maturity": "STRONG",
+      "scientific_provenance": [
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ACC_AHA_1997_2002",
+            "ACSM_GETP11"
+          ],
+          "note": "Estratificacion de riesgo cardiovascular de preparticipacion (ACC/AHA reflejada en ACSM GETP, GUIDELINE vigente): HTA no controlada >200/110 mmHg es un criterio RELATIVE (proceder solo si el beneficio esperado supera el riesgo, tipicamente con supervision medica), no ABSOLUTE. Fuente ya catalogada en NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md seccion B.3, no proviene de un gap de Fase 3B-R."
+        }
+      ],
+      "source_ids": [
+        "ACC_AHA_1997_2002",
+        "ACSM_GETP11"
+      ],
+      "rationale": "Estratificacion de riesgo cardiovascular de preparticipacion (ACC/AHA reflejada en ACSM GETP, GUIDELINE vigente): HTA no controlada >200/110 mmHg es un criterio RELATIVE (proceder solo si el beneficio esperado supera el riesgo, tipicamente con supervision medica), no ABSOLUTE. Fuente ya catalogada en NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md seccion B.3, no proviene de un gap de Fase 3B-R.",
+      "stop_criteria": [],
+      "stop_criteria_not_applicable_reason": "Regla de preparticipacion (gate de entrada), no describe un criterio de cese durante la ejecucion -- el ejercicio no deberia haberse iniciado en ese estado sin clearance medico.",
+      "review_status": "PENDING_HUMAN_REVIEW",
+      "review_flags": [
+        "AI_GENERATED_UNREVIEWED"
+      ],
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "created_at": null,
+      "last_modified_at": null,
+      "provenance_trace": {
+        "research_source_document": "NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md",
+        "research_gap_reference": null,
+        "gap_resolution_status": null
+      }
+    },
+    {
+      "safety_rule_id": "safety_rule.hta.valsalva_isometric_effort_precaution",
+      "target_entity_type": "EXERCISE_AND_EXERCISE_VARIANT",
+      "applies_to": {
+        "scope": "attribute_selector",
+        "attribute_name": "valsalva_risk_relevant",
+        "attribute_value": true
+      },
+      "clinical_profile_id": "hta",
+      "safety_status": "PRECAUTION",
+      "condition_trigger": "Cualquier EXERCISE o EXERCISE_VARIANT con valsalva_risk_relevant=true, para usuario con perfil hta.",
+      "recommendation_adaptation": "Evitar maniobra de Valsalva sostenida; priorizar tecnica de respiracion controlada (exhalar en la fase de esfuerzo); considerar carga submaxima cuando el patron lo permita.",
+      "supervision_requirement": "RECOMMENDED",
+      "medical_clearance_required": false,
+      "evidence_strength": "MODERATE",
+      "evidence_maturity": "MODERATE",
+      "scientific_provenance": [
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "MACDOUGALL1985",
+            "SPORTS_MED_ISOMETRIC_BP2024",
+            "ACSM_HTA_PRONOUNCEMENT"
+          ],
+          "note": "MacDougall 1985 y la revision sistematica 2024 (Sports Medicine) cuantifican picos de presion sistolica proporcionales a intensidad/duracion del esfuerzo isometrico; el meta-analisis BJSM 2023 confirma beneficio cronico del entrenamiento isometrico bien dosificado -- riesgo agudo y beneficio cronico coexisten, por lo que la regla es de PRECAUCION tecnica, no de contraindicacion categorica. Ningun umbral numerico de PA se fija: la evidencia cuantitativa es mayoritariamente en sujetos sanos, extrapolada a HTA con una muestra pequena (n=12) de pacientes reales."
+        }
+      ],
+      "source_ids": [
+        "MACDOUGALL1985",
+        "SPORTS_MED_ISOMETRIC_BP2024",
+        "ACSM_HTA_PRONOUNCEMENT"
+      ],
+      "rationale": "MacDougall 1985 y la revision sistematica 2024 (Sports Medicine) cuantifican picos de presion sistolica proporcionales a intensidad/duracion del esfuerzo isometrico; el meta-analisis BJSM 2023 confirma beneficio cronico del entrenamiento isometrico bien dosificado -- riesgo agudo y beneficio cronico coexisten, por lo que la regla es de PRECAUCION tecnica, no de contraindicacion categorica. Ningun umbral numerico de PA se fija: la evidencia cuantitativa es mayoritariamente en sujetos sanos, extrapolada a HTA con una muestra pequena (n=12) de pacientes reales.",
+      "stop_criteria": [
+        "mareo o vision borrosa durante el esfuerzo",
+        "cefalea subita durante el esfuerzo",
+        "dolor toracico"
+      ],
+      "stop_criteria_not_applicable_reason": null,
+      "review_status": "PENDING_HUMAN_REVIEW",
+      "review_flags": [
+        "AI_GENERATED_UNREVIEWED"
+      ],
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "created_at": null,
+      "last_modified_at": null,
+      "provenance_trace": {
+        "research_source_document": "NUTRILONGX_EJERCICIO_PHASE3B_TARGETED_RESEARCH_v1.md",
+        "research_gap_reference": "Gap 6 -- PA/esfuerzo isometrico en HTA",
+        "gap_resolution_status": "PARTIALLY_RESOLVED"
+      }
+    },
+    {
+      "safety_rule_id": "safety_rule.fragilidad_sarcopenia.floor_transition_adaptation",
+      "target_entity_type": "EXERCISE_AND_EXERCISE_VARIANT",
+      "applies_to": {
+        "scope": "attribute_selector",
+        "attribute_name": "functional_requirement.requires_floor_transition",
+        "attribute_value": true
+      },
+      "clinical_profile_id": "fragilidad_sarcopenia",
+      "safety_status": "ADAPTATION",
+      "condition_trigger": "Cualquier EXERCISE o EXERCISE_VARIANT con functional_requirement.requires_floor_transition=true, para usuario con perfil fragilidad_sarcopenia.",
+      "recommendation_adaptation": "Practicar primero con apoyo de mobiliario estable disponible (usar la EXERCISE_VARIANT de tipo REGRESSION con apoyo si existe para la familia); progresar a transicion sin apoyo solo tras demostrar control. Supervision recomendada en las primeras sesiones.",
+      "supervision_requirement": "RECOMMENDED",
+      "medical_clearance_required": false,
+      "evidence_strength": "MODERATE",
+      "evidence_maturity": "MODERATE",
+      "scientific_provenance": [
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "LEONHARDT2020",
+            "HOFMEYER2002",
+            "AGE_AGEING_PILOT2026"
+          ],
+          "note": "Revision sistematica (Leonhardt 2020) y 2 ensayos primarios (Hofmeyer 2002, piloto RCT 2026) coinciden en que la transicion suelo-bipedestacion es entrenable con practica estructurada y progresion apoyo->sin apoyo, mejorando en semanas. Consistencia alta entre las 3 fuentes. No se fija un numero de sesiones ni una duracion porque ninguna fuente valido un parametro de dosis especifico para poblacion fragil."
+        }
+      ],
+      "source_ids": [
+        "LEONHARDT2020",
+        "HOFMEYER2002",
+        "AGE_AGEING_PILOT2026"
+      ],
+      "rationale": "Revision sistematica (Leonhardt 2020) y 2 ensayos primarios (Hofmeyer 2002, piloto RCT 2026) coinciden en que la transicion suelo-bipedestacion es entrenable con practica estructurada y progresion apoyo->sin apoyo, mejorando en semanas. Consistencia alta entre las 3 fuentes. No se fija un numero de sesiones ni una duracion porque ninguna fuente valido un parametro de dosis especifico para poblacion fragil.",
+      "stop_criteria": [
+        "dolor agudo durante la transicion",
+        "incapacidad de completar la transicion incluso con apoyo tras 2 intentos"
+      ],
+      "stop_criteria_not_applicable_reason": null,
+      "review_status": "PENDING_HUMAN_REVIEW",
+      "review_flags": [
+        "AI_GENERATED_UNREVIEWED"
+      ],
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "created_at": null,
+      "last_modified_at": null,
+      "provenance_trace": {
+        "research_source_document": "NUTRILONGX_EJERCICIO_PHASE3B_TARGETED_RESEARCH_v1.md",
+        "research_gap_reference": "Gap 2 -- Transicion desde el suelo entrenable (#29)",
+        "gap_resolution_status": "PARTIALLY_RESOLVED"
+      }
+    },
+    {
+      "safety_rule_id": "safety_rule.edad_avanzada.floor_transition_adaptation",
+      "target_entity_type": "EXERCISE_AND_EXERCISE_VARIANT",
+      "applies_to": {
+        "scope": "attribute_selector",
+        "attribute_name": "functional_requirement.requires_floor_transition",
+        "attribute_value": true
+      },
+      "clinical_profile_id": "edad_avanzada",
+      "safety_status": "ADAPTATION",
+      "condition_trigger": "Cualquier EXERCISE o EXERCISE_VARIANT con functional_requirement.requires_floor_transition=true, para usuario con perfil edad_avanzada.",
+      "recommendation_adaptation": "Practicar primero con apoyo de mobiliario estable disponible (usar la EXERCISE_VARIANT de tipo REGRESSION con apoyo si existe para la familia); progresar a transicion sin apoyo solo tras demostrar control. Supervision recomendada en las primeras sesiones.",
+      "supervision_requirement": "RECOMMENDED",
+      "medical_clearance_required": false,
+      "evidence_strength": "MODERATE",
+      "evidence_maturity": "MODERATE",
+      "scientific_provenance": [
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "LEONHARDT2020",
+            "HOFMEYER2002",
+            "AGE_AGEING_PILOT2026"
+          ],
+          "note": "Revision sistematica (Leonhardt 2020) y 2 ensayos primarios (Hofmeyer 2002, piloto RCT 2026) coinciden en que la transicion suelo-bipedestacion es entrenable con practica estructurada y progresion apoyo->sin apoyo, mejorando en semanas. Consistencia alta entre las 3 fuentes. No se fija un numero de sesiones ni una duracion porque ninguna fuente valido un parametro de dosis especifico para poblacion fragil."
+        }
+      ],
+      "source_ids": [
+        "LEONHARDT2020",
+        "HOFMEYER2002",
+        "AGE_AGEING_PILOT2026"
+      ],
+      "rationale": "Revision sistematica (Leonhardt 2020) y 2 ensayos primarios (Hofmeyer 2002, piloto RCT 2026) coinciden en que la transicion suelo-bipedestacion es entrenable con practica estructurada y progresion apoyo->sin apoyo, mejorando en semanas. Consistencia alta entre las 3 fuentes. No se fija un numero de sesiones ni una duracion porque ninguna fuente valido un parametro de dosis especifico para poblacion fragil.",
+      "stop_criteria": [
+        "dolor agudo durante la transicion",
+        "incapacidad de completar la transicion incluso con apoyo tras 2 intentos"
+      ],
+      "stop_criteria_not_applicable_reason": null,
+      "review_status": "PENDING_HUMAN_REVIEW",
+      "review_flags": [
+        "AI_GENERATED_UNREVIEWED"
+      ],
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "created_at": null,
+      "last_modified_at": null,
+      "provenance_trace": {
+        "research_source_document": "NUTRILONGX_EJERCICIO_PHASE3B_TARGETED_RESEARCH_v1.md",
+        "research_gap_reference": "Gap 2 -- Transicion desde el suelo entrenable (#29)",
+        "gap_resolution_status": "PARTIALLY_RESOLVED"
+      }
+    },
+    {
+      "safety_rule_id": "safety_rule.fragilidad_sarcopenia.loaded_carry_grip_precaution",
+      "target_entity_type": "EXERCISE_AND_EXERCISE_VARIANT",
+      "applies_to": {
+        "scope": "attribute_selector",
+        "attribute_name": "functional_requirement.requires_grip_strength",
+        "attribute_value": "HIGH"
+      },
+      "clinical_profile_id": "fragilidad_sarcopenia",
+      "safety_status": "PRECAUTION",
+      "condition_trigger": "Cualquier EXERCISE o EXERCISE_VARIANT con functional_requirement.requires_grip_strength=HIGH, para usuario con perfil fragilidad_sarcopenia.",
+      "recommendation_adaptation": "Iniciar con la carga mas baja tecnicamente util y trayecto corto, priorizando tecnica de porte/braceo correcta (principios generales de ejercicios tipo 'strongman carry'); supervision recomendada. NO existe parametro de dosis (carga/distancia) validado para esta poblacion -- ver EVIDENCE_GAP asociado, no se infiere ni se fija un numero.",
+      "supervision_requirement": "RECOMMENDED",
+      "medical_clearance_required": false,
+      "evidence_strength": "LIMITED",
+      "evidence_maturity": "LIMITED",
+      "scientific_provenance": [
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "WINWOOD2019_CARRIES"
+          ],
+          "note": "Winwood et al. 2019 (revision sistematica) describe principios biomecanicos y de aplicacion de ejercicios de carga/porte en adultos sanos en general; NINGUNA fuente localizada aborda dosis segura en poblacion con fragilidad especificamente -- esta es la laguna real identificada en Fase 3B-R Gap 3. La regla se limita a un principio tecnico general (progresion conservadora, supervision), sin fijar carga ni distancia, precisamente para no convertir la ausencia de evidencia de dosis en una cifra inventada."
+        }
+      ],
+      "source_ids": [
+        "WINWOOD2019_CARRIES"
+      ],
+      "rationale": "Winwood et al. 2019 (revision sistematica) describe principios biomecanicos y de aplicacion de ejercicios de carga/porte en adultos sanos en general; NINGUNA fuente localizada aborda dosis segura en poblacion con fragilidad especificamente -- esta es la laguna real identificada en Fase 3B-R Gap 3. La regla se limita a un principio tecnico general (progresion conservadora, supervision), sin fijar carga ni distancia, precisamente para no convertir la ausencia de evidencia de dosis en una cifra inventada.",
+      "stop_criteria": [
+        "dolor lumbar o de antebrazo durante el porte",
+        "perdida de la postura erguida"
+      ],
+      "stop_criteria_not_applicable_reason": null,
+      "review_status": "PENDING_HUMAN_REVIEW",
+      "review_flags": [
+        "AI_GENERATED_UNREVIEWED"
+      ],
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "created_at": null,
+      "last_modified_at": null,
+      "provenance_trace": {
+        "research_source_document": "NUTRILONGX_EJERCICIO_PHASE3B_TARGETED_RESEARCH_v1.md",
+        "research_gap_reference": "Gap 3 -- Loaded carry (#17), sub-aspecto poblacion fragil",
+        "gap_resolution_status": "UNRESOLVED_FOR_FRAIL_POPULATION_DOSAGE_ONLY"
+      }
+    },
+    {
+      "safety_rule_id": "safety_rule.fragilidad_sarcopenia.hiit_modification_precaution",
+      "target_entity_type": "EXERCISE_AND_EXERCISE_VARIANT",
+      "applies_to": {
+        "scope": "training_format",
+        "value": "HIIT"
+      },
+      "clinical_profile_id": "fragilidad_sarcopenia",
+      "safety_status": "PRECAUTION",
+      "condition_trigger": "Cualquier EXERCISE o EXERCISE_VARIANT con training_format conteniendo 'HIIT', para usuario con perfil fragilidad_sarcopenia.",
+      "recommendation_adaptation": "Modificar el formato HIIT estandar: reducir intensidad pico e intervalo de esfuerzo, aumentar intervalo de recuperacion, progresar gradualmente. Supervision profesional requerida, no formato no supervisado/autoentrenamiento en estas subpoblaciones.",
+      "supervision_requirement": "REQUIRED",
+      "medical_clearance_required": false,
+      "evidence_strength": "MODERATE",
+      "evidence_maturity": "MODERATE",
+      "scientific_provenance": [
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ICFSR2019_DENT",
+            "ICFSR2021_UPDATE",
+            "PARRAGA_MONTILLA2024",
+            "PALMA2021",
+            "WEWEGE2018"
+          ],
+          "note": "Consenso ICFSR (2019/2021) y 2 revisiones sistematicas/meta-analisis (Parraga-Montilla 2024, Palma 2021) coinciden en que HIIT modificado y supervisado puede ser seguro y eficaz en estas poblaciones; ninguna fuente respalda HIIT estandar sin modificacion. ICFSR es explicito en que la primera linea de tratamiento en fragilidad es entrenamiento de fuerza multicomponente; el formato HIIT modificado se admite como complemento seguro solo si supervisado y progresado gradualmente, nunca como HIIT estandar de alta intensidad pico."
+        }
+      ],
+      "source_ids": [
+        "ICFSR2019_DENT",
+        "ICFSR2021_UPDATE",
+        "PARRAGA_MONTILLA2024",
+        "PALMA2021",
+        "WEWEGE2018"
+      ],
+      "rationale": "Consenso ICFSR (2019/2021) y 2 revisiones sistematicas/meta-analisis (Parraga-Montilla 2024, Palma 2021) coinciden en que HIIT modificado y supervisado puede ser seguro y eficaz en estas poblaciones; ninguna fuente respalda HIIT estandar sin modificacion. ICFSR es explicito en que la primera linea de tratamiento en fragilidad es entrenamiento de fuerza multicomponente; el formato HIIT modificado se admite como complemento seguro solo si supervisado y progresado gradualmente, nunca como HIIT estandar de alta intensidad pico.",
+      "stop_criteria": [
+        "disnea desproporcionada al esfuerzo programado",
+        "dolor toracico",
+        "mareo o inestabilidad postural durante el intervalo de alta intensidad"
+      ],
+      "stop_criteria_not_applicable_reason": null,
+      "review_status": "PENDING_HUMAN_REVIEW",
+      "review_flags": [
+        "AI_GENERATED_UNREVIEWED"
+      ],
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "created_at": null,
+      "last_modified_at": null,
+      "provenance_trace": {
+        "research_source_document": "NUTRILONGX_EJERCICIO_PHASE3B_TARGETED_RESEARCH_v1.md",
+        "research_gap_reference": "Gap 4 -- Seguridad de HIIT en fragilidad/edad avanzada/oncologia",
+        "gap_resolution_status": "PARTIALLY_RESOLVED"
+      }
+    },
+    {
+      "safety_rule_id": "safety_rule.edad_avanzada.hiit_modification_precaution",
+      "target_entity_type": "EXERCISE_AND_EXERCISE_VARIANT",
+      "applies_to": {
+        "scope": "training_format",
+        "value": "HIIT"
+      },
+      "clinical_profile_id": "edad_avanzada",
+      "safety_status": "PRECAUTION",
+      "condition_trigger": "Cualquier EXERCISE o EXERCISE_VARIANT con training_format conteniendo 'HIIT', para usuario con perfil edad_avanzada.",
+      "recommendation_adaptation": "Modificar el formato HIIT estandar: reducir intensidad pico e intervalo de esfuerzo, aumentar intervalo de recuperacion, progresar gradualmente. Supervision profesional requerida, no formato no supervisado/autoentrenamiento en estas subpoblaciones.",
+      "supervision_requirement": "REQUIRED",
+      "medical_clearance_required": false,
+      "evidence_strength": "MODERATE",
+      "evidence_maturity": "MODERATE",
+      "scientific_provenance": [
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ICFSR2019_DENT",
+            "ICFSR2021_UPDATE",
+            "PARRAGA_MONTILLA2024",
+            "PALMA2021",
+            "WEWEGE2018"
+          ],
+          "note": "Consenso ICFSR (2019/2021) y 2 revisiones sistematicas/meta-analisis (Parraga-Montilla 2024, Palma 2021) coinciden en que HIIT modificado y supervisado puede ser seguro y eficaz en estas poblaciones; ninguna fuente respalda HIIT estandar sin modificacion. Aplica a edad avanzada en general (no necesariamente fragil); la evidencia de las 2 revisiones sistematicas es consistente en exigir individualizacion de intensidad/duracion de intervalo."
+        }
+      ],
+      "source_ids": [
+        "ICFSR2019_DENT",
+        "ICFSR2021_UPDATE",
+        "PARRAGA_MONTILLA2024",
+        "PALMA2021",
+        "WEWEGE2018"
+      ],
+      "rationale": "Consenso ICFSR (2019/2021) y 2 revisiones sistematicas/meta-analisis (Parraga-Montilla 2024, Palma 2021) coinciden en que HIIT modificado y supervisado puede ser seguro y eficaz en estas poblaciones; ninguna fuente respalda HIIT estandar sin modificacion. Aplica a edad avanzada en general (no necesariamente fragil); la evidencia de las 2 revisiones sistematicas es consistente en exigir individualizacion de intensidad/duracion de intervalo.",
+      "stop_criteria": [
+        "disnea desproporcionada al esfuerzo programado",
+        "dolor toracico",
+        "mareo o inestabilidad postural durante el intervalo de alta intensidad"
+      ],
+      "stop_criteria_not_applicable_reason": null,
+      "review_status": "PENDING_HUMAN_REVIEW",
+      "review_flags": [
+        "AI_GENERATED_UNREVIEWED"
+      ],
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "created_at": null,
+      "last_modified_at": null,
+      "provenance_trace": {
+        "research_source_document": "NUTRILONGX_EJERCICIO_PHASE3B_TARGETED_RESEARCH_v1.md",
+        "research_gap_reference": "Gap 4 -- Seguridad de HIIT en fragilidad/edad avanzada/oncologia",
+        "gap_resolution_status": "PARTIALLY_RESOLVED"
+      }
+    },
+    {
+      "safety_rule_id": "safety_rule.oncologia.hiit_modification_precaution",
+      "target_entity_type": "EXERCISE_AND_EXERCISE_VARIANT",
+      "applies_to": {
+        "scope": "training_format",
+        "value": "HIIT"
+      },
+      "clinical_profile_id": "oncologia",
+      "safety_status": "PRECAUTION",
+      "condition_trigger": "Cualquier EXERCISE o EXERCISE_VARIANT con training_format conteniendo 'HIIT', para usuario con perfil oncologia.",
+      "recommendation_adaptation": "Modificar el formato HIIT estandar: reducir intensidad pico e intervalo de esfuerzo, aumentar intervalo de recuperacion, progresar gradualmente. Supervision profesional requerida, no formato no supervisado/autoentrenamiento en estas subpoblaciones.",
+      "supervision_requirement": "REQUIRED",
+      "medical_clearance_required": false,
+      "evidence_strength": "MODERATE",
+      "evidence_maturity": "MODERATE",
+      "scientific_provenance": [
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "ICFSR2019_DENT",
+            "ICFSR2021_UPDATE",
+            "PARRAGA_MONTILLA2024",
+            "PALMA2021",
+            "WEWEGE2018"
+          ],
+          "note": "Consenso ICFSR (2019/2021) y 2 revisiones sistematicas/meta-analisis (Parraga-Montilla 2024, Palma 2021) coinciden en que HIIT modificado y supervisado puede ser seguro y eficaz en estas poblaciones; ninguna fuente respalda HIIT estandar sin modificacion. IMPORTANTE: la evidencia (incl. Wewege 2018, proxy de rehabilitacion cardiaca) cubre supervivientes/pacientes post-tratamiento oncologico. NO cubre oncologia en tratamiento activo ni subpoblaciones hematologicas/con metastasis oseas -- ese sub-aspecto permanece EVIDENCE_GAP explicito, no se extiende la regla a esa subpoblacion."
+        }
+      ],
+      "source_ids": [
+        "ICFSR2019_DENT",
+        "ICFSR2021_UPDATE",
+        "PARRAGA_MONTILLA2024",
+        "PALMA2021",
+        "WEWEGE2018"
+      ],
+      "rationale": "Consenso ICFSR (2019/2021) y 2 revisiones sistematicas/meta-analisis (Parraga-Montilla 2024, Palma 2021) coinciden en que HIIT modificado y supervisado puede ser seguro y eficaz en estas poblaciones; ninguna fuente respalda HIIT estandar sin modificacion. IMPORTANTE: la evidencia (incl. Wewege 2018, proxy de rehabilitacion cardiaca) cubre supervivientes/pacientes post-tratamiento oncologico. NO cubre oncologia en tratamiento activo ni subpoblaciones hematologicas/con metastasis oseas -- ese sub-aspecto permanece EVIDENCE_GAP explicito, no se extiende la regla a esa subpoblacion.",
+      "stop_criteria": [
+        "disnea desproporcionada al esfuerzo programado",
+        "dolor toracico",
+        "mareo o inestabilidad postural durante el intervalo de alta intensidad"
+      ],
+      "stop_criteria_not_applicable_reason": null,
+      "review_status": "PENDING_HUMAN_REVIEW",
+      "review_flags": [
+        "AI_GENERATED_UNREVIEWED"
+      ],
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "created_at": null,
+      "last_modified_at": null,
+      "provenance_trace": {
+        "research_source_document": "NUTRILONGX_EJERCICIO_PHASE3B_TARGETED_RESEARCH_v1.md",
+        "research_gap_reference": "Gap 4 -- Seguridad de HIIT en fragilidad/edad avanzada/oncologia",
+        "gap_resolution_status": "PARTIALLY_RESOLVED"
+      }
+    },
+    {
+      "safety_rule_id": "safety_rule.renal_leve_moderada.hiit_relative_contraindication",
+      "target_entity_type": "EXERCISE_AND_EXERCISE_VARIANT",
+      "applies_to": {
+        "scope": "training_format",
+        "value": "HIIT"
+      },
+      "clinical_profile_id": "renal_leve_moderada",
+      "safety_status": "RELATIVE_CONTRAINDICATION",
+      "condition_trigger": "Cualquier EXERCISE o EXERCISE_VARIANT con training_format conteniendo 'HIIT', para usuario con perfil renal_leve_moderada.",
+      "recommendation_adaptation": "Evitar formato HIIT salvo autorizacion medica explicita caso por caso; usar formatos de intensidad continua moderada como alternativa por defecto.",
+      "supervision_requirement": "NOT_APPLICABLE",
+      "medical_clearance_required": true,
+      "evidence_strength": "STRONG",
+      "evidence_maturity": "STRONG",
+      "scientific_provenance": [
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "UKKA2021"
+          ],
+          "note": "UK Kidney Association / UKKA 2021 (GUIDELINE, endosada por NICE, ya catalogada como fuente principal del perfil renal_leve_moderada en NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md B.4) excluye explicitamente HIIT de sus recomendaciones para enfermedad renal cronica por relacion beneficio-riesgo desfavorable. Esta fuente ya estaba catalogada antes de Fase 3B-R; no requirio investigacion nueva -- se formaliza aqui porque la matriz de cobertura ya la marcaba RULE_REQUIRED con base suficiente."
+        }
+      ],
+      "source_ids": [
+        "UKKA2021"
+      ],
+      "rationale": "UK Kidney Association / UKKA 2021 (GUIDELINE, endosada por NICE, ya catalogada como fuente principal del perfil renal_leve_moderada en NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md B.4) excluye explicitamente HIIT de sus recomendaciones para enfermedad renal cronica por relacion beneficio-riesgo desfavorable. Esta fuente ya estaba catalogada antes de Fase 3B-R; no requirio investigacion nueva -- se formaliza aqui porque la matriz de cobertura ya la marcaba RULE_REQUIRED con base suficiente.",
+      "stop_criteria": [],
+      "stop_criteria_not_applicable_reason": "Exclusion de formato de preparticipacion/programacion, no un criterio de cese durante una sesion que no deberia haberse programado en ese formato.",
+      "review_status": "PENDING_HUMAN_REVIEW",
+      "review_flags": [
+        "AI_GENERATED_UNREVIEWED"
+      ],
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "created_at": null,
+      "last_modified_at": null,
+      "provenance_trace": {
+        "research_source_document": "NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md",
+        "research_gap_reference": null,
+        "gap_resolution_status": null
+      }
+    },
+    {
+      "safety_rule_id": "safety_rule.menopausia.high_impact_precaution",
+      "target_entity_type": "EXERCISE_AND_EXERCISE_VARIANT",
+      "applies_to": {
+        "scope": "attribute_selector",
+        "attribute_name": "impact_level",
+        "attribute_value": "HIGH"
+      },
+      "clinical_profile_id": "menopausia",
+      "safety_status": "PRECAUTION",
+      "condition_trigger": "Cualquier EXERCISE o EXERCISE_VARIANT con impact_level=HIGH, para usuario con perfil menopausia.",
+      "recommendation_adaptation": "Requiere evaluacion individualizada de riesgo de fractura (T-score/historial) antes de recomendar; impacto MODERATE no queda restringido por esta regla (evidencia lo respalda como generalmente beneficioso para salud osea) -- la precaucion aplica especificamente a impact_level=HIGH combinado con carga de resistencia.",
+      "supervision_requirement": "RECOMMENDED",
+      "medical_clearance_required": false,
+      "evidence_strength": "MODERATE",
+      "evidence_maturity": "MODERATE",
+      "scientific_provenance": [
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "STRONG_STEADY_STRAIGHT2022",
+            "HIRIT_NARRATIVE_REVIEW2025"
+          ],
+          "note": "El consenso 'Strong, Steady and Straight' (UK, 2022) y una revision narrativa 2025 sobre HiRIT respaldan impacto moderado como seguro/beneficioso en osteopenia/osteoporosis postmenopausica, pero senalan que el impacto alto combinado con carga de resistencia pesada carece de umbrales validados para uso no supervisado -- exactamente el sub-aspecto que Fase 3B-R Gap 5 dejo UNRESOLVED. Esta regla cubre solo el sub-aspecto PARTIALLY_RESOLVED (bandera de precaucion, no un umbral numerico)."
+        }
+      ],
+      "source_ids": [
+        "STRONG_STEADY_STRAIGHT2022",
+        "HIRIT_NARRATIVE_REVIEW2025"
+      ],
+      "rationale": "El consenso 'Strong, Steady and Straight' (UK, 2022) y una revision narrativa 2025 sobre HiRIT respaldan impacto moderado como seguro/beneficioso en osteopenia/osteoporosis postmenopausica, pero senalan que el impacto alto combinado con carga de resistencia pesada carece de umbrales validados para uso no supervisado -- exactamente el sub-aspecto que Fase 3B-R Gap 5 dejo UNRESOLVED. Esta regla cubre solo el sub-aspecto PARTIALLY_RESOLVED (bandera de precaucion, no un umbral numerico).",
+      "stop_criteria": [
+        "dolor oseo agudo durante o tras el impacto",
+        "antecedente de fractura por fragilidad no evaluado medicamente"
+      ],
+      "stop_criteria_not_applicable_reason": null,
+      "review_status": "PENDING_HUMAN_REVIEW",
+      "review_flags": [
+        "AI_GENERATED_UNREVIEWED"
+      ],
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "created_at": null,
+      "last_modified_at": null,
+      "provenance_trace": {
+        "research_source_document": "NUTRILONGX_EJERCICIO_PHASE3B_TARGETED_RESEARCH_v1.md",
+        "research_gap_reference": "Gap 5 -- Impacto en osteoporosis postmenopausica",
+        "gap_resolution_status": "PARTIALLY_RESOLVED"
+      }
+    },
+    {
+      "safety_rule_id": "safety_rule.fragilidad_sarcopenia.fall_risk_adaptation",
+      "target_entity_type": "EXERCISE_AND_EXERCISE_VARIANT",
+      "applies_to": {
+        "scope": "attribute_selector",
+        "attribute_name": "fall_risk_relevant",
+        "attribute_value": true
+      },
+      "clinical_profile_id": "fragilidad_sarcopenia",
+      "safety_status": "ADAPTATION",
+      "condition_trigger": "Cualquier EXERCISE o EXERCISE_VARIANT con fall_risk_relevant=true, para usuario con perfil fragilidad_sarcopenia.",
+      "recommendation_adaptation": "Asegurar soporte estable disponible (pared/silla) o supervision durante las primeras exposiciones; cuando exista una EXERCISE_VARIANT de tipo REGRESSION con menor balance_requirement_level para la misma familia, iniciar por esa variante.",
+      "supervision_requirement": "RECOMMENDED",
+      "medical_clearance_required": false,
+      "evidence_strength": "STRONG",
+      "evidence_maturity": "STRONG",
+      "scientific_provenance": [
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "WHO2020_OLDER",
+            "NICE_NG249_2025",
+            "OTAGO_CAMPBELL1999"
+          ],
+          "note": "WHO 2020 (recomendacion de neuromotor/equilibrio en mayores), NICE NG249 2025 (valoracion y prevencion de caidas) y el programa Otago (Campbell et al. 1999, ensayo fundacional) coinciden consistentemente en recomendar progresion supervisada y soporte disponible para ejercicio con demanda de equilibrio en poblacion con riesgo de caida. Fuentes ya catalogadas en NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md B.4 (evidence_maturity STRONG para ambos perfiles); no proviene de un gap especifico de Fase 3B-R sino de la matriz de cobertura ya aprobada (fall_risk x EA/FRAG = RULE_REQUIRED)."
+        }
+      ],
+      "source_ids": [
+        "WHO2020_OLDER",
+        "NICE_NG249_2025",
+        "OTAGO_CAMPBELL1999"
+      ],
+      "rationale": "WHO 2020 (recomendacion de neuromotor/equilibrio en mayores), NICE NG249 2025 (valoracion y prevencion de caidas) y el programa Otago (Campbell et al. 1999, ensayo fundacional) coinciden consistentemente en recomendar progresion supervisada y soporte disponible para ejercicio con demanda de equilibrio en poblacion con riesgo de caida. Fuentes ya catalogadas en NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md B.4 (evidence_maturity STRONG para ambos perfiles); no proviene de un gap especifico de Fase 3B-R sino de la matriz de cobertura ya aprobada (fall_risk x EA/FRAG = RULE_REQUIRED).",
+      "stop_criteria": [
+        "caida real o casi-caida durante el ejercicio",
+        "mareo o desequilibrio subito"
+      ],
+      "stop_criteria_not_applicable_reason": null,
+      "review_status": "PENDING_HUMAN_REVIEW",
+      "review_flags": [
+        "AI_GENERATED_UNREVIEWED"
+      ],
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "created_at": null,
+      "last_modified_at": null,
+      "provenance_trace": {
+        "research_source_document": "NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md",
+        "research_gap_reference": null,
+        "gap_resolution_status": null
+      }
+    },
+    {
+      "safety_rule_id": "safety_rule.edad_avanzada.fall_risk_adaptation",
+      "target_entity_type": "EXERCISE_AND_EXERCISE_VARIANT",
+      "applies_to": {
+        "scope": "attribute_selector",
+        "attribute_name": "fall_risk_relevant",
+        "attribute_value": true
+      },
+      "clinical_profile_id": "edad_avanzada",
+      "safety_status": "ADAPTATION",
+      "condition_trigger": "Cualquier EXERCISE o EXERCISE_VARIANT con fall_risk_relevant=true, para usuario con perfil edad_avanzada.",
+      "recommendation_adaptation": "Asegurar soporte estable disponible (pared/silla) o supervision durante las primeras exposiciones; cuando exista una EXERCISE_VARIANT de tipo REGRESSION con menor balance_requirement_level para la misma familia, iniciar por esa variante.",
+      "supervision_requirement": "RECOMMENDED",
+      "medical_clearance_required": false,
+      "evidence_strength": "STRONG",
+      "evidence_maturity": "STRONG",
+      "scientific_provenance": [
+        {
+          "content_category": "SAFETY_CONTRAINDICATION_ADAPTATION",
+          "source_status": "SOURCE_BACKED",
+          "source_ids": [
+            "WHO2020_OLDER",
+            "NICE_NG249_2025",
+            "OTAGO_CAMPBELL1999"
+          ],
+          "note": "WHO 2020 (recomendacion de neuromotor/equilibrio en mayores), NICE NG249 2025 (valoracion y prevencion de caidas) y el programa Otago (Campbell et al. 1999, ensayo fundacional) coinciden consistentemente en recomendar progresion supervisada y soporte disponible para ejercicio con demanda de equilibrio en poblacion con riesgo de caida. Fuentes ya catalogadas en NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md B.4 (evidence_maturity STRONG para ambos perfiles); no proviene de un gap especifico de Fase 3B-R sino de la matriz de cobertura ya aprobada (fall_risk x EA/FRAG = RULE_REQUIRED)."
+        }
+      ],
+      "source_ids": [
+        "WHO2020_OLDER",
+        "NICE_NG249_2025",
+        "OTAGO_CAMPBELL1999"
+      ],
+      "rationale": "WHO 2020 (recomendacion de neuromotor/equilibrio en mayores), NICE NG249 2025 (valoracion y prevencion de caidas) y el programa Otago (Campbell et al. 1999, ensayo fundacional) coinciden consistentemente en recomendar progresion supervisada y soporte disponible para ejercicio con demanda de equilibrio en poblacion con riesgo de caida. Fuentes ya catalogadas en NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md B.4 (evidence_maturity STRONG para ambos perfiles); no proviene de un gap especifico de Fase 3B-R sino de la matriz de cobertura ya aprobada (fall_risk x EA/FRAG = RULE_REQUIRED).",
+      "stop_criteria": [
+        "caida real o casi-caida durante el ejercicio",
+        "mareo o desequilibrio subito"
+      ],
+      "stop_criteria_not_applicable_reason": null,
+      "review_status": "PENDING_HUMAN_REVIEW",
+      "review_flags": [
+        "AI_GENERATED_UNREVIEWED"
+      ],
+      "content_maturity": "STRUCTURALLY_COMPLETE",
+      "generated_via": "AI_ASSISTED_SEED_CONTENT_v1",
+      "created_at": null,
+      "last_modified_at": null,
+      "provenance_trace": {
+        "research_source_document": "NUTRILONGX_EJERCICIO_SPEC_PHASE1_v1.md",
+        "research_gap_reference": null,
+        "gap_resolution_status": null
+      }
+    }
+  ]
+}

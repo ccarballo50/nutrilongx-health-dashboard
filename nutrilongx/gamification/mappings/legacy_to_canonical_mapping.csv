@@ -1,0 +1,601 @@
+legacy_id,legacy_pillar,legacy_level,canonical_action_id,canonical_domain,canonical_subdomain,variant_status,variant_review_flags,family_review_flags,family_status
+ALI-BRO-031,Alimentación,Bronce,nutrition.hydration.agua_l_dia,nutrition,hydration,active,,,active
+ALI-BRO-032,Alimentación,Bronce,nutrition.processed_reduction.intercambia_embutido_por_hummus_aguacate,nutrition,processed_reduction,active,,,active
+ALI-BRO-033,Alimentación,Bronce,nutrition.meal_planning.cocina_en_casa_comida_ultraprocesada,nutrition,meal_planning,active,,,active
+ALI-BRO-034,Alimentación,Bronce,nutrition.mediterranean_pattern.incluye_raciones_de_verduras_de_hoja,nutrition,mediterranean_pattern,active,,,active
+ALI-BRO-035,Alimentación,Bronce,nutrition.mediterranean_pattern.anade_racion_de_legumbre_en_ensalada,nutrition,mediterranean_pattern,active,,,active
+ALI-BRO-036,Alimentación,Bronce,nutrition.processed_reduction.una_pieza_de_fruta_extra_por_snack,nutrition,processed_reduction,active,,,active
+ALI-BRO-037,Alimentación,Bronce,nutrition.processed_reduction.elige_agua_tambien_fuera_de_casa,nutrition,processed_reduction,active,,,active
+ALI-BRO-038,Alimentación,Bronce,nutrition.mediterranean_pattern.incluye_cereal_integral_distinto_avena_q,nutrition,mediterranean_pattern,active,,,active
+ALI-BRO-039,Alimentación,Bronce,nutrition.meal_planning.usa_metodo_del_plato_verdura,nutrition,meal_planning,active,,,active
+ALI-BRO-040,Alimentación,Bronce,nutrition.meal_planning.registra_lo_que_comes_foto_nota,nutrition,meal_planning,active,,,active
+ALI-BRO-041,Alimentación,Bronce,nutrition.meal_planning.planifica_menu_mediterraneo_semanal,nutrition,meal_planning,active,,,active
+ALI-BRO-042,Alimentación,Bronce,nutrition.processed_reduction.salsa_casera_tomate_legumbre_sin_azucar,nutrition,processed_reduction,active,,,active
+ALI-BRO-043,Alimentación,Bronce,nutrition.processed_reduction.reduce_upf_snacks_envasados,nutrition,processed_reduction,active,,,active
+ALI-BRO-044,Alimentación,Bronce,nutrition.processed_reduction.reduce_dulces_industriales_a_hoy,nutrition,processed_reduction,active,,,active
+ALI-BRO-045,Alimentación,Bronce,nutrition.mediterranean_pattern.anade_semillas_linaza_chia_cda,nutrition,mediterranean_pattern,active,,,active
+ALI-BRO-046,Alimentación,Bronce,nutrition.processed_reduction.reduce_carne_procesada_a_hoy,nutrition,processed_reduction,active,,,active
+ALI-BRO-047,Alimentación,Bronce,nutrition.meal_planning.cena_temprana_y_ligera,nutrition,meal_planning,active,,,active
+ALI-BRO-048,Alimentación,Bronce,nutrition.mediterranean_pattern.legumbres_veces_sem,nutrition,mediterranean_pattern,active,,,active
+ALI-BRO-049,Alimentación,Bronce,nutrition.mediterranean_pattern.anade_g_de_frutos_secos_naturales,nutrition,mediterranean_pattern,active,,,active
+ALI-BRO-050,Alimentación,Bronce,nutrition.mediterranean_pattern.legumbres_racion_es,nutrition,mediterranean_pattern,active,,,active
+ALI-BRO-051,Alimentación,Bronce,nutrition.processed_reduction.sustituye_refresco_por_agua_infusion,nutrition,processed_reduction,active,,,active
+ALI-BRO-052,Alimentación,Bronce,nutrition.mediterranean_pattern.pan_integral_en_comidas,nutrition,mediterranean_pattern,active,,,active
+ALI-BRO-053,Alimentación,Bronce,nutrition.mediterranean_pattern.fruta_entera_pieza_s,nutrition,mediterranean_pattern,active,,,active
+ALI-BRO-054,Alimentación,Bronce,nutrition.mediterranean_pattern.verduras_racion_es,nutrition,mediterranean_pattern,active,,,active
+ALI-BRO-055,Alimentación,Bronce,nutrition.processed_reduction.carne_roja_g,nutrition,processed_reduction,active,,,active
+ALI-BRO-056,Alimentación,Bronce,nutrition.mediterranean_pattern.usa_aove_como_grasa_principal_cucharadas,nutrition,mediterranean_pattern,active,,,active
+ALI-BRO-057,Alimentación,Bronce,nutrition.mediterranean_pattern.lacteos_naturales_sin_azucar,nutrition,mediterranean_pattern,active,,,active
+ALI-BRO-058,Alimentación,Bronce,nutrition.meal_planning.desayuno_con_proteina_y_fibra,nutrition,meal_planning,active,,,active
+ALI-BRO-059,Alimentación,Bronce,nutrition.processed_reduction.postre_fruta_o_yogur_natural,nutrition,processed_reduction,active,,,active
+ALI-BRO-060,Alimentación,Bronce,nutrition.mediterranean_pattern.pescado_azul_vez_sem,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-001,Alimentación,Inicial,nutrition.mediterranean_pattern.anade_g_de_frutos_secos_naturales,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-002,Alimentación,Inicial,nutrition.processed_reduction.elige_agua_tambien_fuera_de_casa,nutrition,processed_reduction,active,,,active
+ALI-INI-003,Alimentación,Inicial,nutrition.processed_reduction.salsa_casera_tomate_legumbre_sin_azucar,nutrition,processed_reduction,active,,,active
+ALI-INI-004,Alimentación,Inicial,nutrition.meal_planning.planifica_menu_mediterraneo_semanal,nutrition,meal_planning,active,,,active
+ALI-INI-005,Alimentación,Inicial,nutrition.meal_planning.registra_lo_que_comes_foto_nota,nutrition,meal_planning,active,,,active
+ALI-INI-006,Alimentación,Inicial,nutrition.meal_planning.usa_metodo_del_plato_verdura,nutrition,meal_planning,active,,,active
+ALI-INI-007,Alimentación,Inicial,nutrition.mediterranean_pattern.incluye_cereal_integral_distinto_avena_q,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-008,Alimentación,Inicial,nutrition.processed_reduction.reduce_dulces_industriales_a_hoy,nutrition,processed_reduction,active,,,active
+ALI-INI-009,Alimentación,Inicial,nutrition.processed_reduction.intercambia_embutido_por_hummus_aguacate,nutrition,processed_reduction,active,,,active
+ALI-INI-010,Alimentación,Inicial,nutrition.mediterranean_pattern.anade_racion_de_legumbre_en_ensalada,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-011,Alimentación,Inicial,nutrition.mediterranean_pattern.incluye_raciones_de_verduras_de_hoja,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-012,Alimentación,Inicial,nutrition.meal_planning.cocina_en_casa_comida_ultraprocesada,nutrition,meal_planning,active,,,active
+ALI-INI-013,Alimentación,Inicial,nutrition.hydration.agua_l_dia,nutrition,hydration,active,,,active
+ALI-INI-014,Alimentación,Inicial,nutrition.processed_reduction.reduce_upf_snacks_envasados,nutrition,processed_reduction,active,,,active
+ALI-INI-015,Alimentación,Inicial,nutrition.mediterranean_pattern.anade_semillas_linaza_chia_cda,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-016,Alimentación,Inicial,nutrition.processed_reduction.una_pieza_de_fruta_extra_por_snack,nutrition,processed_reduction,active,,,active
+ALI-INI-017,Alimentación,Inicial,nutrition.meal_planning.cena_temprana_y_ligera,nutrition,meal_planning,active,,,active
+ALI-INI-018,Alimentación,Inicial,nutrition.mediterranean_pattern.legumbres_veces_sem,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-019,Alimentación,Inicial,nutrition.mediterranean_pattern.legumbres_racion_es,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-020,Alimentación,Inicial,nutrition.processed_reduction.sustituye_refresco_por_agua_infusion,nutrition,processed_reduction,active,,,active
+ALI-INI-021,Alimentación,Inicial,nutrition.mediterranean_pattern.pan_integral_en_comidas,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-022,Alimentación,Inicial,nutrition.mediterranean_pattern.verduras_racion_es,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-023,Alimentación,Inicial,nutrition.mediterranean_pattern.pescado_azul_vez_sem,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-024,Alimentación,Inicial,nutrition.mediterranean_pattern.fruta_entera_pieza_s,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-025,Alimentación,Inicial,nutrition.processed_reduction.carne_roja_g,nutrition,processed_reduction,active,,,active
+ALI-INI-026,Alimentación,Inicial,nutrition.mediterranean_pattern.usa_aove_como_grasa_principal_cucharadas,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-027,Alimentación,Inicial,nutrition.mediterranean_pattern.lacteos_naturales_sin_azucar,nutrition,mediterranean_pattern,active,,,active
+ALI-INI-028,Alimentación,Inicial,nutrition.meal_planning.desayuno_con_proteina_y_fibra,nutrition,meal_planning,active,,,active
+ALI-INI-029,Alimentación,Inicial,nutrition.processed_reduction.postre_fruta_o_yogur_natural,nutrition,processed_reduction,active,,,active
+ALI-INI-030,Alimentación,Inicial,nutrition.processed_reduction.reduce_carne_procesada_a_hoy,nutrition,processed_reduction,active,,,active
+ALI-ORO-091,Alimentación,Oro,nutrition.hydration.agua_l_dia,nutrition,hydration,active,,,active
+ALI-ORO-092,Alimentación,Oro,nutrition.meal_planning.cocina_en_casa_comida_ultraprocesada,nutrition,meal_planning,active,,,active
+ALI-ORO-093,Alimentación,Oro,nutrition.mediterranean_pattern.incluye_raciones_de_verduras_de_hoja,nutrition,mediterranean_pattern,active,,,active
+ALI-ORO-094,Alimentación,Oro,nutrition.mediterranean_pattern.anade_racion_de_legumbre_en_ensalada,nutrition,mediterranean_pattern,active,,,active
+ALI-ORO-095,Alimentación,Oro,nutrition.processed_reduction.intercambia_embutido_por_hummus_aguacate,nutrition,processed_reduction,active,,,active
+ALI-ORO-096,Alimentación,Oro,nutrition.processed_reduction.reduce_dulces_industriales_a_hoy,nutrition,processed_reduction,active,,,active
+ALI-ORO-097,Alimentación,Oro,nutrition.meal_planning.registra_lo_que_comes_foto_nota,nutrition,meal_planning,active,,,active
+ALI-ORO-098,Alimentación,Oro,nutrition.meal_planning.usa_metodo_del_plato_verdura,nutrition,meal_planning,active,,,active
+ALI-ORO-099,Alimentación,Oro,nutrition.meal_planning.planifica_menu_mediterraneo_semanal,nutrition,meal_planning,active,,,active
+ALI-ORO-100,Alimentación,Oro,nutrition.processed_reduction.salsa_casera_tomate_legumbre_sin_azucar,nutrition,processed_reduction,active,,,active
+ALI-ORO-101,Alimentación,Oro,nutrition.processed_reduction.elige_agua_tambien_fuera_de_casa,nutrition,processed_reduction,active,,,active
+ALI-ORO-102,Alimentación,Oro,nutrition.processed_reduction.reduce_upf_snacks_envasados,nutrition,processed_reduction,active,,,active
+ALI-ORO-103,Alimentación,Oro,nutrition.mediterranean_pattern.incluye_cereal_integral_distinto_avena_q,nutrition,mediterranean_pattern,active,,,active
+ALI-ORO-104,Alimentación,Oro,nutrition.mediterranean_pattern.anade_semillas_linaza_chia_cda,nutrition,mediterranean_pattern,active,,,active
+ALI-ORO-105,Alimentación,Oro,nutrition.processed_reduction.una_pieza_de_fruta_extra_por_snack,nutrition,processed_reduction,active,,,active
+ALI-ORO-106,Alimentación,Oro,nutrition.meal_planning.cena_temprana_y_ligera,nutrition,meal_planning,active,,,active
+ALI-ORO-107,Alimentación,Oro,nutrition.mediterranean_pattern.legumbres_veces_sem,nutrition,mediterranean_pattern,active,,,active
+ALI-ORO-108,Alimentación,Oro,nutrition.mediterranean_pattern.legumbres_racion_es,nutrition,mediterranean_pattern,active,,,active
+ALI-ORO-109,Alimentación,Oro,nutrition.processed_reduction.sustituye_refresco_por_agua_infusion,nutrition,processed_reduction,active,,,active
+ALI-ORO-110,Alimentación,Oro,nutrition.mediterranean_pattern.pan_integral_en_comidas,nutrition,mediterranean_pattern,active,,,active
+ALI-ORO-111,Alimentación,Oro,nutrition.mediterranean_pattern.verduras_racion_es,nutrition,mediterranean_pattern,active,,,active
+ALI-ORO-112,Alimentación,Oro,nutrition.mediterranean_pattern.fruta_entera_pieza_s,nutrition,mediterranean_pattern,active,,,active
+ALI-ORO-113,Alimentación,Oro,nutrition.mediterranean_pattern.pescado_azul_vez_sem,nutrition,mediterranean_pattern,active,,,active
+ALI-ORO-114,Alimentación,Oro,nutrition.mediterranean_pattern.anade_g_de_frutos_secos_naturales,nutrition,mediterranean_pattern,active,,,active
+ALI-ORO-115,Alimentación,Oro,nutrition.processed_reduction.reduce_carne_procesada_a_hoy,nutrition,processed_reduction,active,,,active
+ALI-ORO-116,Alimentación,Oro,nutrition.processed_reduction.carne_roja_g,nutrition,processed_reduction,active,,,active
+ALI-ORO-117,Alimentación,Oro,nutrition.mediterranean_pattern.usa_aove_como_grasa_principal_cucharadas,nutrition,mediterranean_pattern,active,,,active
+ALI-ORO-118,Alimentación,Oro,nutrition.mediterranean_pattern.lacteos_naturales_sin_azucar,nutrition,mediterranean_pattern,active,,,active
+ALI-ORO-119,Alimentación,Oro,nutrition.meal_planning.desayuno_con_proteina_y_fibra,nutrition,meal_planning,active,,,active
+ALI-ORO-120,Alimentación,Oro,nutrition.processed_reduction.postre_fruta_o_yogur_natural,nutrition,processed_reduction,active,,,active
+ALI-PLA-061,Alimentación,Plata,nutrition.hydration.agua_l_dia,nutrition,hydration,active,,,active
+ALI-PLA-062,Alimentación,Plata,nutrition.processed_reduction.intercambia_embutido_por_hummus_aguacate,nutrition,processed_reduction,active,,,active
+ALI-PLA-063,Alimentación,Plata,nutrition.meal_planning.cocina_en_casa_comida_ultraprocesada,nutrition,meal_planning,active,,,active
+ALI-PLA-064,Alimentación,Plata,nutrition.mediterranean_pattern.incluye_raciones_de_verduras_de_hoja,nutrition,mediterranean_pattern,active,,,active
+ALI-PLA-065,Alimentación,Plata,nutrition.mediterranean_pattern.anade_racion_de_legumbre_en_ensalada,nutrition,mediterranean_pattern,active,,,active
+ALI-PLA-066,Alimentación,Plata,nutrition.processed_reduction.una_pieza_de_fruta_extra_por_snack,nutrition,processed_reduction,active,,,active
+ALI-PLA-067,Alimentación,Plata,nutrition.processed_reduction.elige_agua_tambien_fuera_de_casa,nutrition,processed_reduction,active,,,active
+ALI-PLA-068,Alimentación,Plata,nutrition.mediterranean_pattern.incluye_cereal_integral_distinto_avena_q,nutrition,mediterranean_pattern,active,,,active
+ALI-PLA-069,Alimentación,Plata,nutrition.meal_planning.usa_metodo_del_plato_verdura,nutrition,meal_planning,active,,,active
+ALI-PLA-070,Alimentación,Plata,nutrition.meal_planning.registra_lo_que_comes_foto_nota,nutrition,meal_planning,active,,,active
+ALI-PLA-071,Alimentación,Plata,nutrition.meal_planning.planifica_menu_mediterraneo_semanal,nutrition,meal_planning,active,,,active
+ALI-PLA-072,Alimentación,Plata,nutrition.processed_reduction.salsa_casera_tomate_legumbre_sin_azucar,nutrition,processed_reduction,active,,,active
+ALI-PLA-073,Alimentación,Plata,nutrition.processed_reduction.reduce_upf_snacks_envasados,nutrition,processed_reduction,active,,,active
+ALI-PLA-074,Alimentación,Plata,nutrition.processed_reduction.reduce_dulces_industriales_a_hoy,nutrition,processed_reduction,active,,,active
+ALI-PLA-075,Alimentación,Plata,nutrition.mediterranean_pattern.anade_semillas_linaza_chia_cda,nutrition,mediterranean_pattern,active,,,active
+ALI-PLA-076,Alimentación,Plata,nutrition.mediterranean_pattern.legumbres_veces_sem,nutrition,mediterranean_pattern,active,,,active
+ALI-PLA-077,Alimentación,Plata,nutrition.meal_planning.cena_temprana_y_ligera,nutrition,meal_planning,active,,,active
+ALI-PLA-078,Alimentación,Plata,nutrition.mediterranean_pattern.legumbres_racion_es,nutrition,mediterranean_pattern,active,,,active
+ALI-PLA-079,Alimentación,Plata,nutrition.processed_reduction.sustituye_refresco_por_agua_infusion,nutrition,processed_reduction,active,,,active
+ALI-PLA-080,Alimentación,Plata,nutrition.mediterranean_pattern.pan_integral_en_comidas,nutrition,mediterranean_pattern,active,,,active
+ALI-PLA-081,Alimentación,Plata,nutrition.mediterranean_pattern.verduras_racion_es,nutrition,mediterranean_pattern,active,,,active
+ALI-PLA-082,Alimentación,Plata,nutrition.mediterranean_pattern.fruta_entera_pieza_s,nutrition,mediterranean_pattern,active,,,active
+ALI-PLA-083,Alimentación,Plata,nutrition.mediterranean_pattern.pescado_azul_vez_sem,nutrition,mediterranean_pattern,active,,,active
+ALI-PLA-084,Alimentación,Plata,nutrition.mediterranean_pattern.anade_g_de_frutos_secos_naturales,nutrition,mediterranean_pattern,active,,,active
+ALI-PLA-085,Alimentación,Plata,nutrition.processed_reduction.carne_roja_g,nutrition,processed_reduction,active,,,active
+ALI-PLA-086,Alimentación,Plata,nutrition.mediterranean_pattern.usa_aove_como_grasa_principal_cucharadas,nutrition,mediterranean_pattern,active,,,active
+ALI-PLA-087,Alimentación,Plata,nutrition.mediterranean_pattern.lacteos_naturales_sin_azucar,nutrition,mediterranean_pattern,active,,,active
+ALI-PLA-088,Alimentación,Plata,nutrition.meal_planning.desayuno_con_proteina_y_fibra,nutrition,meal_planning,active,,,active
+ALI-PLA-089,Alimentación,Plata,nutrition.processed_reduction.postre_fruta_o_yogur_natural,nutrition,processed_reduction,active,,,active
+ALI-PLA-090,Alimentación,Plata,nutrition.processed_reduction.reduce_carne_procesada_a_hoy,nutrition,processed_reduction,active,,,active
+ALI-PTN-121,Alimentación,Platino,nutrition.processed_reduction.reduce_upf_snacks_envasados,nutrition,processed_reduction,active,,,active
+ALI-PTN-122,Alimentación,Platino,nutrition.hydration.agua_l_dia,nutrition,hydration,active,,,active
+ALI-PTN-123,Alimentación,Platino,nutrition.meal_planning.cocina_en_casa_comida_ultraprocesada,nutrition,meal_planning,active,,,active
+ALI-PTN-124,Alimentación,Platino,nutrition.mediterranean_pattern.incluye_raciones_de_verduras_de_hoja,nutrition,mediterranean_pattern,active,,,active
+ALI-PTN-125,Alimentación,Platino,nutrition.mediterranean_pattern.anade_racion_de_legumbre_en_ensalada,nutrition,mediterranean_pattern,active,,,active
+ALI-PTN-126,Alimentación,Platino,nutrition.processed_reduction.reduce_dulces_industriales_a_hoy,nutrition,processed_reduction,active,,,active
+ALI-PTN-127,Alimentación,Platino,nutrition.processed_reduction.una_pieza_de_fruta_extra_por_snack,nutrition,processed_reduction,active,,,active
+ALI-PTN-128,Alimentación,Platino,nutrition.meal_planning.planifica_menu_mediterraneo_semanal,nutrition,meal_planning,active,,,active
+ALI-PTN-129,Alimentación,Platino,nutrition.mediterranean_pattern.incluye_cereal_integral_distinto_avena_q,nutrition,mediterranean_pattern,active,,,active
+ALI-PTN-130,Alimentación,Platino,nutrition.meal_planning.usa_metodo_del_plato_verdura,nutrition,meal_planning,active,,,active
+ALI-PTN-131,Alimentación,Platino,nutrition.meal_planning.registra_lo_que_comes_foto_nota,nutrition,meal_planning,active,,,active
+ALI-PTN-132,Alimentación,Platino,nutrition.mediterranean_pattern.anade_semillas_linaza_chia_cda,nutrition,mediterranean_pattern,active,,,active
+ALI-PTN-133,Alimentación,Platino,nutrition.processed_reduction.intercambia_embutido_por_hummus_aguacate,nutrition,processed_reduction,active,,,active
+ALI-PTN-134,Alimentación,Platino,nutrition.mediterranean_pattern.legumbres_veces_sem,nutrition,mediterranean_pattern,active,,,active
+ALI-PTN-135,Alimentación,Platino,nutrition.processed_reduction.reduce_carne_procesada_a_hoy,nutrition,processed_reduction,active,,,active
+ALI-PTN-136,Alimentación,Platino,nutrition.processed_reduction.postre_fruta_o_yogur_natural,nutrition,processed_reduction,active,,,active
+ALI-PTN-137,Alimentación,Platino,nutrition.meal_planning.desayuno_con_proteina_y_fibra,nutrition,meal_planning,active,,,active
+ALI-PTN-138,Alimentación,Platino,nutrition.mediterranean_pattern.lacteos_naturales_sin_azucar,nutrition,mediterranean_pattern,active,,,active
+ALI-PTN-139,Alimentación,Platino,nutrition.mediterranean_pattern.usa_aove_como_grasa_principal_cucharadas,nutrition,mediterranean_pattern,active,,,active
+ALI-PTN-140,Alimentación,Platino,nutrition.processed_reduction.carne_roja_g,nutrition,processed_reduction,active,,,active
+ALI-PTN-141,Alimentación,Platino,nutrition.mediterranean_pattern.pescado_azul_vez_sem,nutrition,mediterranean_pattern,active,,,active
+ALI-PTN-142,Alimentación,Platino,nutrition.mediterranean_pattern.fruta_entera_pieza_s,nutrition,mediterranean_pattern,active,,,active
+ALI-PTN-143,Alimentación,Platino,nutrition.mediterranean_pattern.verduras_racion_es,nutrition,mediterranean_pattern,active,,,active
+ALI-PTN-144,Alimentación,Platino,nutrition.mediterranean_pattern.pan_integral_en_comidas,nutrition,mediterranean_pattern,active,,,active
+ALI-PTN-145,Alimentación,Platino,nutrition.processed_reduction.sustituye_refresco_por_agua_infusion,nutrition,processed_reduction,active,,,active
+ALI-PTN-146,Alimentación,Platino,nutrition.mediterranean_pattern.legumbres_racion_es,nutrition,mediterranean_pattern,active,,,active
+ALI-PTN-147,Alimentación,Platino,nutrition.mediterranean_pattern.anade_g_de_frutos_secos_naturales,nutrition,mediterranean_pattern,active,,,active
+ALI-PTN-148,Alimentación,Platino,nutrition.processed_reduction.salsa_casera_tomate_legumbre_sin_azucar,nutrition,processed_reduction,active,,,active
+ALI-PTN-149,Alimentación,Platino,nutrition.meal_planning.cena_temprana_y_ligera,nutrition,meal_planning,active,,,active
+ALI-PTN-150,Alimentación,Platino,nutrition.processed_reduction.elige_agua_tambien_fuera_de_casa,nutrition,processed_reduction,active,,,active
+MEN-BRO-031,Mente,Bronce,mind.stress.practica_decir_no_limites_en_ocasion,mind,stress,active,,,active
+MEN-BRO-032,Mente,Bronce,mind.emotional_wellbeing.voluntariado_ayuda_a_otro_min,mind,emotional_wellbeing,active,,,active
+MEN-BRO-033,Mente,Bronce,mind.stress.micro_pausa_de_min_por_cada_min_de_traba,mind,stress,active,,,active
+MEN-BRO-034,Mente,Bronce,mind.emotional_wellbeing.sesion_de_compasion_lkm_min,mind,emotional_wellbeing,active,,,active
+MEN-BRO-035,Mente,Bronce,mind.social.quedar_con_amigos_familia_h,mind,social,active,,,active
+MEN-BRO-036,Mente,Bronce,mind.stress.desconexion_laboral_a_hora_pactada,mind,stress,active,,,active
+MEN-BRO-037,Mente,Bronce,mind.self_tracking.chequeo_de_estres_escala_accion,mind,self_tracking,active,,,active
+MEN-BRO-038,Mente,Bronce,mind.emotional_wellbeing.espacio_de_ocio_creativo_min,mind,emotional_wellbeing,active,,,active
+MEN-BRO-039,Mente,Bronce,mind.emotional_wellbeing.jardineria_o_cuidado_de_plantas_min,mind,emotional_wellbeing,active,,,active
+MEN-BRO-040,Mente,Bronce,mind.sleep.respiracion_diafragmatica_min_antes_de_d,mind,sleep,active,,,active
+MEN-BRO-041,Mente,Bronce,mind.sleep.evita_noticias_scroll_h_antes_de_dormir,mind,sleep,active,,,active
+MEN-BRO-042,Mente,Bronce,mind.stress.musica_relajante_min,mind,stress,active,,,active
+MEN-BRO-043,Mente,Bronce,mind.stress.respiracion_durante_min,mind,stress,active,,,active
+MEN-BRO-044,Mente,Bronce,mind.self_tracking.plan_anti_estres_semanal_acciones,mind,self_tracking,active,,,active
+MEN-BRO-045,Mente,Bronce,mind.sleep.cafeina_antes_de_las_o_menos,mind,sleep,active,,,active
+MEN-BRO-046,Mente,Bronce,mind.emotional_wellbeing.gratitud_cosas_del_dia,mind,emotional_wellbeing,active,,,active
+MEN-BRO-047,Mente,Bronce,mind.emotional_wellbeing.mindful_walk_min_sin_movil,mind,emotional_wellbeing,active,,,active
+MEN-BRO-048,Mente,Bronce,mind.sleep.sin_alcohol_h_antes_de_dormir,mind,sleep,active,,CROSS_PILLAR_DUPLICATE_RESOLVED,active
+MEN-BRO-049,Mente,Bronce,mind.sleep.acuestate_y_despiertate_a_horas_regulare,mind,sleep,active,,,active
+MEN-BRO-050,Mente,Bronce,mind.sleep.tiempo_en_cama_h,mind,sleep,active,,,active
+MEN-BRO-051,Mente,Bronce,mind.sleep.siesta_breve_min_antes_de,mind,sleep,active,,,active
+MEN-BRO-052,Mente,Bronce,mind.emotional_wellbeing.meditacion_mindfulness_min,mind,emotional_wellbeing,active,,,active
+MEN-BRO-053,Mente,Bronce,mind.sleep.cierre_digital_min_antes_de_dormir,mind,sleep,active,,,active
+MEN-BRO-054,Mente,Bronce,mind.stress.respiracion_lenta_min,mind,stress,active,,,active
+MEN-BRO-055,Mente,Bronce,mind.social.conecta_con_un_a_amig_llamada_o_cafe,mind,social,active,,,active
+MEN-BRO-056,Mente,Bronce,mind.sleep.paseo_tranquilo_post_cena_min,mind,sleep,active,,,active
+MEN-BRO-057,Mente,Bronce,mind.stress.diario_min_preocupaciones_plan,mind,stress,active,,,active
+MEN-BRO-058,Mente,Bronce,mind.stress.estiramientos_yoga_suave_min,mind,stress,active,,,active
+MEN-BRO-059,Mente,Bronce,mind.self_tracking.mbsr_semanas_modulo_completado,mind,self_tracking,active,,,active
+MEN-BRO-060,Mente,Bronce,mind.sleep.rutina_pre_sueno_relajante_min,mind,sleep,active,,,active
+MEN-INI-001,Mente,Inicial,mind.sleep.acuestate_y_despiertate_a_horas_regulare,mind,sleep,active,,,active
+MEN-INI-002,Mente,Inicial,mind.self_tracking.chequeo_de_estres_escala_accion,mind,self_tracking,active,,,active
+MEN-INI-003,Mente,Inicial,mind.stress.musica_relajante_min,mind,stress,active,,,active
+MEN-INI-004,Mente,Inicial,mind.sleep.evita_noticias_scroll_h_antes_de_dormir,mind,sleep,active,,,active
+MEN-INI-005,Mente,Inicial,mind.sleep.respiracion_diafragmatica_min_antes_de_d,mind,sleep,active,,,active
+MEN-INI-006,Mente,Inicial,mind.emotional_wellbeing.jardineria_o_cuidado_de_plantas_min,mind,emotional_wellbeing,active,,,active
+MEN-INI-007,Mente,Inicial,mind.emotional_wellbeing.espacio_de_ocio_creativo_min,mind,emotional_wellbeing,active,,,active
+MEN-INI-008,Mente,Inicial,mind.self_tracking.plan_anti_estres_semanal_acciones,mind,self_tracking,active,,,active
+MEN-INI-009,Mente,Inicial,mind.emotional_wellbeing.voluntariado_ayuda_a_otro_min,mind,emotional_wellbeing,active,,,active
+MEN-INI-010,Mente,Inicial,mind.social.quedar_con_amigos_familia_h,mind,social,active,,,active
+MEN-INI-011,Mente,Inicial,mind.emotional_wellbeing.sesion_de_compasion_lkm_min,mind,emotional_wellbeing,active,,,active
+MEN-INI-012,Mente,Inicial,mind.stress.micro_pausa_de_min_por_cada_min_de_traba,mind,stress,active,,,active
+MEN-INI-013,Mente,Inicial,mind.stress.practica_decir_no_limites_en_ocasion,mind,stress,active,,,active
+MEN-INI-014,Mente,Inicial,mind.stress.respiracion_durante_min,mind,stress,active,,,active
+MEN-INI-015,Mente,Inicial,mind.sleep.cafeina_antes_de_las_o_menos,mind,sleep,active,,,active
+MEN-INI-016,Mente,Inicial,mind.stress.desconexion_laboral_a_hora_pactada,mind,stress,active,,,active
+MEN-INI-017,Mente,Inicial,mind.emotional_wellbeing.mindful_walk_min_sin_movil,mind,emotional_wellbeing,active,,,active
+MEN-INI-018,Mente,Inicial,mind.sleep.sin_alcohol_h_antes_de_dormir,mind,sleep,active,,CROSS_PILLAR_DUPLICATE_RESOLVED,active
+MEN-INI-019,Mente,Inicial,mind.sleep.tiempo_en_cama_h,mind,sleep,active,,,active
+MEN-INI-020,Mente,Inicial,mind.sleep.siesta_breve_min_antes_de,mind,sleep,active,,,active
+MEN-INI-021,Mente,Inicial,mind.emotional_wellbeing.meditacion_mindfulness_min,mind,emotional_wellbeing,active,,,active
+MEN-INI-022,Mente,Inicial,mind.stress.respiracion_lenta_min,mind,stress,active,,,active
+MEN-INI-023,Mente,Inicial,mind.sleep.rutina_pre_sueno_relajante_min,mind,sleep,active,,,active
+MEN-INI-024,Mente,Inicial,mind.sleep.cierre_digital_min_antes_de_dormir,mind,sleep,active,,,active
+MEN-INI-025,Mente,Inicial,mind.social.conecta_con_un_a_amig_llamada_o_cafe,mind,social,active,,,active
+MEN-INI-026,Mente,Inicial,mind.sleep.paseo_tranquilo_post_cena_min,mind,sleep,active,,,active
+MEN-INI-027,Mente,Inicial,mind.stress.diario_min_preocupaciones_plan,mind,stress,active,,,active
+MEN-INI-028,Mente,Inicial,mind.stress.estiramientos_yoga_suave_min,mind,stress,active,,,active
+MEN-INI-029,Mente,Inicial,mind.self_tracking.mbsr_semanas_modulo_completado,mind,self_tracking,active,,,active
+MEN-INI-030,Mente,Inicial,mind.emotional_wellbeing.gratitud_cosas_del_dia,mind,emotional_wellbeing,active,,,active
+MEN-ORO-091,Mente,Oro,mind.stress.practica_decir_no_limites_en_ocasion,mind,stress,active,,,active
+MEN-ORO-092,Mente,Oro,mind.stress.micro_pausa_de_min_por_cada_min_de_traba,mind,stress,active,,,active
+MEN-ORO-093,Mente,Oro,mind.emotional_wellbeing.sesion_de_compasion_lkm_min,mind,emotional_wellbeing,active,,,active
+MEN-ORO-094,Mente,Oro,mind.social.quedar_con_amigos_familia_h,mind,social,active,,,active
+MEN-ORO-095,Mente,Oro,mind.emotional_wellbeing.voluntariado_ayuda_a_otro_min,mind,emotional_wellbeing,active,,,active
+MEN-ORO-096,Mente,Oro,mind.self_tracking.plan_anti_estres_semanal_acciones,mind,self_tracking,active,,,active
+MEN-ORO-097,Mente,Oro,mind.sleep.respiracion_diafragmatica_min_antes_de_d,mind,sleep,active,,,active
+MEN-ORO-098,Mente,Oro,mind.emotional_wellbeing.jardineria_o_cuidado_de_plantas_min,mind,emotional_wellbeing,active,,,active
+MEN-ORO-099,Mente,Oro,mind.sleep.evita_noticias_scroll_h_antes_de_dormir,mind,sleep,active,,,active
+MEN-ORO-100,Mente,Oro,mind.stress.musica_relajante_min,mind,stress,active,,,active
+MEN-ORO-101,Mente,Oro,mind.self_tracking.chequeo_de_estres_escala_accion,mind,self_tracking,active,,,active
+MEN-ORO-102,Mente,Oro,mind.stress.respiracion_durante_min,mind,stress,active,,,active
+MEN-ORO-103,Mente,Oro,mind.emotional_wellbeing.espacio_de_ocio_creativo_min,mind,emotional_wellbeing,active,,,active
+MEN-ORO-104,Mente,Oro,mind.sleep.cafeina_antes_de_las_o_menos,mind,sleep,active,,,active
+MEN-ORO-105,Mente,Oro,mind.stress.desconexion_laboral_a_hora_pactada,mind,stress,active,,,active
+MEN-ORO-106,Mente,Oro,mind.emotional_wellbeing.mindful_walk_min_sin_movil,mind,emotional_wellbeing,active,,,active
+MEN-ORO-107,Mente,Oro,mind.sleep.sin_alcohol_h_antes_de_dormir,mind,sleep,active,,CROSS_PILLAR_DUPLICATE_RESOLVED,active
+MEN-ORO-108,Mente,Oro,mind.sleep.tiempo_en_cama_h,mind,sleep,active,,,active
+MEN-ORO-109,Mente,Oro,mind.sleep.siesta_breve_min_antes_de,mind,sleep,active,,,active
+MEN-ORO-110,Mente,Oro,mind.emotional_wellbeing.meditacion_mindfulness_min,mind,emotional_wellbeing,active,,,active
+MEN-ORO-111,Mente,Oro,mind.stress.respiracion_lenta_min,mind,stress,active,,,active
+MEN-ORO-112,Mente,Oro,mind.sleep.cierre_digital_min_antes_de_dormir,mind,sleep,active,,,active
+MEN-ORO-113,Mente,Oro,mind.sleep.rutina_pre_sueno_relajante_min,mind,sleep,active,,,active
+MEN-ORO-114,Mente,Oro,mind.sleep.acuestate_y_despiertate_a_horas_regulare,mind,sleep,active,,,active
+MEN-ORO-115,Mente,Oro,mind.emotional_wellbeing.gratitud_cosas_del_dia,mind,emotional_wellbeing,active,,,active
+MEN-ORO-116,Mente,Oro,mind.social.conecta_con_un_a_amig_llamada_o_cafe,mind,social,active,,,active
+MEN-ORO-117,Mente,Oro,mind.sleep.paseo_tranquilo_post_cena_min,mind,sleep,active,,,active
+MEN-ORO-118,Mente,Oro,mind.stress.diario_min_preocupaciones_plan,mind,stress,active,,,active
+MEN-ORO-119,Mente,Oro,mind.stress.estiramientos_yoga_suave_min,mind,stress,active,,,active
+MEN-ORO-120,Mente,Oro,mind.self_tracking.mbsr_semanas_modulo_completado,mind,self_tracking,active,,,active
+MEN-PLA-061,Mente,Plata,mind.stress.practica_decir_no_limites_en_ocasion,mind,stress,active,,,active
+MEN-PLA-062,Mente,Plata,mind.emotional_wellbeing.voluntariado_ayuda_a_otro_min,mind,emotional_wellbeing,active,,,active
+MEN-PLA-063,Mente,Plata,mind.stress.micro_pausa_de_min_por_cada_min_de_traba,mind,stress,active,,,active
+MEN-PLA-064,Mente,Plata,mind.emotional_wellbeing.sesion_de_compasion_lkm_min,mind,emotional_wellbeing,active,,,active
+MEN-PLA-065,Mente,Plata,mind.social.quedar_con_amigos_familia_h,mind,social,active,,,active
+MEN-PLA-066,Mente,Plata,mind.stress.desconexion_laboral_a_hora_pactada,mind,stress,active,,,active
+MEN-PLA-067,Mente,Plata,mind.self_tracking.chequeo_de_estres_escala_accion,mind,self_tracking,active,,,active
+MEN-PLA-068,Mente,Plata,mind.emotional_wellbeing.espacio_de_ocio_creativo_min,mind,emotional_wellbeing,active,,,active
+MEN-PLA-069,Mente,Plata,mind.emotional_wellbeing.jardineria_o_cuidado_de_plantas_min,mind,emotional_wellbeing,active,,,active
+MEN-PLA-070,Mente,Plata,mind.sleep.respiracion_diafragmatica_min_antes_de_d,mind,sleep,active,,,active
+MEN-PLA-071,Mente,Plata,mind.sleep.evita_noticias_scroll_h_antes_de_dormir,mind,sleep,active,,,active
+MEN-PLA-072,Mente,Plata,mind.stress.musica_relajante_min,mind,stress,active,,,active
+MEN-PLA-073,Mente,Plata,mind.stress.respiracion_durante_min,mind,stress,active,,,active
+MEN-PLA-074,Mente,Plata,mind.self_tracking.plan_anti_estres_semanal_acciones,mind,self_tracking,active,,,active
+MEN-PLA-075,Mente,Plata,mind.sleep.cafeina_antes_de_las_o_menos,mind,sleep,active,,,active
+MEN-PLA-076,Mente,Plata,mind.sleep.sin_alcohol_h_antes_de_dormir,mind,sleep,active,,CROSS_PILLAR_DUPLICATE_RESOLVED,active
+MEN-PLA-077,Mente,Plata,mind.emotional_wellbeing.mindful_walk_min_sin_movil,mind,emotional_wellbeing,active,,,active
+MEN-PLA-078,Mente,Plata,mind.sleep.tiempo_en_cama_h,mind,sleep,active,,,active
+MEN-PLA-079,Mente,Plata,mind.sleep.siesta_breve_min_antes_de,mind,sleep,active,,,active
+MEN-PLA-080,Mente,Plata,mind.emotional_wellbeing.meditacion_mindfulness_min,mind,emotional_wellbeing,active,,,active
+MEN-PLA-081,Mente,Plata,mind.stress.respiracion_lenta_min,mind,stress,active,,,active
+MEN-PLA-082,Mente,Plata,mind.sleep.cierre_digital_min_antes_de_dormir,mind,sleep,active,,,active
+MEN-PLA-083,Mente,Plata,mind.sleep.rutina_pre_sueno_relajante_min,mind,sleep,active,,,active
+MEN-PLA-084,Mente,Plata,mind.sleep.acuestate_y_despiertate_a_horas_regulare,mind,sleep,active,,,active
+MEN-PLA-085,Mente,Plata,mind.social.conecta_con_un_a_amig_llamada_o_cafe,mind,social,active,,,active
+MEN-PLA-086,Mente,Plata,mind.sleep.paseo_tranquilo_post_cena_min,mind,sleep,active,,,active
+MEN-PLA-087,Mente,Plata,mind.stress.diario_min_preocupaciones_plan,mind,stress,active,,,active
+MEN-PLA-088,Mente,Plata,mind.stress.estiramientos_yoga_suave_min,mind,stress,active,,,active
+MEN-PLA-089,Mente,Plata,mind.self_tracking.mbsr_semanas_modulo_completado,mind,self_tracking,active,,,active
+MEN-PLA-090,Mente,Plata,mind.emotional_wellbeing.gratitud_cosas_del_dia,mind,emotional_wellbeing,active,,,active
+MEN-PTN-121,Mente,Platino,mind.stress.respiracion_durante_min,mind,stress,active,,,active
+MEN-PTN-122,Mente,Platino,mind.stress.practica_decir_no_limites_en_ocasion,mind,stress,active,,,active
+MEN-PTN-123,Mente,Platino,mind.stress.micro_pausa_de_min_por_cada_min_de_traba,mind,stress,active,,,active
+MEN-PTN-124,Mente,Platino,mind.emotional_wellbeing.sesion_de_compasion_lkm_min,mind,emotional_wellbeing,active,,,active
+MEN-PTN-125,Mente,Platino,mind.social.quedar_con_amigos_familia_h,mind,social,active,,,active
+MEN-PTN-126,Mente,Platino,mind.self_tracking.plan_anti_estres_semanal_acciones,mind,self_tracking,active,,,active
+MEN-PTN-127,Mente,Platino,mind.stress.desconexion_laboral_a_hora_pactada,mind,stress,active,,,active
+MEN-PTN-128,Mente,Platino,mind.sleep.evita_noticias_scroll_h_antes_de_dormir,mind,sleep,active,,,active
+MEN-PTN-129,Mente,Platino,mind.emotional_wellbeing.espacio_de_ocio_creativo_min,mind,emotional_wellbeing,active,,,active
+MEN-PTN-130,Mente,Platino,mind.emotional_wellbeing.jardineria_o_cuidado_de_plantas_min,mind,emotional_wellbeing,active,,,active
+MEN-PTN-131,Mente,Platino,mind.sleep.respiracion_diafragmatica_min_antes_de_d,mind,sleep,active,,,active
+MEN-PTN-132,Mente,Platino,mind.sleep.cafeina_antes_de_las_o_menos,mind,sleep,active,,,active
+MEN-PTN-133,Mente,Platino,mind.emotional_wellbeing.voluntariado_ayuda_a_otro_min,mind,emotional_wellbeing,active,,,active
+MEN-PTN-134,Mente,Platino,mind.sleep.sin_alcohol_h_antes_de_dormir,mind,sleep,active,,CROSS_PILLAR_DUPLICATE_RESOLVED,active
+MEN-PTN-135,Mente,Platino,mind.emotional_wellbeing.gratitud_cosas_del_dia,mind,emotional_wellbeing,active,,,active
+MEN-PTN-136,Mente,Platino,mind.self_tracking.mbsr_semanas_modulo_completado,mind,self_tracking,active,,,active
+MEN-PTN-137,Mente,Platino,mind.stress.estiramientos_yoga_suave_min,mind,stress,active,,,active
+MEN-PTN-138,Mente,Platino,mind.stress.diario_min_preocupaciones_plan,mind,stress,active,,,active
+MEN-PTN-139,Mente,Platino,mind.sleep.paseo_tranquilo_post_cena_min,mind,sleep,active,,,active
+MEN-PTN-140,Mente,Platino,mind.social.conecta_con_un_a_amig_llamada_o_cafe,mind,social,active,,,active
+MEN-PTN-141,Mente,Platino,mind.sleep.rutina_pre_sueno_relajante_min,mind,sleep,active,,,active
+MEN-PTN-142,Mente,Platino,mind.sleep.cierre_digital_min_antes_de_dormir,mind,sleep,active,,,active
+MEN-PTN-143,Mente,Platino,mind.stress.respiracion_lenta_min,mind,stress,active,,,active
+MEN-PTN-144,Mente,Platino,mind.emotional_wellbeing.meditacion_mindfulness_min,mind,emotional_wellbeing,active,,,active
+MEN-PTN-145,Mente,Platino,mind.sleep.siesta_breve_min_antes_de,mind,sleep,active,,,active
+MEN-PTN-146,Mente,Platino,mind.sleep.tiempo_en_cama_h,mind,sleep,active,,,active
+MEN-PTN-147,Mente,Platino,mind.sleep.acuestate_y_despiertate_a_horas_regulare,mind,sleep,active,,,active
+MEN-PTN-148,Mente,Platino,mind.stress.musica_relajante_min,mind,stress,active,,,active
+MEN-PTN-149,Mente,Platino,mind.emotional_wellbeing.mindful_walk_min_sin_movil,mind,emotional_wellbeing,active,,,active
+MEN-PTN-150,Mente,Platino,mind.self_tracking.chequeo_de_estres_escala_accion,mind,self_tracking,active,,,active
+RET-BRO-031,Retos (Ejercicio),Bronce,movement.strength.peso_muerto_con_kettlebell_rep_x,movement,strength,active,,,active
+RET-BRO-032,Retos (Ejercicio),Bronce,movement.cardio.bailar_min,movement,cardio,active,,,active
+RET-BRO-033,Retos (Ejercicio),Bronce,movement.strength.farmer_carry_min,movement,strength,active,,,active
+RET-BRO-034,Retos (Ejercicio),Bronce,movement.fall_prevention.equilibrio_unipodal_s_lado,movement,fall_prevention,active,,,active
+RET-BRO-035,Retos (Ejercicio),Bronce,movement.cardio.caminata_por_cuestas_min,movement,cardio,active,,,active
+RET-BRO-036,Retos (Ejercicio),Bronce,movement.cardio.nordic_walking_min,movement,cardio,active,,,active
+RET-BRO-037,Retos (Ejercicio),Bronce,movement.daily_activity.caminar_pasos_dias_sem,movement,daily_activity,active,,,active
+RET-BRO-038,Retos (Ejercicio),Bronce,movement.mobility.serie_de_movilidad_articular_min,movement,mobility,active,,REQUIRES_SOURCE_REVIEW,active
+RET-BRO-039,Retos (Ejercicio),Bronce,movement.hiit.burpees_rep_x,movement,hiit,active,,,active
+RET-BRO-040,Retos (Ejercicio),Bronce,movement.strength.escalada_indoor_min,movement,strength,active,,,active
+RET-BRO-041,Retos (Ejercicio),Bronce,movement.cardio.correr_suave_min,movement,cardio,active,,,active
+RET-BRO-042,Retos (Ejercicio),Bronce,movement.strength.sesion_de_fuerza_full_body_min,movement,strength,active,,,active
+RET-BRO-043,Retos (Ejercicio),Bronce,movement.strength.zancadas_rep_x,movement,strength,active,,,active
+RET-BRO-044,Retos (Ejercicio),Bronce,movement.daily_activity.pausa_activa_de_min_cada_min,movement,daily_activity,active,,REQUIRES_DVG_REVIEW,active
+RET-BRO-045,Retos (Ejercicio),Bronce,movement.cardio.remo_ergometro_min,movement,cardio,active,,,active
+RET-BRO-046,Retos (Ejercicio),Bronce,movement.strength.flexiones_repeticiones_x,movement,strength,active,,,active
+RET-BRO-047,Retos (Ejercicio),Bronce,movement.hiit.bici_intensa_min_intervalos,movement,hiit,active,,,active
+RET-BRO-048,Retos (Ejercicio),Bronce,movement.hiit.saltos_a_la_comba_min,movement,hiit,active,,,active
+RET-BRO-049,Retos (Ejercicio),Bronce,movement.daily_activity.camina_pasos_hoy,movement,daily_activity,active,,,active
+RET-BRO-050,Retos (Ejercicio),Bronce,movement.cardio.caminata_vigorosa_min,movement,cardio,active,,,active
+RET-BRO-051,Retos (Ejercicio),Bronce,movement.hiit.sprints_de_s_descanso_s,movement,hiit,active,,,active
+RET-BRO-052,Retos (Ejercicio),Bronce,movement.cardio.sesion_de_bicicleta_min,movement,cardio,active,,,active
+RET-BRO-053,Retos (Ejercicio),Bronce,movement.daily_activity.sube_tramos_de_escaleras,movement,daily_activity,active,,,active
+RET-BRO-054,Retos (Ejercicio),Bronce,movement.cardio.nadar_min_continuo,movement,cardio,active,,,active
+RET-BRO-055,Retos (Ejercicio),Bronce,movement.strength.plancha_s_x,movement,strength,active,,,active
+RET-BRO-056,Retos (Ejercicio),Bronce,movement.mobility.yoga_fluido_min,movement,mobility,active,,REQUIRES_SOURCE_REVIEW,active
+RET-BRO-057,Retos (Ejercicio),Bronce,movement.daily_activity.snacks_de_movimiento_min_cada_min_sentad,movement,daily_activity,active,,REQUIRES_DVG_REVIEW,active
+RET-BRO-058,Retos (Ejercicio),Bronce,movement.cardio.camina_min_tras_comer,movement,cardio,active,,,active
+RET-BRO-059,Retos (Ejercicio),Bronce,movement.cardio.caminata_larga_min,movement,cardio,active,,,active
+RET-BRO-060,Retos (Ejercicio),Bronce,movement.strength.sentadillas_repeticiones_x,movement,strength,active,,,active
+RET-INI-001,Retos (Ejercicio),Inicial,movement.daily_activity.camina_pasos_hoy,movement,daily_activity,active,,,active
+RET-INI-002,Retos (Ejercicio),Inicial,movement.daily_activity.caminar_pasos_dias_sem,movement,daily_activity,active,,,active
+RET-INI-003,Retos (Ejercicio),Inicial,movement.strength.sesion_de_fuerza_full_body_min,movement,strength,active,,,active
+RET-INI-004,Retos (Ejercicio),Inicial,movement.cardio.correr_suave_min,movement,cardio,active,,,active
+RET-INI-005,Retos (Ejercicio),Inicial,movement.strength.escalada_indoor_min,movement,strength,active,,,active
+RET-INI-006,Retos (Ejercicio),Inicial,movement.hiit.burpees_rep_x,movement,hiit,active,,,active
+RET-INI-007,Retos (Ejercicio),Inicial,movement.mobility.serie_de_movilidad_articular_min,movement,mobility,active,,REQUIRES_SOURCE_REVIEW,active
+RET-INI-008,Retos (Ejercicio),Inicial,movement.daily_activity.pausa_activa_de_min_cada_min,movement,daily_activity,active,,REQUIRES_DVG_REVIEW,active
+RET-INI-009,Retos (Ejercicio),Inicial,movement.cardio.bailar_min,movement,cardio,active,,,active
+RET-INI-010,Retos (Ejercicio),Inicial,movement.cardio.caminata_por_cuestas_min,movement,cardio,active,,,active
+RET-INI-011,Retos (Ejercicio),Inicial,movement.fall_prevention.equilibrio_unipodal_s_lado,movement,fall_prevention,active,,,active
+RET-INI-012,Retos (Ejercicio),Inicial,movement.strength.farmer_carry_min,movement,strength,active,,,active
+RET-INI-013,Retos (Ejercicio),Inicial,movement.strength.peso_muerto_con_kettlebell_rep_x,movement,strength,active,,,active
+RET-INI-014,Retos (Ejercicio),Inicial,movement.strength.zancadas_rep_x,movement,strength,active,,,active
+RET-INI-015,Retos (Ejercicio),Inicial,movement.cardio.remo_ergometro_min,movement,cardio,active,,,active
+RET-INI-016,Retos (Ejercicio),Inicial,movement.cardio.nordic_walking_min,movement,cardio,active,,,active
+RET-INI-017,Retos (Ejercicio),Inicial,movement.hiit.bici_intensa_min_intervalos,movement,hiit,active,,,active
+RET-INI-018,Retos (Ejercicio),Inicial,movement.hiit.saltos_a_la_comba_min,movement,hiit,active,,,active
+RET-INI-019,Retos (Ejercicio),Inicial,movement.cardio.caminata_vigorosa_min,movement,cardio,active,,,active
+RET-INI-020,Retos (Ejercicio),Inicial,movement.hiit.sprints_de_s_descanso_s,movement,hiit,active,,,active
+RET-INI-021,Retos (Ejercicio),Inicial,movement.cardio.sesion_de_bicicleta_min,movement,cardio,active,,,active
+RET-INI-022,Retos (Ejercicio),Inicial,movement.cardio.nadar_min_continuo,movement,cardio,active,,,active
+RET-INI-023,Retos (Ejercicio),Inicial,movement.strength.sentadillas_repeticiones_x,movement,strength,active,,,active
+RET-INI-024,Retos (Ejercicio),Inicial,movement.daily_activity.sube_tramos_de_escaleras,movement,daily_activity,active,,,active
+RET-INI-025,Retos (Ejercicio),Inicial,movement.strength.plancha_s_x,movement,strength,active,,,active
+RET-INI-026,Retos (Ejercicio),Inicial,movement.mobility.yoga_fluido_min,movement,mobility,active,,REQUIRES_SOURCE_REVIEW,active
+RET-INI-027,Retos (Ejercicio),Inicial,movement.daily_activity.snacks_de_movimiento_min_cada_min_sentad,movement,daily_activity,active,,REQUIRES_DVG_REVIEW,active
+RET-INI-028,Retos (Ejercicio),Inicial,movement.cardio.camina_min_tras_comer,movement,cardio,active,,,active
+RET-INI-029,Retos (Ejercicio),Inicial,movement.cardio.caminata_larga_min,movement,cardio,active,,,active
+RET-INI-030,Retos (Ejercicio),Inicial,movement.strength.flexiones_repeticiones_x,movement,strength,active,,,active
+RET-ORO-091,Retos (Ejercicio),Oro,movement.strength.peso_muerto_con_kettlebell_rep_x,movement,strength,active,,,active
+RET-ORO-092,Retos (Ejercicio),Oro,movement.strength.farmer_carry_min,movement,strength,active,,,active
+RET-ORO-093,Retos (Ejercicio),Oro,movement.fall_prevention.equilibrio_unipodal_s_lado,movement,fall_prevention,active,,,active
+RET-ORO-094,Retos (Ejercicio),Oro,movement.cardio.caminata_por_cuestas_min,movement,cardio,active,,,active
+RET-ORO-095,Retos (Ejercicio),Oro,movement.cardio.bailar_min,movement,cardio,active,,,active
+RET-ORO-096,Retos (Ejercicio),Oro,movement.daily_activity.pausa_activa_de_min_cada_min,movement,daily_activity,active,,REQUIRES_DVG_REVIEW,active
+RET-ORO-097,Retos (Ejercicio),Oro,movement.strength.escalada_indoor_min,movement,strength,active,,,active
+RET-ORO-098,Retos (Ejercicio),Oro,movement.hiit.burpees_rep_x,movement,hiit,active,,,active
+RET-ORO-099,Retos (Ejercicio),Oro,movement.cardio.correr_suave_min,movement,cardio,active,,,active
+RET-ORO-100,Retos (Ejercicio),Oro,movement.strength.sesion_de_fuerza_full_body_min,movement,strength,active,,,active
+RET-ORO-101,Retos (Ejercicio),Oro,movement.daily_activity.caminar_pasos_dias_sem,movement,daily_activity,active,,,active
+RET-ORO-102,Retos (Ejercicio),Oro,movement.strength.zancadas_rep_x,movement,strength,active,,,active
+RET-ORO-103,Retos (Ejercicio),Oro,movement.mobility.serie_de_movilidad_articular_min,movement,mobility,active,,REQUIRES_SOURCE_REVIEW,active
+RET-ORO-104,Retos (Ejercicio),Oro,movement.cardio.remo_ergometro_min,movement,cardio,active,,,active
+RET-ORO-105,Retos (Ejercicio),Oro,movement.cardio.nordic_walking_min,movement,cardio,active,,,active
+RET-ORO-106,Retos (Ejercicio),Oro,movement.hiit.bici_intensa_min_intervalos,movement,hiit,active,,,active
+RET-ORO-107,Retos (Ejercicio),Oro,movement.hiit.saltos_a_la_comba_min,movement,hiit,active,,,active
+RET-ORO-108,Retos (Ejercicio),Oro,movement.cardio.caminata_vigorosa_min,movement,cardio,active,,,active
+RET-ORO-109,Retos (Ejercicio),Oro,movement.hiit.sprints_de_s_descanso_s,movement,hiit,active,,,active
+RET-ORO-110,Retos (Ejercicio),Oro,movement.cardio.sesion_de_bicicleta_min,movement,cardio,active,,,active
+RET-ORO-111,Retos (Ejercicio),Oro,movement.cardio.nadar_min_continuo,movement,cardio,active,,,active
+RET-ORO-112,Retos (Ejercicio),Oro,movement.daily_activity.sube_tramos_de_escaleras,movement,daily_activity,active,,,active
+RET-ORO-113,Retos (Ejercicio),Oro,movement.strength.sentadillas_repeticiones_x,movement,strength,active,,,active
+RET-ORO-114,Retos (Ejercicio),Oro,movement.daily_activity.camina_pasos_hoy,movement,daily_activity,active,,,active
+RET-ORO-115,Retos (Ejercicio),Oro,movement.strength.flexiones_repeticiones_x,movement,strength,active,,,active
+RET-ORO-116,Retos (Ejercicio),Oro,movement.strength.plancha_s_x,movement,strength,active,,,active
+RET-ORO-117,Retos (Ejercicio),Oro,movement.mobility.yoga_fluido_min,movement,mobility,active,,REQUIRES_SOURCE_REVIEW,active
+RET-ORO-118,Retos (Ejercicio),Oro,movement.daily_activity.snacks_de_movimiento_min_cada_min_sentad,movement,daily_activity,active,,REQUIRES_DVG_REVIEW,active
+RET-ORO-119,Retos (Ejercicio),Oro,movement.cardio.camina_min_tras_comer,movement,cardio,active,,,active
+RET-ORO-120,Retos (Ejercicio),Oro,movement.cardio.caminata_larga_min,movement,cardio,active,,,active
+RET-PLA-061,Retos (Ejercicio),Plata,movement.strength.peso_muerto_con_kettlebell_rep_x,movement,strength,active,,,active
+RET-PLA-062,Retos (Ejercicio),Plata,movement.cardio.bailar_min,movement,cardio,active,,,active
+RET-PLA-063,Retos (Ejercicio),Plata,movement.strength.farmer_carry_min,movement,strength,active,,,active
+RET-PLA-064,Retos (Ejercicio),Plata,movement.fall_prevention.equilibrio_unipodal_s_lado,movement,fall_prevention,active,,,active
+RET-PLA-065,Retos (Ejercicio),Plata,movement.cardio.caminata_por_cuestas_min,movement,cardio,active,,,active
+RET-PLA-066,Retos (Ejercicio),Plata,movement.cardio.nordic_walking_min,movement,cardio,active,,,active
+RET-PLA-067,Retos (Ejercicio),Plata,movement.daily_activity.caminar_pasos_dias_sem,movement,daily_activity,active,,,active
+RET-PLA-068,Retos (Ejercicio),Plata,movement.mobility.serie_de_movilidad_articular_min,movement,mobility,active,,REQUIRES_SOURCE_REVIEW,active
+RET-PLA-069,Retos (Ejercicio),Plata,movement.hiit.burpees_rep_x,movement,hiit,active,,,active
+RET-PLA-070,Retos (Ejercicio),Plata,movement.strength.escalada_indoor_min,movement,strength,active,,,active
+RET-PLA-071,Retos (Ejercicio),Plata,movement.cardio.correr_suave_min,movement,cardio,active,,,active
+RET-PLA-072,Retos (Ejercicio),Plata,movement.strength.sesion_de_fuerza_full_body_min,movement,strength,active,,,active
+RET-PLA-073,Retos (Ejercicio),Plata,movement.strength.zancadas_rep_x,movement,strength,active,,,active
+RET-PLA-074,Retos (Ejercicio),Plata,movement.daily_activity.pausa_activa_de_min_cada_min,movement,daily_activity,active,,REQUIRES_DVG_REVIEW,active
+RET-PLA-075,Retos (Ejercicio),Plata,movement.cardio.remo_ergometro_min,movement,cardio,active,,,active
+RET-PLA-076,Retos (Ejercicio),Plata,movement.hiit.saltos_a_la_comba_min,movement,hiit,active,,,active
+RET-PLA-077,Retos (Ejercicio),Plata,movement.hiit.bici_intensa_min_intervalos,movement,hiit,active,,,active
+RET-PLA-078,Retos (Ejercicio),Plata,movement.cardio.caminata_vigorosa_min,movement,cardio,active,,,active
+RET-PLA-079,Retos (Ejercicio),Plata,movement.hiit.sprints_de_s_descanso_s,movement,hiit,active,,,active
+RET-PLA-080,Retos (Ejercicio),Plata,movement.cardio.sesion_de_bicicleta_min,movement,cardio,active,,,active
+RET-PLA-081,Retos (Ejercicio),Plata,movement.cardio.nadar_min_continuo,movement,cardio,active,,,active
+RET-PLA-082,Retos (Ejercicio),Plata,movement.daily_activity.sube_tramos_de_escaleras,movement,daily_activity,active,,,active
+RET-PLA-083,Retos (Ejercicio),Plata,movement.strength.sentadillas_repeticiones_x,movement,strength,active,,,active
+RET-PLA-084,Retos (Ejercicio),Plata,movement.daily_activity.camina_pasos_hoy,movement,daily_activity,active,,,active
+RET-PLA-085,Retos (Ejercicio),Plata,movement.strength.plancha_s_x,movement,strength,active,,,active
+RET-PLA-086,Retos (Ejercicio),Plata,movement.mobility.yoga_fluido_min,movement,mobility,active,,REQUIRES_SOURCE_REVIEW,active
+RET-PLA-087,Retos (Ejercicio),Plata,movement.daily_activity.snacks_de_movimiento_min_cada_min_sentad,movement,daily_activity,active,,REQUIRES_DVG_REVIEW,active
+RET-PLA-088,Retos (Ejercicio),Plata,movement.cardio.camina_min_tras_comer,movement,cardio,active,,,active
+RET-PLA-089,Retos (Ejercicio),Plata,movement.cardio.caminata_larga_min,movement,cardio,active,,,active
+RET-PLA-090,Retos (Ejercicio),Plata,movement.strength.flexiones_repeticiones_x,movement,strength,active,,,active
+RET-PTN-121,Retos (Ejercicio),Platino,movement.strength.zancadas_rep_x,movement,strength,active,,,active
+RET-PTN-122,Retos (Ejercicio),Platino,movement.strength.peso_muerto_con_kettlebell_rep_x,movement,strength,active,,,active
+RET-PTN-123,Retos (Ejercicio),Platino,movement.strength.farmer_carry_min,movement,strength,active,,,active
+RET-PTN-124,Retos (Ejercicio),Platino,movement.fall_prevention.equilibrio_unipodal_s_lado,movement,fall_prevention,active,,,active
+RET-PTN-125,Retos (Ejercicio),Platino,movement.cardio.caminata_por_cuestas_min,movement,cardio,active,,,active
+RET-PTN-126,Retos (Ejercicio),Platino,movement.daily_activity.pausa_activa_de_min_cada_min,movement,daily_activity,active,,REQUIRES_DVG_REVIEW,active
+RET-PTN-127,Retos (Ejercicio),Platino,movement.cardio.nordic_walking_min,movement,cardio,active,,,active
+RET-PTN-128,Retos (Ejercicio),Platino,movement.cardio.correr_suave_min,movement,cardio,active,,,active
+RET-PTN-129,Retos (Ejercicio),Platino,movement.mobility.serie_de_movilidad_articular_min,movement,mobility,active,,REQUIRES_SOURCE_REVIEW,active
+RET-PTN-130,Retos (Ejercicio),Platino,movement.hiit.burpees_rep_x,movement,hiit,active,,,active
+RET-PTN-131,Retos (Ejercicio),Platino,movement.strength.escalada_indoor_min,movement,strength,active,,,active
+RET-PTN-132,Retos (Ejercicio),Platino,movement.cardio.remo_ergometro_min,movement,cardio,active,,,active
+RET-PTN-133,Retos (Ejercicio),Platino,movement.cardio.bailar_min,movement,cardio,active,,,active
+RET-PTN-134,Retos (Ejercicio),Platino,movement.hiit.saltos_a_la_comba_min,movement,hiit,active,,,active
+RET-PTN-135,Retos (Ejercicio),Platino,movement.strength.flexiones_repeticiones_x,movement,strength,active,,,active
+RET-PTN-136,Retos (Ejercicio),Platino,movement.cardio.caminata_larga_min,movement,cardio,active,,,active
+RET-PTN-137,Retos (Ejercicio),Platino,movement.cardio.camina_min_tras_comer,movement,cardio,active,,,active
+RET-PTN-138,Retos (Ejercicio),Platino,movement.daily_activity.snacks_de_movimiento_min_cada_min_sentad,movement,daily_activity,active,,REQUIRES_DVG_REVIEW,active
+RET-PTN-139,Retos (Ejercicio),Platino,movement.mobility.yoga_fluido_min,movement,mobility,active,,REQUIRES_SOURCE_REVIEW,active
+RET-PTN-140,Retos (Ejercicio),Platino,movement.strength.plancha_s_x,movement,strength,active,,,active
+RET-PTN-141,Retos (Ejercicio),Platino,movement.strength.sentadillas_repeticiones_x,movement,strength,active,,,active
+RET-PTN-142,Retos (Ejercicio),Platino,movement.daily_activity.sube_tramos_de_escaleras,movement,daily_activity,active,,,active
+RET-PTN-143,Retos (Ejercicio),Platino,movement.cardio.nadar_min_continuo,movement,cardio,active,,,active
+RET-PTN-144,Retos (Ejercicio),Platino,movement.cardio.sesion_de_bicicleta_min,movement,cardio,active,,,active
+RET-PTN-145,Retos (Ejercicio),Platino,movement.hiit.sprints_de_s_descanso_s,movement,hiit,active,,,active
+RET-PTN-146,Retos (Ejercicio),Platino,movement.cardio.caminata_vigorosa_min,movement,cardio,active,,,active
+RET-PTN-147,Retos (Ejercicio),Platino,movement.daily_activity.camina_pasos_hoy,movement,daily_activity,active,,,active
+RET-PTN-148,Retos (Ejercicio),Platino,movement.strength.sesion_de_fuerza_full_body_min,movement,strength,active,,,active
+RET-PTN-149,Retos (Ejercicio),Platino,movement.hiit.bici_intensa_min_intervalos,movement,hiit,active,,,active
+RET-PTN-150,Retos (Ejercicio),Platino,movement.daily_activity.caminar_pasos_dias_sem,movement,daily_activity,active,,,active
+RUT-BRO-031,Rutinas,Bronce,adherence.nutrition.lista_de_la_compra_mediterranea,adherence,nutrition,active,,,active
+RUT-BRO-032,Rutinas,Bronce,adherence.sleep.higiene_del_sueno_horario_fijo,adherence,sleep,active,,,active
+RUT-BRO-033,Rutinas,Bronce,adherence.self_tracking.caminar_pasos_dias_sem,adherence,self_tracking,active,,,active
+RUT-BRO-034,Rutinas,Bronce,adherence.sleep.paseo_digestivo_nocturno_min,adherence,sleep,active,,,active
+RUT-BRO-035,Rutinas,Bronce,adherence.movement.pausa_de_movilidad_min_manana_y_tarde,adherence,movement,active,,,active
+RUT-BRO-036,Rutinas,Bronce,adherence.stress.apunta_tareas_clave_del_dia,adherence,stress,active,,,active
+RUT-BRO-037,Rutinas,Bronce,adherence.stress.pausa_ocular_estiramientos,adherence,stress,active,,,active
+RUT-BRO-038,Rutinas,Bronce,adherence.stress.recordatorio_para_postura_ergonomica,adherence,stress,active,,,active
+RUT-BRO-039,Rutinas,Bronce,adherence.nutrition.preparar_snack_saludable_frutos_secos_fr,adherence,nutrition,active,,,active
+RUT-BRO-040,Rutinas,Bronce,adherence.movement.repartir_min_mvpa_a_lo_largo_del_dia,adherence,movement,active,,,active
+RUT-BRO-041,Rutinas,Bronce,adherence.self_tracking.medicion_de_pa_vez_semana,adherence,self_tracking,active,,,active
+RUT-BRO-042,Rutinas,Bronce,adherence.self_tracking.revision_del_progreso_min,adherence,self_tracking,active,,,active
+RUT-BRO-043,Rutinas,Bronce,adherence.nutrition.batch_cooking_saludable_h_sem,adherence,nutrition,active,,,active
+RUT-BRO-044,Rutinas,Bronce,adherence.social.agenda_bloque_para_amigos_familia,adherence,social,active,,,active
+RUT-BRO-045,Rutinas,Bronce,adherence.self_tracking.registro_de_pasos_en_la_app,adherence,self_tracking,active,,,active
+RUT-BRO-046,Rutinas,Bronce,adherence.nutrition.ponte_recordatorio_de_agua_en_vez_de_ref,adherence,nutrition,active,,,active
+RUT-BRO-047,Rutinas,Bronce,adherence.sleep.rutina_de_relajacion_min_antes_de_dormir,adherence,sleep,active,,,active
+RUT-BRO-048,Rutinas,Bronce,adherence.movement.reunion_de_pie_andar_vez_al_dia,adherence,movement,active,,,active
+RUT-BRO-049,Rutinas,Bronce,adherence.movement.usa_siempre_las_escaleras_en_trayectos_p,adherence,movement,active,,,active
+RUT-BRO-050,Rutinas,Bronce,adherence.nutrition.camina_min_tras_cada_comida_principal,adherence,nutrition,active,,,active
+RUT-BRO-051,Rutinas,Bronce,adherence.movement.levantate_min_cada_min_de_pantalla,adherence,movement,active,,,active
+RUT-BRO-052,Rutinas,Bronce,adherence.movement.haz_una_pausa_caminando_en_llamadas_min,adherence,movement,active,,,active
+RUT-BRO-053,Rutinas,Bronce,adherence.movement.plan_semanal_de_entreno_agendarlo,adherence,movement,active,,,active
+RUT-BRO-054,Rutinas,Bronce,adherence.movement.desplazate_activo_al_trabajo_andar_bici_,adherence,movement,active,,,active
+RUT-BRO-055,Rutinas,Bronce,adherence.nutrition.compra_integral_pan_arroz_pasta_integral,adherence,nutrition,active,,,active
+RUT-BRO-056,Rutinas,Bronce,adherence.nutrition.fruta_visible_en_cocina_bowl,adherence,nutrition,active,,,active
+RUT-BRO-057,Rutinas,Bronce,adherence.sleep.ventana_sin_pantallas_min_antes_de_dormi,adherence,sleep,active,,,active
+RUT-BRO-058,Rutinas,Bronce,adherence.sleep.cafe_no_mas_tarde_de_las,adherence,sleep,active,,,active
+RUT-BRO-059,Rutinas,Bronce,mind.sleep.sin_alcohol_h_antes_de_dormir,mind,sleep,deprecated,CROSS_PILLAR_DUPLICATE;LEGACY_DEPRECATED,CROSS_PILLAR_DUPLICATE_RESOLVED,active
+RUT-BRO-060,Rutinas,Bronce,adherence.self_tracking.prepara_mochila_gym_kit_la_noche_anterio,adherence,self_tracking,active,,,active
+RUT-INI-001,Rutinas,Inicial,adherence.movement.usa_siempre_las_escaleras_en_trayectos_p,adherence,movement,active,,,active
+RUT-INI-002,Rutinas,Inicial,adherence.stress.pausa_ocular_estiramientos,adherence,stress,active,,,active
+RUT-INI-003,Rutinas,Inicial,adherence.self_tracking.revision_del_progreso_min,adherence,self_tracking,active,,,active
+RUT-INI-004,Rutinas,Inicial,adherence.self_tracking.medicion_de_pa_vez_semana,adherence,self_tracking,active,,,active
+RUT-INI-005,Rutinas,Inicial,adherence.movement.repartir_min_mvpa_a_lo_largo_del_dia,adherence,movement,active,,,active
+RUT-INI-006,Rutinas,Inicial,adherence.nutrition.preparar_snack_saludable_frutos_secos_fr,adherence,nutrition,active,,,active
+RUT-INI-007,Rutinas,Inicial,adherence.stress.recordatorio_para_postura_ergonomica,adherence,stress,active,,,active
+RUT-INI-008,Rutinas,Inicial,adherence.social.agenda_bloque_para_amigos_familia,adherence,social,active,,,active
+RUT-INI-009,Rutinas,Inicial,adherence.sleep.higiene_del_sueno_horario_fijo,adherence,sleep,active,,,active
+RUT-INI-010,Rutinas,Inicial,adherence.movement.pausa_de_movilidad_min_manana_y_tarde,adherence,movement,active,,,active
+RUT-INI-011,Rutinas,Inicial,adherence.sleep.paseo_digestivo_nocturno_min,adherence,sleep,active,,,active
+RUT-INI-012,Rutinas,Inicial,adherence.self_tracking.caminar_pasos_dias_sem,adherence,self_tracking,active,,,active
+RUT-INI-013,Rutinas,Inicial,adherence.nutrition.lista_de_la_compra_mediterranea,adherence,nutrition,active,,,active
+RUT-INI-014,Rutinas,Inicial,adherence.nutrition.batch_cooking_saludable_h_sem,adherence,nutrition,active,,,active
+RUT-INI-015,Rutinas,Inicial,adherence.self_tracking.registro_de_pasos_en_la_app,adherence,self_tracking,active,,,active
+RUT-INI-016,Rutinas,Inicial,adherence.stress.apunta_tareas_clave_del_dia,adherence,stress,active,,,active
+RUT-INI-017,Rutinas,Inicial,adherence.sleep.rutina_de_relajacion_min_antes_de_dormir,adherence,sleep,active,,,active
+RUT-INI-018,Rutinas,Inicial,adherence.movement.reunion_de_pie_andar_vez_al_dia,adherence,movement,active,,,active
+RUT-INI-019,Rutinas,Inicial,adherence.nutrition.camina_min_tras_cada_comida_principal,adherence,nutrition,active,,,active
+RUT-INI-020,Rutinas,Inicial,adherence.movement.levantate_min_cada_min_de_pantalla,adherence,movement,active,,,active
+RUT-INI-021,Rutinas,Inicial,adherence.movement.haz_una_pausa_caminando_en_llamadas_min,adherence,movement,active,,,active
+RUT-INI-022,Rutinas,Inicial,adherence.movement.desplazate_activo_al_trabajo_andar_bici_,adherence,movement,active,,,active
+RUT-INI-023,Rutinas,Inicial,adherence.self_tracking.prepara_mochila_gym_kit_la_noche_anterio,adherence,self_tracking,active,,,active
+RUT-INI-024,Rutinas,Inicial,adherence.movement.plan_semanal_de_entreno_agendarlo,adherence,movement,active,,,active
+RUT-INI-025,Rutinas,Inicial,adherence.nutrition.compra_integral_pan_arroz_pasta_integral,adherence,nutrition,active,,,active
+RUT-INI-026,Rutinas,Inicial,adherence.nutrition.fruta_visible_en_cocina_bowl,adherence,nutrition,active,,,active
+RUT-INI-027,Rutinas,Inicial,adherence.sleep.ventana_sin_pantallas_min_antes_de_dormi,adherence,sleep,active,,,active
+RUT-INI-028,Rutinas,Inicial,adherence.sleep.cafe_no_mas_tarde_de_las,adherence,sleep,active,,,active
+RUT-INI-029,Rutinas,Inicial,mind.sleep.sin_alcohol_h_antes_de_dormir,mind,sleep,deprecated,CROSS_PILLAR_DUPLICATE;LEGACY_DEPRECATED,CROSS_PILLAR_DUPLICATE_RESOLVED,active
+RUT-INI-030,Rutinas,Inicial,adherence.nutrition.ponte_recordatorio_de_agua_en_vez_de_ref,adherence,nutrition,active,,,active
+RUT-ORO-091,Rutinas,Oro,adherence.nutrition.lista_de_la_compra_mediterranea,adherence,nutrition,active,,,active
+RUT-ORO-092,Rutinas,Oro,adherence.self_tracking.caminar_pasos_dias_sem,adherence,self_tracking,active,,,active
+RUT-ORO-093,Rutinas,Oro,adherence.sleep.paseo_digestivo_nocturno_min,adherence,sleep,active,,,active
+RUT-ORO-094,Rutinas,Oro,adherence.movement.pausa_de_movilidad_min_manana_y_tarde,adherence,movement,active,,,active
+RUT-ORO-095,Rutinas,Oro,adherence.sleep.higiene_del_sueno_horario_fijo,adherence,sleep,active,,,active
+RUT-ORO-096,Rutinas,Oro,adherence.social.agenda_bloque_para_amigos_familia,adherence,social,active,,,active
+RUT-ORO-097,Rutinas,Oro,adherence.movement.repartir_min_mvpa_a_lo_largo_del_dia,adherence,movement,active,,,active
+RUT-ORO-098,Rutinas,Oro,adherence.nutrition.preparar_snack_saludable_frutos_secos_fr,adherence,nutrition,active,,,active
+RUT-ORO-099,Rutinas,Oro,adherence.self_tracking.medicion_de_pa_vez_semana,adherence,self_tracking,active,,,active
+RUT-ORO-100,Rutinas,Oro,adherence.self_tracking.revision_del_progreso_min,adherence,self_tracking,active,,,active
+RUT-ORO-101,Rutinas,Oro,adherence.stress.pausa_ocular_estiramientos,adherence,stress,active,,,active
+RUT-ORO-102,Rutinas,Oro,adherence.nutrition.batch_cooking_saludable_h_sem,adherence,nutrition,active,,,active
+RUT-ORO-103,Rutinas,Oro,adherence.stress.recordatorio_para_postura_ergonomica,adherence,stress,active,,,active
+RUT-ORO-104,Rutinas,Oro,adherence.self_tracking.registro_de_pasos_en_la_app,adherence,self_tracking,active,,,active
+RUT-ORO-105,Rutinas,Oro,adherence.stress.apunta_tareas_clave_del_dia,adherence,stress,active,,,active
+RUT-ORO-106,Rutinas,Oro,adherence.sleep.rutina_de_relajacion_min_antes_de_dormir,adherence,sleep,active,,,active
+RUT-ORO-107,Rutinas,Oro,adherence.movement.reunion_de_pie_andar_vez_al_dia,adherence,movement,active,,,active
+RUT-ORO-108,Rutinas,Oro,adherence.nutrition.camina_min_tras_cada_comida_principal,adherence,nutrition,active,,,active
+RUT-ORO-109,Rutinas,Oro,adherence.movement.levantate_min_cada_min_de_pantalla,adherence,movement,active,,,active
+RUT-ORO-110,Rutinas,Oro,adherence.movement.haz_una_pausa_caminando_en_llamadas_min,adherence,movement,active,,,active
+RUT-ORO-111,Rutinas,Oro,adherence.movement.desplazate_activo_al_trabajo_andar_bici_,adherence,movement,active,,,active
+RUT-ORO-112,Rutinas,Oro,adherence.movement.plan_semanal_de_entreno_agendarlo,adherence,movement,active,,,active
+RUT-ORO-113,Rutinas,Oro,adherence.self_tracking.prepara_mochila_gym_kit_la_noche_anterio,adherence,self_tracking,active,,,active
+RUT-ORO-114,Rutinas,Oro,adherence.movement.usa_siempre_las_escaleras_en_trayectos_p,adherence,movement,active,,,active
+RUT-ORO-115,Rutinas,Oro,adherence.nutrition.ponte_recordatorio_de_agua_en_vez_de_ref,adherence,nutrition,active,,,active
+RUT-ORO-116,Rutinas,Oro,adherence.nutrition.compra_integral_pan_arroz_pasta_integral,adherence,nutrition,active,,,active
+RUT-ORO-117,Rutinas,Oro,adherence.nutrition.fruta_visible_en_cocina_bowl,adherence,nutrition,active,,,active
+RUT-ORO-118,Rutinas,Oro,adherence.sleep.ventana_sin_pantallas_min_antes_de_dormi,adherence,sleep,active,,,active
+RUT-ORO-119,Rutinas,Oro,adherence.sleep.cafe_no_mas_tarde_de_las,adherence,sleep,active,,,active
+RUT-ORO-120,Rutinas,Oro,mind.sleep.sin_alcohol_h_antes_de_dormir,mind,sleep,deprecated,CROSS_PILLAR_DUPLICATE;LEGACY_DEPRECATED,CROSS_PILLAR_DUPLICATE_RESOLVED,active
+RUT-PLA-061,Rutinas,Plata,adherence.nutrition.lista_de_la_compra_mediterranea,adherence,nutrition,active,,,active
+RUT-PLA-062,Rutinas,Plata,adherence.sleep.higiene_del_sueno_horario_fijo,adherence,sleep,active,,,active
+RUT-PLA-063,Rutinas,Plata,adherence.self_tracking.caminar_pasos_dias_sem,adherence,self_tracking,active,,,active
+RUT-PLA-064,Rutinas,Plata,adherence.sleep.paseo_digestivo_nocturno_min,adherence,sleep,active,,,active
+RUT-PLA-065,Rutinas,Plata,adherence.movement.pausa_de_movilidad_min_manana_y_tarde,adherence,movement,active,,,active
+RUT-PLA-066,Rutinas,Plata,adherence.stress.apunta_tareas_clave_del_dia,adherence,stress,active,,,active
+RUT-PLA-067,Rutinas,Plata,adherence.stress.pausa_ocular_estiramientos,adherence,stress,active,,,active
+RUT-PLA-068,Rutinas,Plata,adherence.stress.recordatorio_para_postura_ergonomica,adherence,stress,active,,,active
+RUT-PLA-069,Rutinas,Plata,adherence.nutrition.preparar_snack_saludable_frutos_secos_fr,adherence,nutrition,active,,,active
+RUT-PLA-070,Rutinas,Plata,adherence.movement.repartir_min_mvpa_a_lo_largo_del_dia,adherence,movement,active,,,active
+RUT-PLA-071,Rutinas,Plata,adherence.self_tracking.medicion_de_pa_vez_semana,adherence,self_tracking,active,,,active
+RUT-PLA-072,Rutinas,Plata,adherence.self_tracking.revision_del_progreso_min,adherence,self_tracking,active,,,active
+RUT-PLA-073,Rutinas,Plata,adherence.nutrition.batch_cooking_saludable_h_sem,adherence,nutrition,active,,,active
+RUT-PLA-074,Rutinas,Plata,adherence.social.agenda_bloque_para_amigos_familia,adherence,social,active,,,active
+RUT-PLA-075,Rutinas,Plata,adherence.self_tracking.registro_de_pasos_en_la_app,adherence,self_tracking,active,,,active
+RUT-PLA-076,Rutinas,Plata,adherence.movement.reunion_de_pie_andar_vez_al_dia,adherence,movement,active,,,active
+RUT-PLA-077,Rutinas,Plata,adherence.sleep.rutina_de_relajacion_min_antes_de_dormir,adherence,sleep,active,,,active
+RUT-PLA-078,Rutinas,Plata,adherence.nutrition.camina_min_tras_cada_comida_principal,adherence,nutrition,active,,,active
+RUT-PLA-079,Rutinas,Plata,adherence.movement.levantate_min_cada_min_de_pantalla,adherence,movement,active,,,active
+RUT-PLA-080,Rutinas,Plata,adherence.movement.haz_una_pausa_caminando_en_llamadas_min,adherence,movement,active,,,active
+RUT-PLA-081,Rutinas,Plata,adherence.movement.desplazate_activo_al_trabajo_andar_bici_,adherence,movement,active,,,active
+RUT-PLA-082,Rutinas,Plata,adherence.movement.plan_semanal_de_entreno_agendarlo,adherence,movement,active,,,active
+RUT-PLA-083,Rutinas,Plata,adherence.self_tracking.prepara_mochila_gym_kit_la_noche_anterio,adherence,self_tracking,active,,,active
+RUT-PLA-084,Rutinas,Plata,adherence.movement.usa_siempre_las_escaleras_en_trayectos_p,adherence,movement,active,,,active
+RUT-PLA-085,Rutinas,Plata,adherence.nutrition.compra_integral_pan_arroz_pasta_integral,adherence,nutrition,active,,,active
+RUT-PLA-086,Rutinas,Plata,adherence.nutrition.fruta_visible_en_cocina_bowl,adherence,nutrition,active,,,active
+RUT-PLA-087,Rutinas,Plata,adherence.sleep.ventana_sin_pantallas_min_antes_de_dormi,adherence,sleep,active,,,active
+RUT-PLA-088,Rutinas,Plata,adherence.sleep.cafe_no_mas_tarde_de_las,adherence,sleep,active,,,active
+RUT-PLA-089,Rutinas,Plata,mind.sleep.sin_alcohol_h_antes_de_dormir,mind,sleep,deprecated,CROSS_PILLAR_DUPLICATE;LEGACY_DEPRECATED,CROSS_PILLAR_DUPLICATE_RESOLVED,active
+RUT-PLA-090,Rutinas,Plata,adherence.nutrition.ponte_recordatorio_de_agua_en_vez_de_ref,adherence,nutrition,active,,,active
+RUT-PTN-121,Rutinas,Platino,adherence.nutrition.batch_cooking_saludable_h_sem,adherence,nutrition,active,,,active
+RUT-PTN-122,Rutinas,Platino,adherence.nutrition.lista_de_la_compra_mediterranea,adherence,nutrition,active,,,active
+RUT-PTN-123,Rutinas,Platino,adherence.self_tracking.caminar_pasos_dias_sem,adherence,self_tracking,active,,,active
+RUT-PTN-124,Rutinas,Platino,adherence.sleep.paseo_digestivo_nocturno_min,adherence,sleep,active,,,active
+RUT-PTN-125,Rutinas,Platino,adherence.movement.pausa_de_movilidad_min_manana_y_tarde,adherence,movement,active,,,active
+RUT-PTN-126,Rutinas,Platino,adherence.social.agenda_bloque_para_amigos_familia,adherence,social,active,,,active
+RUT-PTN-127,Rutinas,Platino,adherence.stress.apunta_tareas_clave_del_dia,adherence,stress,active,,,active
+RUT-PTN-128,Rutinas,Platino,adherence.self_tracking.medicion_de_pa_vez_semana,adherence,self_tracking,active,,,active
+RUT-PTN-129,Rutinas,Platino,adherence.stress.recordatorio_para_postura_ergonomica,adherence,stress,active,,,active
+RUT-PTN-130,Rutinas,Platino,adherence.nutrition.preparar_snack_saludable_frutos_secos_fr,adherence,nutrition,active,,,active
+RUT-PTN-131,Rutinas,Platino,adherence.movement.repartir_min_mvpa_a_lo_largo_del_dia,adherence,movement,active,,,active
+RUT-PTN-132,Rutinas,Platino,adherence.self_tracking.registro_de_pasos_en_la_app,adherence,self_tracking,active,,,active
+RUT-PTN-133,Rutinas,Platino,adherence.sleep.higiene_del_sueno_horario_fijo,adherence,sleep,active,,,active
+RUT-PTN-134,Rutinas,Platino,adherence.movement.reunion_de_pie_andar_vez_al_dia,adherence,movement,active,,,active
+RUT-PTN-135,Rutinas,Platino,adherence.nutrition.ponte_recordatorio_de_agua_en_vez_de_ref,adherence,nutrition,active,,,active
+RUT-PTN-136,Rutinas,Platino,mind.sleep.sin_alcohol_h_antes_de_dormir,mind,sleep,deprecated,CROSS_PILLAR_DUPLICATE;LEGACY_DEPRECATED,CROSS_PILLAR_DUPLICATE_RESOLVED,active
+RUT-PTN-137,Rutinas,Platino,adherence.sleep.cafe_no_mas_tarde_de_las,adherence,sleep,active,,,active
+RUT-PTN-138,Rutinas,Platino,adherence.sleep.ventana_sin_pantallas_min_antes_de_dormi,adherence,sleep,active,,,active
+RUT-PTN-139,Rutinas,Platino,adherence.nutrition.fruta_visible_en_cocina_bowl,adherence,nutrition,active,,,active
+RUT-PTN-140,Rutinas,Platino,adherence.nutrition.compra_integral_pan_arroz_pasta_integral,adherence,nutrition,active,,,active
+RUT-PTN-141,Rutinas,Platino,adherence.self_tracking.prepara_mochila_gym_kit_la_noche_anterio,adherence,self_tracking,active,,,active
+RUT-PTN-142,Rutinas,Platino,adherence.movement.plan_semanal_de_entreno_agendarlo,adherence,movement,active,,,active
+RUT-PTN-143,Rutinas,Platino,adherence.movement.desplazate_activo_al_trabajo_andar_bici_,adherence,movement,active,,,active
+RUT-PTN-144,Rutinas,Platino,adherence.movement.haz_una_pausa_caminando_en_llamadas_min,adherence,movement,active,,,active
+RUT-PTN-145,Rutinas,Platino,adherence.movement.levantate_min_cada_min_de_pantalla,adherence,movement,active,,,active
+RUT-PTN-146,Rutinas,Platino,adherence.nutrition.camina_min_tras_cada_comida_principal,adherence,nutrition,active,,,active
+RUT-PTN-147,Rutinas,Platino,adherence.movement.usa_siempre_las_escaleras_en_trayectos_p,adherence,movement,active,,,active
+RUT-PTN-148,Rutinas,Platino,adherence.self_tracking.revision_del_progreso_min,adherence,self_tracking,active,,,active
+RUT-PTN-149,Rutinas,Platino,adherence.sleep.rutina_de_relajacion_min_antes_de_dormir,adherence,sleep,active,,,active
+RUT-PTN-150,Rutinas,Platino,adherence.stress.pausa_ocular_estiramientos,adherence,stress,active,,,active

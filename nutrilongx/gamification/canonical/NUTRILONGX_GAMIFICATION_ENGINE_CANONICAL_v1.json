@@ -1,0 +1,463 @@
+{
+  "schema": "NUTRILONGX_GAMIFICATION_ENGINE_CANONICAL",
+  "version": "1.0.0",
+  "generated_at": "2026-08-18",
+  "audit_report": "NUTRILONGX_AUDITORIA_FASE0_v1.md",
+  "disclaimer": "Los DVG son creditos educativos inspirados en evidencia poblacional y no predicen individualmente la esperanza de vida.",
+  "governance_decisions_applied": [
+    "DECISION_1: el levelMultiplier historico (Inicial/Bronce/Plata/Oro/Platino = 0.90/1.00/1.08/1.16/1.24) queda LEGACY_DEPRECATED y EXCLUIDO de calculation_order. El DVG base de una accion es directamente level_variant.base_dvg_hours (que ya incorpora la dosis/duracion propia de su nivel).",
+    "DECISION_4: los objetivos anuales +45/+60/+90 dias/anio/pilar quedan LEGACY_REFERENCE_ONLY, fuera de 'active'. No se usan como requisito de calibracion ni se han ajustado creditos para alcanzarlos."
+  ],
+  "units": {
+    "life": "hours",
+    "display": "days"
+  },
+  "active": {
+    "description": "Reglas vigentes que participan en el calculo canonico de DVG.",
+    "base_dvg": {
+      "rule": "base_dvg_hours = level_variant.base_dvg_hours (valor ya definido por el catalogo canonico para esa familia de accion + nivel; NO se multiplica por ningun factor de nivel adicional).",
+      "base_dvg_days": "base_dvg_days = round(base_dvg_hours / 24, precision_days)",
+      "provenance": {
+        "source": "NUTRILONGX_ACTIONS_CATALOG_CANONICAL_v1.json (level_variants[*].base_dvg_hours)",
+        "source_version": "v3-audit-2026-08-18",
+        "corroborated_by": [
+          "Decision 1 de gobernanza (2026-08-18)"
+        ],
+        "flags": []
+      }
+    },
+    "streaks": {
+      "daily": {
+        "type": "linear_cap",
+        "k": 0.02,
+        "cap": 0.2,
+        "formula": "min(1 + k*s, 1 + cap)",
+        "applies_to": "por pilar/dominio, multiplicativo sobre el DVG ya calculado de cada accion del dia"
+      },
+      "weekly": {
+        "type": "linear_cap",
+        "k": 0.05,
+        "cap": 0.35,
+        "formula": "min(1 + k*w, 1 + cap)"
+      },
+      "provenance": {
+        "source": "engine_config.json.streaks",
+        "source_version": "v3-audit-2026-08-18",
+        "corroborated_by": [
+          "NUTRILONGX_creditos_v3.xlsx / hoja Engine_Streaks",
+          "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7"
+        ],
+        "flags": []
+      }
+    },
+    "boosters": [
+      {
+        "name": "Weekend Warrior",
+        "multiplier": 1.3,
+        "scope": {
+          "pillar": "Retos (Ejercicio)"
+        },
+        "condition": "sabado_domingo && total_activity_minutes>=90",
+        "stacking": "after_streaks",
+        "delayed": false,
+        "provenance": {
+          "source": "engine_config.json.boosters",
+          "source_version": "v3-audit-2026-08-18",
+          "corroborated_by": [
+            "NUTRILONGX_creditos_v3.xlsx / hoja Engine_Boosters",
+            "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7"
+          ],
+          "flags": []
+        }
+      },
+      {
+        "name": "Coach Check",
+        "multiplier": 1.15,
+        "scope": {
+          "per_action": true,
+          "max_per_week": 2
+        },
+        "condition": "coach_verified",
+        "stacking": "after_streaks",
+        "delayed": false,
+        "provenance": {
+          "source": "engine_config.json.boosters",
+          "source_version": "v3-audit-2026-08-18",
+          "corroborated_by": [
+            "NUTRILONGX_creditos_v3.xlsx / hoja Engine_Boosters",
+            "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7"
+          ],
+          "flags": []
+        }
+      },
+      {
+        "name": "Social Buddy",
+        "multiplier": 1.1,
+        "scope": {
+          "pillars": "ALL"
+        },
+        "condition": "community_challenge_participation",
+        "stacking": "after_streaks",
+        "delayed": false,
+        "provenance": {
+          "source": "engine_config.json.boosters",
+          "source_version": "v3-audit-2026-08-18",
+          "corroborated_by": [
+            "NUTRILONGX_creditos_v3.xlsx / hoja Engine_Boosters",
+            "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7"
+          ],
+          "flags": []
+        }
+      },
+      {
+        "name": "Recovery Perfect",
+        "multiplier": 1.15,
+        "scope": {
+          "pillar": "Retos (Ejercicio)"
+        },
+        "condition": "sleep_7_8h && no_alcohol_caffeine_evening && presleep_routine",
+        "stacking": "after_streaks",
+        "delayed": true,
+        "provenance": {
+          "source": "engine_config.json.boosters",
+          "source_version": "v3-audit-2026-08-18",
+          "corroborated_by": [
+            "NUTRILONGX_creditos_v3.xlsx / hoja Engine_Boosters",
+            "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7"
+          ],
+          "flags": []
+        }
+      }
+    ],
+    "combos": [
+      {
+        "name": "Move + Sleep",
+        "bonus_hours": 0.3,
+        "condition": "has_pillar('Retos (Ejercicio)') && sleep_goal_achieved",
+        "stacking": false,
+        "provenance": {
+          "source": "engine_config.json.combos",
+          "source_version": "v3-audit-2026-08-18",
+          "corroborated_by": [
+            "NUTRILONGX_creditos_v3.xlsx / hoja Engine_Combos",
+            "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7"
+          ],
+          "flags": []
+        }
+      },
+      {
+        "name": "Food + Mind",
+        "bonus_hours": 0.2,
+        "condition": "diet_day_level>=Plata && mindfulness_minutes>=10",
+        "stacking": false,
+        "provenance": {
+          "source": "engine_config.json.combos",
+          "source_version": "v3-audit-2026-08-18",
+          "corroborated_by": [
+            "NUTRILONGX_creditos_v3.xlsx / hoja Engine_Combos",
+            "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7"
+          ],
+          "flags": []
+        }
+      },
+      {
+        "name": "All 4 pilares",
+        "bonus_hours": 0.6,
+        "condition": "has_all_pillars_day",
+        "stacking": false,
+        "provenance": {
+          "source": "engine_config.json.combos",
+          "source_version": "v3-audit-2026-08-18",
+          "corroborated_by": [
+            "NUTRILONGX_creditos_v3.xlsx / hoja Engine_Combos",
+            "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7"
+          ],
+          "flags": []
+        }
+      },
+      {
+        "name": "Cardio + Fuerza",
+        "bonus_hours": 0.2,
+        "condition": "same_day_cardio_and_strength",
+        "stacking": false,
+        "provenance": {
+          "source": "engine_config.json.combos",
+          "source_version": "v3-audit-2026-08-18",
+          "corroborated_by": [
+            "NUTRILONGX_creditos_v3.xlsx / hoja Engine_Combos",
+            "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7"
+          ],
+          "flags": []
+        }
+      }
+    ],
+    "weekly_multipliers": [
+      {
+        "name": "WHO cumplido (Retos)",
+        "factor": 1.1,
+        "pillar_scope": "Retos (Ejercicio)",
+        "criterion": "mvpa_minutes>=150 && strength_sessions>=2",
+        "provenance": {
+          "source": "engine_config.json.weekly_multipliers",
+          "source_version": "v3-audit-2026-08-18",
+          "corroborated_by": [
+            "NUTRILONGX_creditos_v3.xlsx / hoja Engine_WeeklyMultipliers",
+            "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7"
+          ],
+          "flags": []
+        }
+      },
+      {
+        "name": "Mediterránea 5+ días",
+        "factor": 1.1,
+        "pillar_scope": "Alimentación",
+        "criterion": "diet_day_level>=Plata on >=5 days",
+        "provenance": {
+          "source": "engine_config.json.weekly_multipliers",
+          "source_version": "v3-audit-2026-08-18",
+          "corroborated_by": [
+            "NUTRILONGX_creditos_v3.xlsx / hoja Engine_WeeklyMultipliers",
+            "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7"
+          ],
+          "flags": []
+        }
+      },
+      {
+        "name": "Sueño saludable 5/7",
+        "factor": 1.1,
+        "pillar_scope": "Mente",
+        "criterion": "sleep_healthy_days>=5",
+        "provenance": {
+          "source": "engine_config.json.weekly_multipliers",
+          "source_version": "v3-audit-2026-08-18",
+          "corroborated_by": [
+            "NUTRILONGX_creditos_v3.xlsx / hoja Engine_WeeklyMultipliers",
+            "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7"
+          ],
+          "flags": []
+        }
+      },
+      {
+        "name": "All-pillars week",
+        "factor": 1.1,
+        "pillar_scope": "GLOBAL",
+        "criterion": "min_criteria_met_all_pillars_same_week",
+        "provenance": {
+          "source": "engine_config.json.weekly_multipliers",
+          "source_version": "v3-audit-2026-08-18",
+          "corroborated_by": [
+            "NUTRILONGX_creditos_v3.xlsx / hoja Engine_WeeklyMultipliers",
+            "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7"
+          ],
+          "flags": []
+        }
+      }
+    ],
+    "caps": {
+      "daily": {
+        "Retos (Ejercicio)": 6.0,
+        "Rutinas": 4.0,
+        "Alimentación": 6.0,
+        "Mente": 4.0,
+        "GLOBAL": 10.0
+      },
+      "weekly": {
+        "Retos (Ejercicio)": 84.0,
+        "Rutinas": 72.0,
+        "Alimentación": 84.0,
+        "Mente": 72.0,
+        "GLOBAL": 240.0
+      },
+      "provenance": {
+        "source": "engine_config.json.caps.daily / caps.weekly",
+        "source_version": "v3-audit-2026-08-18",
+        "corroborated_by": [
+          "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 7 (cifras identicas en prosa)"
+        ],
+        "flags": []
+      }
+    },
+    "diminishing_returns": {
+      "rules": [
+        {
+          "pillar": "Retos (Ejercicio)",
+          "threshold": {
+            "minutes_per_day": 180
+          },
+          "extra_credit_multiplier": 0.5
+        },
+        {
+          "pillar": "Rutinas",
+          "threshold": {
+            "actions_per_day": 8
+          },
+          "extra_credit_multiplier": 0.5
+        },
+        {
+          "pillar": "Alimentación",
+          "threshold": {
+            "actions_per_day": 6
+          },
+          "extra_credit_multiplier": 0.5
+        },
+        {
+          "pillar": "Mente",
+          "threshold": {
+            "actions_per_day": 4
+          },
+          "extra_credit_multiplier": 0.5
+        }
+      ],
+      "provenance": {
+        "source": "engine_config.json.caps.diminishing_returns",
+        "source_version": "v3-audit-2026-08-18",
+        "corroborated_by": [],
+        "flags": [
+          "SINGLE_SOURCE_ENGINE_RULE"
+        ]
+      },
+      "note": "Los umbrales exactos (180 min/dia para movement, 8/6/4 acciones/dia para adherence/nutrition/mind) no tienen corroboracion en el Excel v3 (no existe hoja Engine_Caps) ni cifras exactas en el PDF (que solo describe el mecanismo en prosa, sin umbrales). Se conservan sin modificar; no eliminar."
+    },
+    "calculation_order": {
+      "description": "Orden canonico de calculo, estructurado como dato (antes solo vivia en prosa del PDF).",
+      "steps": [
+        {
+          "step": 1,
+          "name": "base_dvg",
+          "description": "DVG base de la variante de nivel (ver 'base_dvg'). No se aplica ningun multiplicador de nivel adicional sobre este valor (ver legacy_deprecated para el mecanismo historico excluido)."
+        },
+        {
+          "step": 2,
+          "name": "streaks",
+          "description": "Aplica f_d(streak_dias) por pilar/dominio sobre el DVG base de cada accion."
+        },
+        {
+          "step": 3,
+          "name": "boosters",
+          "description": "Aplica boosters multiplicativos aplicables (stacking 'after_streaks')."
+        },
+        {
+          "step": 4,
+          "name": "combos_flat",
+          "description": "Suma bonos planos de combos (no multiplican)."
+        },
+        {
+          "step": 5,
+          "name": "daily_caps",
+          "description": "Aplica caps diarios por dominio y cap global diario, y diminishing returns."
+        },
+        {
+          "step": 6,
+          "name": "weekly_multipliers",
+          "description": "Aplica multiplicadores semanales por dominio/global si se cumple criterio."
+        },
+        {
+          "step": 7,
+          "name": "weekly_cap",
+          "description": "Aplica cap semanal por dominio y cap global semanal."
+        }
+      ],
+      "provenance": {
+        "source": "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 3",
+        "source_version": "v3-audit-2026-08-18",
+        "corroborated_by": [],
+        "flags": [
+          "ORDER_PREVIOUSLY_DOCUMENTED_ONLY_IN_PROSE"
+        ]
+      }
+    },
+    "precision": {
+      "divisor": 24.0,
+      "precision_days": 2
+    },
+    "badges": [
+      "Streak Master",
+      "Weekend Warrior",
+      "Coach Verified",
+      "All-Pillars Day",
+      "Food+Mind",
+      "Move+Sleep"
+    ]
+  },
+  "legacy_deprecated": {
+    "description": "Reglas historicas que existieron en engine_config.json / Excel pero quedan EXCLUIDAS del calculo canonico por decision de gobernanza. Se conservan integras para provenance; NUNCA deben aparecer en 'active.calculation_order'.",
+    "level_multiplier": {
+      "levels": [
+        {
+          "name": "Inicial",
+          "multiplier": 0.9
+        },
+        {
+          "name": "Bronce",
+          "multiplier": 1.0
+        },
+        {
+          "name": "Plata",
+          "multiplier": 1.08
+        },
+        {
+          "name": "Oro",
+          "multiplier": 1.16
+        },
+        {
+          "name": "Platino",
+          "multiplier": 1.24
+        }
+      ],
+      "reason_deprecated": "DECISION_1 (2026-08-18): el catalogo canonico ya incorpora la progresion de credito por nivel dentro de base_dvg_hours de cada level_variant. Aplicar ademas este multiplicador duplicaria el escalado del mismo eje conceptual (nivel). Ver NUTRILONGX_AUDITORIA_FASE0_v1.md, seccion 9, conflicto 1.",
+      "provenance": {
+        "source": "engine_config.json.levels",
+        "source_version": "v3-audit-2026-08-18",
+        "corroborated_by": [
+          "NUTRILONGX_creditos_v3.xlsx / hoja Engine_LevelMultiplier"
+        ],
+        "flags": [
+          "LEGACY_DEPRECATED"
+        ]
+      }
+    }
+  },
+  "legacy_reference_only": {
+    "description": "Cifras historicas de calibracion de negocio. Utilizables como sanity check, NUNCA como requisito de calculo, promesa individual o predicción clínica.",
+    "annual_dvg_targets": {
+      "unit": "dias de vida ganados por anio por pilar (estimacion aproximada, 1 accion/dia, sin rachas/boosters)",
+      "targets": {
+        "Plata": 45,
+        "Oro": 60,
+        "Platino": 90
+      },
+      "audit_check_result": {
+        "nota": "Chequeo aproximado realizado en la auditoria Fase 0 (seccion 5). Retos/Alimentacion se acercan en Plata/Oro; los 4 dominios se quedan por debajo en Platino; Mind/Adherence se quedan sistematicamente por debajo en los 3 niveles. NO se ha modificado ningun credito para cerrar esta brecha (Decision 4).",
+        "movement_pillar_days_per_year_approx": {
+          "Plata": 46.0,
+          "Oro": 58.2,
+          "Platino": 69.2
+        },
+        "nutrition_pillar_days_per_year_approx": {
+          "Plata": 47.4,
+          "Oro": 59.9,
+          "Platino": 71.5
+        },
+        "mind_pillar_days_per_year_approx": {
+          "Plata": 33.9,
+          "Oro": 41.2,
+          "Platino": 50.2
+        },
+        "adherence_pillar_days_per_year_approx": {
+          "Plata": 26.0,
+          "Oro": 30.8,
+          "Platino": 37.7
+        }
+      },
+      "provenance": {
+        "source": "PLAN DE GAMIFICACION NUTRILONGX.pdf, seccion 8",
+        "source_version": "v3-audit-2026-08-18",
+        "corroborated_by": [],
+        "flags": [
+          "LEGACY_REFERENCE_ONLY",
+          "NOT_A_CALIBRATION_REQUIREMENT"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+# NUTRILONGX knowledge base — force stable line endings and correct binary
+# handling so that the SHA-256 values recorded in
+# nutrilongx/manifests/NUTRILONGX_REPOSITORY_MANIFEST_v1.json stay valid
+# across clones/platforms (Windows autocrlf would otherwise rewrite LF to
+# CRLF on checkout and silently invalidate every recorded hash).
+nutrilongx/**/*.md text eol=lf
+nutrilongx/**/*.json text eol=lf
+nutrilongx/**/*.csv text eol=lf
+nutrilongx/**/*.txt text eol=lf
+nutrilongx/**/*.py text eol=lf
+nutrilongx/**/*.ts text eol=lf
+nutrilongx/**/*.xlsx binary
+nutrilongx/**/*.pdf binary

@@ -1,0 +1,227 @@
+{
+  "engine_version": "1.0.0",
+  "units": {
+    "life": "hours",
+    "display": "days"
+  },
+  "levels": [
+    {
+      "name": "Inicial",
+      "multiplier": 0.9
+    },
+    {
+      "name": "Bronce",
+      "multiplier": 1.0
+    },
+    {
+      "name": "Plata",
+      "multiplier": 1.08
+    },
+    {
+      "name": "Oro",
+      "multiplier": 1.16
+    },
+    {
+      "name": "Platino",
+      "multiplier": 1.24
+    }
+  ],
+  "streaks": {
+    "daily": {
+      "type": "linear_cap",
+      "k": 0.02,
+      "cap": 0.2,
+      "formula": "min(1 + k*s, 1 + cap)"
+    },
+    "weekly": {
+      "type": "linear_cap",
+      "k": 0.05,
+      "cap": 0.35,
+      "formula": "min(1 + k*w, 1 + cap)"
+    }
+  },
+  "boosters": [
+    {
+      "name": "Weekend Warrior",
+      "multiplier": 1.3,
+      "scope": {
+        "pillar": "Retos (Ejercicio)"
+      },
+      "condition": "sabado_domingo && total_activity_minutes>=90",
+      "stacking": "after_streaks",
+      "delayed": false
+    },
+    {
+      "name": "Coach Check",
+      "multiplier": 1.15,
+      "scope": {
+        "per_action": true,
+        "max_per_week": 2
+      },
+      "condition": "coach_verified",
+      "stacking": "after_streaks",
+      "delayed": false
+    },
+    {
+      "name": "Social Buddy",
+      "multiplier": 1.1,
+      "scope": {
+        "pillars": "ALL"
+      },
+      "condition": "community_challenge_participation",
+      "stacking": "after_streaks",
+      "delayed": false
+    },
+    {
+      "name": "Recovery Perfect",
+      "multiplier": 1.15,
+      "scope": {
+        "pillar": "Retos (Ejercicio)"
+      },
+      "condition": "sleep_7_8h && no_alcohol_caffeine_evening && presleep_routine",
+      "stacking": "after_streaks",
+      "delayed": true
+    }
+  ],
+  "combos": [
+    {
+      "name": "Move + Sleep",
+      "bonus_hours": 0.3,
+      "condition": "has_pillar('Retos (Ejercicio)') && sleep_goal_achieved",
+      "stacking": false
+    },
+    {
+      "name": "Food + Mind",
+      "bonus_hours": 0.2,
+      "condition": "diet_day_level>=Plata && mindfulness_minutes>=10",
+      "stacking": false
+    },
+    {
+      "name": "All 4 pilares",
+      "bonus_hours": 0.6,
+      "condition": "has_all_pillars_day",
+      "stacking": false
+    },
+    {
+      "name": "Cardio + Fuerza",
+      "bonus_hours": 0.2,
+      "condition": "same_day_cardio_and_strength",
+      "stacking": false
+    }
+  ],
+  "weekly_multipliers": [
+    {
+      "name": "WHO cumplido (Retos)",
+      "factor": 1.1,
+      "pillar_scope": "Retos (Ejercicio)",
+      "criterion": "mvpa_minutes>=150 && strength_sessions>=2"
+    },
+    {
+      "name": "Mediterránea 5+ días",
+      "factor": 1.1,
+      "pillar_scope": "Alimentación",
+      "criterion": "diet_day_level>=Plata on >=5 days"
+    },
+    {
+      "name": "Sueño saludable 5/7",
+      "factor": 1.1,
+      "pillar_scope": "Mente",
+      "criterion": "sleep_healthy_days>=5"
+    },
+    {
+      "name": "All-pillars week",
+      "factor": 1.1,
+      "pillar_scope": "GLOBAL",
+      "criterion": "min_criteria_met_all_pillars_same_week"
+    }
+  ],
+  "caps": {
+    "daily": {
+      "Retos (Ejercicio)": 6.0,
+      "Rutinas": 4.0,
+      "Alimentación": 6.0,
+      "Mente": 4.0,
+      "GLOBAL": 10.0
+    },
+    "weekly": {
+      "Retos (Ejercicio)": 84.0,
+      "Rutinas": 72.0,
+      "Alimentación": 84.0,
+      "Mente": 72.0,
+      "GLOBAL": 240.0
+    },
+    "diminishing_returns": [
+      {
+        "pillar": "Retos (Ejercicio)",
+        "threshold": {
+          "minutes_per_day": 180
+        },
+        "extra_credit_multiplier": 0.5
+      },
+      {
+        "pillar": "Rutinas",
+        "threshold": {
+          "actions_per_day": 8
+        },
+        "extra_credit_multiplier": 0.5
+      },
+      {
+        "pillar": "Alimentación",
+        "threshold": {
+          "actions_per_day": 6
+        },
+        "extra_credit_multiplier": 0.5
+      },
+      {
+        "pillar": "Mente",
+        "threshold": {
+          "actions_per_day": 4
+        },
+        "extra_credit_multiplier": 0.5
+      }
+    ]
+  },
+  "catalog_source": {
+    "type": "excel",
+    "path": "NUTRILONGX_creditos_v2.xlsx",
+    "sheets": {
+      "Retos (Ejercicio)": {
+        "pillar_code": "RET"
+      },
+      "Rutinas": {
+        "pillar_code": "RUT"
+      },
+      "Alimentación": {
+        "pillar_code": "ALI"
+      },
+      "Mente": {
+        "pillar_code": "MEN"
+      }
+    },
+    "columns_map": {
+      "Nivel": "level",
+      "Actividad": "title",
+      "Subpilar": "subpillar",
+      "Unidad": "unit",
+      "Vida_ganada_horas": "life_hours",
+      "Vida_ganada_dias": "life_days",
+      "Justificación breve": "rationale",
+      "FuenteIDs": "source_ids"
+    }
+  },
+  "display": {
+    "life_hours_to_days": {
+      "divisor": 24.0,
+      "precision_days": 2
+    },
+    "badges": [
+      "Streak Master",
+      "Weekend Warrior",
+      "Coach Verified",
+      "All-Pillars Day",
+      "Food+Mind",
+      "Move+Sleep"
+    ]
+  },
+  "disclaimer": "Los DVG son créditos educativos inspirados en evidencia poblacional; no predicen de forma individual la esperanza de vida."
+}
