@@ -59,13 +59,26 @@ que los propios artefactos declaran.
   registry, sin `relative_path` (ningún fichero físico localizado).
 - `Motor_Recetas_v1_1.xlsx` **ya no** se representa como
   `REFERENCED_NOT_RECOVERED`: tiene una única fila física real
-  (`artifact_type: SOURCE`, `status: RECOVERED_PENDING_CONTENT_VALIDATION`,
-  `source_of_truth: false`) — localizado, no auditado en contenido, no
-  validado como fuente clínica. No implica recuperación de las 3
-  especificaciones anteriores.
+  (`artifact_type: SOURCE`, `status: RECOVERED_PARTIAL_SOURCE`,
+  `source_of_truth: false`, `production_ready: false`).
+  Auditoría de contenido READ-ONLY completada y aprobada (2026-08-19):
+  fuente real de contenido/receta para **8/58 recetas** (`NLX-001`–`NLX-008`);
+  **NUTRIENT_THRESHOLDS, CLINICAL_PROFILES y CLINICAL_RULES: los 3 `NOT_FOUND`**
+  en el workbook (0 fórmulas, 0 definición de perfiles, 0 tabla de umbrales).
+  Contiene salidas clínicas ya aplicadas (`contains_clinical_outputs: true`,
+  matriz de 10 categorías `APTO_*`) pero ninguna regla que las produjera
+  (`contains_clinical_rules: false`). No implica recuperación de las 3
+  especificaciones — siguen `REFERENCED_NOT_RECOVERED`.
   `clinical/missing/NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md` es un registro
   de gobernanza `ACTIVE` que narra ambos estados — no sustituye ni
   reconstruye ninguna de las 3 specs pendientes.
+- `NUTRILONGX_ALIMENTACION_MASTER_v1` sigue `FROZEN`. Impacto de esta
+  auditoría: `NO_MASTER_CHANGE_REQUIRED` — no se genera `v1.1`.
+- Auditoría del workbook persistida en `nutrition/reports/`:
+  `NUTRILONGX_MOTOR_RECETAS_WORKBOOK_AUDIT_v1.md` (`AUDIT`) +
+  `NUTRILONGX_MOTOR_RECETAS_WORKBOOK_SHEET_INVENTORY_v1.csv` (`AUDIT_SUPPORT`) +
+  `NUTRILONGX_MOTOR_RECETAS_WORKBOOK_RULE_CANDIDATES_v1.csv` (`AUDIT_SUPPORT`).
+  Ninguno es `source_of_truth`.
 
 ## INFRASTRUCTURE
 

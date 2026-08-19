@@ -52,6 +52,9 @@ Regla para cualquier humano o agente que lea esto en el futuro:
 
 **Fuente de verdad**: `nutrition/canonical/NUTRILONGX_ALIMENTACION_MASTER_v1.json`
 — **FROZEN**, `status` propio: `ACTIVE_WITH_REFERENCED_NOT_RECOVERED_SPECS`.
+Tras la auditoría del workbook recuperado (ver abajo): **`NO_MASTER_CHANGE_REQUIRED`**
+— no se ha generado ni se genera `NUTRILONGX_ALIMENTACION_MASTER_v1.1`, y el JSON
+FROZEN sigue byte a byte idéntico.
 
 - 58 recetas. Madurez verificada directamente contra el JSON:
   **8 `ACTIVE_READY`** (NLX-001 a NLX-008), **43 `PARTIAL`**,
@@ -77,18 +80,29 @@ Regla para cualquier humano o agente que lea esto en el futuro:
   `status: REFERENCED_NOT_RECOVERED`, sin `relative_path`).
 - `NUTRILONGX_Motor_Recetas_v1_1.xlsx` **sí se ha localizado físicamente**
   (`nutrition/sources/`, SHA-256 real) y tiene **una única fila lógica** en
-  el registry: `artifact_type: SOURCE`, `status:
-  RECOVERED_PENDING_CONTENT_VALIDATION`, `source_of_truth: false`. No existe
-  una segunda fila placeholder para este mismo fichero — se corrigió una
-  inconsistencia previa que lo representaba simultáneamente como fichero
-  real y como `REFERENCED_NOT_RECOVERED`.
-  `RECOVERED_PENDING_CONTENT_VALIDATION` **no implica** que las 3 specs de
-  arriba se hayan recuperado ni que este Excel sea fuente clínica validada.
+  el registry: `artifact_type: SOURCE`, `status: RECOVERED_PARTIAL_SOURCE`,
+  `source_of_truth: false`, `production_ready: false`. No existe una segunda
+  fila placeholder para este mismo fichero.
+  Tras la auditoría de contenido READ-ONLY
+  (`nutrition/reports/NUTRILONGX_MOTOR_RECETAS_WORKBOOK_AUDIT_v1.md`,
+  aprobada 2026-08-19), el alcance queda determinado con evidencia interna
+  del propio fichero: `source_scope` = fuente de contenido/receta para
+  **8/58 recetas** (`NLX-001`–`NLX-008`); `clinical_spec_recovery` = las 3
+  specs `NOT_FOUND` (0 fórmulas, 0 definiciones de perfil, 0 tabla de
+  umbrales); `contains_clinical_outputs: true` (matriz de 10 categorías
+  `APTO_*`, salida por receta) pero `contains_clinical_rules: false`;
+  `contains_formulas: false`. `RECOVERED_PARTIAL_SOURCE` **no implica** que
+  las 3 specs de arriba se hayan recuperado ni que este Excel sea fuente
+  clínica validada — sigue sin ser `CANONICAL`.
 - `clinical/missing/NUTRILONGX_NUTRITION_MISSING_SPECS_v1.md` es el **registro
   de gobernanza** que narra ambos estados (`artifact_type: governance_record`,
   `status: ACTIVE`, `source_of_truth: false`) — documenta el hallazgo, **no
   sustituye ni reconstruye** ninguna de las 3 especificaciones pendientes ni
   valida el contenido del Excel localizado.
+- Auditoría de contenido del workbook, persistida en `nutrition/reports/`:
+  `NUTRILONGX_MOTOR_RECETAS_WORKBOOK_AUDIT_v1.md` (`artifact_type: AUDIT`) +
+  2 CSV de soporte (`artifact_type: AUDIT_SUPPORT`) — inventario de hojas y
+  candidatos de regla evaluados. Ninguno es `source_of_truth`.
 - **Hallazgo adyacente sin clasificar** (no persistido, requiere decisión de
   César): un corpus doctrinal de validación/corrección de recetas v1.2 y una
   versión anterior sin versionar, en `Nuevo NUTRILONGX/`. Ver
