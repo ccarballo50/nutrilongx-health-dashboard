@@ -16,6 +16,11 @@ Regla para cualquier humano o agente que lea esto en el futuro:
 
 ## GAMIFICATION
 
+**Estado del dominio: `FROZEN_FOR_INTEGRATION`** (2026-08-19). Ver
+`governance/decisions/NUTRILONGX_DOMAIN_FREEZE_DECISION_v1.md` y el
+contrato de integración cross-dominio en
+`governance/architecture/NUTRILONGX_DOMAIN_INTEGRATION_CONTRACT_v1.md`.
+
 **Fuente de verdad**: `gamification/canonical/NUTRILONGX_ACTIONS_CATALOG_CANONICAL_v1.json`
 + `gamification/canonical/NUTRILONGX_GAMIFICATION_ENGINE_CANONICAL_v1.json`
 — ambos **FROZEN**.
@@ -49,6 +54,10 @@ Regla para cualquier humano o agente que lea esto en el futuro:
   `action_logs` existen como tablas reales hoy.
 
 ## NUTRITION
+
+**Estado del dominio: `FROZEN_FOR_INTEGRATION`** (2026-08-19). No bloquea
+integración de contenido/gamificación; sí bloquea automatización clínica
+mientras las 3 specs sigan `REFERENCED_NOT_RECOVERED`.
 
 **Fuente de verdad**: `nutrition/canonical/NUTRILONGX_ALIMENTACION_MASTER_v1.json`
 — **FROZEN**, `status` propio: `ACTIVE_WITH_REFERENCED_NOT_RECOVERED_SPECS`.
@@ -109,6 +118,10 @@ FROZEN sigue byte a byte idéntico.
   `registry/NUTRILONGX_STAGING_RECONCILIATION_v1.md` §3.
 
 ## EXERCISE
+
+**Estado del dominio: `FROZEN_FOR_INTEGRATION`** (2026-08-19). **No**
+`PRODUCTION_READY` — biblioteca piloto incompleta y safety rules pendientes
+de `HUMAN_REVIEW`. Ver `governance/decisions/NUTRILONGX_DOMAIN_FREEZE_DECISION_v1.md`.
 
 **Fuente de verdad (contenido de biblioteca)**:
 `exercise/library/NUTRILONGX_EJERCICIO_LIBRARY_PILOT_v1.1.json` — **FROZEN**.
