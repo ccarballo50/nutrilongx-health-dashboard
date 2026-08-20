@@ -237,7 +237,17 @@ Los 5 documentos son `frozen: true` (no se editan in situ; una revisión
 futura requeriría `_v2`) y `production_ready: false` — son especificaciones
 aprobadas previas a implementación, no el backend en sí.
 
-**Siguiente gate**: `READY_FOR_STANDALONE_BACKEND_IMPLEMENTATION`.
+**Fase 1 de implementación (2026-08-20)**: `supabase/migrations/0002_standalone_backend_v1.sql`
+(17 tablas, aditiva, RLS sin policies nuevas, migración de Mente incluida) y
+`scripts/nutrilongx/import_standalone_canon.mjs` +
+`scripts/nutrilongx/verify_standalone_backend.mjs` escritos y validados
+estáticamente (dry-run contra Git: 58 recipes/207 bindings/24 exercises/20
+variants/119 canonical_actions/12 safety_rules/0 accreditation_rules).
+**No aplicados contra Supabase real** — sin credenciales en el entorno de
+ejecución. Detalle completo en
+`governance/implementation/NUTRILONGX_BACKEND_PHASE1_IMPLEMENTATION_REPORT_v1.md`.
+
+**Siguiente gate**: `IMPLEMENTATION_READY_FOR_SUPABASE_APPLY`.
 
 ## INFRASTRUCTURE
 

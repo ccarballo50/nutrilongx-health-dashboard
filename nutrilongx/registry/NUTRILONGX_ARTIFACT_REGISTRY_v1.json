@@ -1,7 +1,7 @@
 {
   "registry_id": "NUTRILONGX_ARTIFACT_REGISTRY_v1",
-  "generated_at": "2026-08-19T23:39:29.302491+00:00",
-  "total_artifacts": 77,
+  "generated_at": "2026-08-20T00:07:56.246650+00:00",
+  "total_artifacts": 78,
   "artifacts": [
     {
       "artifact_id": "README.md",
@@ -1125,6 +1125,25 @@
       "notes": "Secuencia de implementacion (Fase 0-8) para el backend standalone. Ninguna fase ejecutada en esta persistencia documental."
     },
     {
+      "artifact_id": "governance_implementation_NUTRILONGX_BACKEND_PHASE1_IMPLEMENTATION_REPORT_v1.md",
+      "filename": "NUTRILONGX_BACKEND_PHASE1_IMPLEMENTATION_REPORT_v1.md",
+      "relative_path": "nutrilongx/governance/implementation/NUTRILONGX_BACKEND_PHASE1_IMPLEMENTATION_REPORT_v1.md",
+      "original_source_path": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
+      "domain": "governance",
+      "artifact_type": "implementation_report",
+      "version": "1",
+      "status": "ACTIVE",
+      "source_of_truth": false,
+      "production_ready": false,
+      "frozen": false,
+      "supersedes": null,
+      "superseded_by": null,
+      "sha256": "44ec105296625ec8464a72522e55b1d29d52d71664d0c18244f167d42854c80e",
+      "size_bytes": 10532,
+      "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
+      "notes": "Migracion 0002 (17 tablas) escrita, NO aplicada live. Import canonico (58 recipes/207 bindings/24 exercises/20 variants/119 canonical_actions/12 safety_rules/0 accreditation_rules) validado en dry-run contra Git, no ejecutado --apply. Migracion de Mente escrita en SQL, no ejecutada. Next state: IMPLEMENTATION_READY_FOR_SUPABASE_APPLY, no READY_FOR_APPS_SCRIPT_IMPLEMENTATION."
+    },
+    {
       "artifact_id": "nutrition_canonical_NUTRILONGX_ALIMENTACION_MASTER_v1.json",
       "filename": "NUTRILONGX_ALIMENTACION_MASTER_v1.json",
       "relative_path": "nutrilongx/nutrition/canonical/NUTRILONGX_ALIMENTACION_MASTER_v1.json",
@@ -1389,8 +1408,8 @@
       "frozen": false,
       "supersedes": null,
       "superseded_by": null,
-      "sha256": "62e9686d4775f6a163a4441c768d8d5fe58841cc1bf52faa0f685b682fa19a83",
-      "size_bytes": 15259,
+      "sha256": "e123755154e46e93c5286b3bc4933c08cc3578c4c320083c58d624b2832403f7",
+      "size_bytes": 15892,
       "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
       "notes": null
     },
@@ -1408,8 +1427,8 @@
       "frozen": false,
       "supersedes": null,
       "superseded_by": null,
-      "sha256": "1a32cc4efa2328bb2a442778a974787b8aece60c4d87846aeae507a929a9e346",
-      "size_bytes": 7084,
+      "sha256": "eed8b133f2022ca33b0d216920b8780839411a336ac6b3204b97a32a69b2e1c7",
+      "size_bytes": 7916,
       "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
       "notes": null
     },

@@ -23,10 +23,21 @@ real en esta fase — son contratos conceptuales.
   modelo de datos, contrato de funciones Apps Script, auditoría Supabase
   existente, plan de implementación). Ver sección `STANDALONE BACKEND v1`
   de `NUTRILONGX_CANONICAL_REGISTRY_v1.md`.
-- **Implementation**: `NOT_STARTED`. No se ha ejecutado SQL, no se ha creado
-  `0002_*.sql`, no se ha tocado Supabase, no se ha escrito ningún Apps
-  Script, no se ha cambiado frontend/backend funcional.
-- **Next gate**: `READY_FOR_STANDALONE_BACKEND_IMPLEMENTATION`.
+- **Implementation — Fase 1 (2026-08-20)**: `IMPLEMENTATION_READY_FOR_SUPABASE_APPLY`.
+  `supabase/migrations/0002_standalone_backend_v1.sql` (17 tablas objetivo,
+  aditiva, sin DROP de legacy, RLS habilitado sin policies nuevas,
+  migración no destructiva de Mente incluida) **escrita, validada
+  estáticamente, NO aplicada contra Supabase real** — sin credenciales
+  disponibles en el entorno de ejecución. `scripts/nutrilongx/import_standalone_canon.mjs`
+  (dry-run: 58 recipes/207 bindings/24 exercises/20 variants/119
+  canonical_actions/12 safety_rules/0 accreditation_rules, todos verificados
+  contra el canon real en Git) y `scripts/nutrilongx/verify_standalone_backend.mjs`
+  escritos, sintaxis validada, no ejecutados contra un proyecto real.
+  Apps Script sigue `NOT_IMPLEMENTED`. Detalle completo en
+  `governance/implementation/NUTRILONGX_BACKEND_PHASE1_IMPLEMENTATION_REPORT_v1.md`.
+- **Next gate**: `IMPLEMENTATION_READY_FOR_SUPABASE_APPLY` (no
+  `READY_FOR_APPS_SCRIPT_IMPLEMENTATION` — no declarado hasta que la
+  migración se aplique y verifique contra el proyecto real).
 - Decisiones CORE CENTRAL congeladas: `content_registry` añadido (17 tablas
   objetivo, no 16); las 6 tablas legacy de Mente migran a `mind_content` sin
   `DROP` inicial; Google Apps Script pasa a ser la service/function layer
