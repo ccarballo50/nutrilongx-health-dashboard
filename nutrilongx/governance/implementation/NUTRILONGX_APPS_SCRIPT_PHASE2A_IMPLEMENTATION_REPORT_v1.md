@@ -221,52 +221,161 @@ test, no credenciales reales.
 - `api/*`, `services/*` (frontend/backend legacy de Vercel), Dashboard: sin
   tocar — el cutover es una fase posterior.
 
-## 12. Limitations
+## 12. Intento de deploy real (2026-08-20, sesión posterior)
 
-- **No desplegado.** No hay proyecto Apps Script real creado ni URL
-  `.../exec` — Claude Code no dispone de credenciales de Google en este
-  entorno. El código está completo y testeado localmente (sección 9), no
-  contra el runtime real de Apps Script ni contra Supabase real.
-- Ningún test se ha ejecutado contra el Supabase real de producción —
-  todos los tests usan fakes/stubs en memoria.
-- No hay RBAC real: actor de auditoría fijo `professional`.
-- No hay paginación por cursor real (solo `limit`, `cursor` se acepta y se
-  valida como string pero no se usa todavía para paginación keyset — v1
-  simple, para ≤100 clientes, documentado como decisión deliberada de no
-  sobrearquitecturar).
-- `content.listExercises`/`listRecipes`/`listMind` no incluyen resumen de
-  `exercise_variants` (explícitamente fuera de alcance de Fase 2A).
+A diferencia de la redacción original de este informe, esta sesión **sí
+tuvo** acceso real: `clasp` autenticado (`nutrilongx@gmail.com`) y acceso
+Supabase de solo administración vía MCP (proyecto real, no simulado). Se
+intentó completar el deploy real. Resultado: **parcialmente completado**,
+bloqueado por dos límites reales de la plataforma que requieren un paso
+interactivo en navegador — no por falta de acceso Google en general.
 
-## 13. Deployment status
+### Lo que sí se completó y es real
+
+1. **Proyecto Apps Script creado** vía `clasp create-script`:
+   `NUTRILONGX Standalone Backend v1`, `scriptId` real (ver
+   `apps-script/.clasp.json`, local, **no commiteado** — sección 53 del
+   encargo, contiene únicamente el `scriptId`, sin OAuth tokens).
+   - *Nota de limpieza*: un primer intento con `rootDir` mal configurado
+     creó un segundo proyecto huérfano y vacío que no pudo eliminarse por
+     API (`clasp delete-script` devolvió `The user has not granted the app
+     ... write access` — límite de scope OAuth, no relacionado con
+     Supabase). Ese proyecto huérfano no tiene código ni deployment; queda
+     pendiente de borrado manual desde script.google.com si se desea.
+2. **Los 11 ficheros reales subidos** (`appsscript.json` + 10 `.gs` de
+   `apps-script/src/`) vía `clasp push`, verificado con
+   `clasp show-file-status` antes de subir (para no arrastrar
+   `tests/`/`README.md`, que Apps Script no necesita).
+3. **`appsscript.json` restaurado** tras que `clasp create-script`
+   sobrescribiera el manifiesto real (Europe/Madrid, `oauthScopes`,
+   `webapp.executeAs`/`access`) con el manifiesto por defecto de Google —
+   detectado y corregido con `git checkout HEAD --` antes de continuar
+   (verificado `git diff main` vacío tras la corrección).
+4. **Deployment de Web App creado** vía `clasp create-deployment`:
+   versión `@1`, descripción `"NUTRILONGX Standalone Backend v1 - Phase
+   2A"`. Deployment ID real registrado localmente (no commiteado, mismo
+   criterio que el `scriptId` — sección 47/53 del encargo: no persistir el
+   identificador de deployment en Git, solo documentar aquí que existe).
+5. **Verificación Supabase live vía MCP** (sin pasar por Apps Script):
+   - `list_projects` confirma `muyqbqbyvysgqasllgni` /
+     `nutrilongx-health-dashboard` / `ACTIVE_HEALTHY` / `eu-central-1` —
+     coincide con la documentación previa. **Target project match: PASS**
+     (sección 8 del encargo).
+   - `get_advisors(type=security)`: **17/17 tablas standalone con
+     `rls_enabled_no_policy` a nivel `INFO`, 0 `WARN`** — coincide
+     exactamente con lo certificado en Fase 1.
+   - Counts baseline vía `execute_sql` (antes de cualquier prueba):
+     `recipes=58, exercises=24, exercise_variants=20, canonical_actions=119,
+     exercise_safety_rules=12, content_action_bindings=207, mind_content=40`
+     (coincide exactamente con el canon); `clients=0, client_profiles=0,
+     client_content_assignments=0, execution_evidence=0, action_logs=0,
+     client_progress=0, daily_progress=0, audit_log=0` — sin ningún fixture
+     de test previo, estado limpio confirmado.
+
+### Los dos bloqueos reales de plataforma (no de credenciales)
+
+1. **Script Properties no configurables sin un toggle interactivo previo.**
+   `clasp run-function` (el único mecanismo no interactivo para invocar
+   código y fijar `PropertiesService` de forma remota) requiere que la
+   "Google Apps Script API" esté habilitada a nivel de cuenta — un
+   interruptor exclusivo de la UI web en
+   `script.google.com/home/usersettings`, sin equivalente de API/CLI.
+   Se probó una función temporal (`ZZ_TempSetup.gs`, nunca commiteada,
+   subida y retirada en la misma sesión — verificado con `clasp push -f`
+   mostrando de nuevo exactamente los 11 ficheros reales tras retirarla) y
+   `clasp run-function` devolvió: *"Unable to run script function. Please
+   make sure you have permission to run the script function."* — el error
+   exacto que documenta este límite, no un fallo de autenticación general
+   (el `clasp show-authorized-user` sigue confirmando sesión válida).
+2. **El Web App recién desplegado devuelve `HTTP 403`** incluso a
+   `doGet` (que no requiere ninguna Script Property). Cabeceras de
+   respuesta (`Server: ESF`, página HTML de Google, no JSON) indican el
+   comportamiento conocido de Apps Script: un Web App público
+   (`access: ANYONE_ANONYMOUS`) recién publicado por primera vez requiere
+   que el propietario lo abra **una vez en un navegador real** y complete
+   la pantalla de autorización/publicación antes de que sirva tráfico
+   anónimo — no hay forma de completar ese paso vía API/CLI.
+
+Ninguno de los dos bloqueos es un problema del código de Fase 2A (que
+sigue siendo el mismo, 58/58 tests locales PASS, sin cambios en esta
+sesión) ni requiere modificar `apps-script/src/**`. Son, ambos,
+formalidades de cuenta/consentimiento de Google que solo un humano con
+acceso a un navegador puede completar una vez.
+
+### Por qué no se generó/fijó un valor real de `SUPABASE_SERVICE_ROLE_KEY`
+
+Incluso si el bloqueo (1) no existiera, esta sesión **no dispone de
+ninguna vía** para obtener el valor real de `SUPABASE_SERVICE_ROLE_KEY`:
+las herramientas Supabase disponibles exponen deliberadamente solo
+`get_publishable_keys` (anon/publishable), nunca el service role; las
+herramientas Vercel disponibles no exponen lectura de variables de entorno
+ya configuradas. Esto es una frontera de seguridad correcta que **no se ha
+intentado rodear** — ni pidiendo el valor por chat (prohibido
+explícitamente por el encargo), ni mediante ninguna vía indirecta.
+
+## 13. Limitations (vigentes tras el intento de deploy)
+
+- **Google Apps Script API** no habilitada a nivel de cuenta — bloquea
+  cualquier configuración remota de Script Properties sin paso interactivo
+  en navegador.
+- **Web App público** requiere una visita única del propietario en
+  navegador antes de servir tráfico anónimo — bloquea toda verificación
+  HTTP funcional (`doGet` incluido).
+- **`SUPABASE_SERVICE_ROLE_KEY`** no obtenible por ninguna herramienta
+  disponible — bloquearía igualmente las pruebas `clients.*`/`content.*`
+  aunque los dos puntos anteriores se resolvieran.
+- Ningún test se ha ejecutado contra el Web App real ni contra Supabase
+  real a través de Apps Script — todos los 58 tests siguen siendo
+  locales/con fakes (sección 9).
+- El resto de limitaciones ya documentadas (sin RBAC real, sin paginación
+  por cursor real, sin resumen de variants en `listExercises`) siguen
+  vigentes sin cambios.
+
+## 14. Deployment status
 
 ```yaml
-apps_script_deployed: false
-live_verified: false
+apps_script_deployed: true          # proyecto + código + deployment de Web App reales existen
+live_verified: false                # el Web App no sirve trafico (HTTP 403, paso interactivo pendiente)
+script_properties_configured: false # bloqueado por el toggle de API a nivel de cuenta
 ```
 
-## 14. Next state
+## 15. Next state
 
 ```text
 APPS_SCRIPT_2A_IMPLEMENTED_PENDING_DEPLOY
 ```
 
-No se declara `READY_FOR_EVIDENCE_IMPLEMENTATION` porque el código no se ha
-desplegado ni verificado contra Apps Script/Supabase reales — declararlo
-sería falsificar un despliegue que no ha ocurrido, tal como el propio
-encargo prohíbe explícitamente (mismo principio ya aplicado en las fases
-anteriores de este proyecto).
+No cambia respecto a la versión anterior de este informe. `apps_script_deployed`
+pasa a `true` porque ahora existe, verificablemente, un proyecto Apps
+Script real con el código de Fase 2A desplegado como Web App — pero
+`live_verified` se mantiene en `false` porque ese Web App todavía no sirve
+tráfico, y no se ha ejecutado ni una sola prueba HTTP contra él. No se
+declara `READY_FOR_EVIDENCE_IMPLEMENTATION`: sería falsificar una
+verificación que no ha ocurrido.
 
-### Proceso recomendado para desplegar y pasar a `READY_FOR_EVIDENCE_IMPLEMENTATION`
+### Los 2 pasos manuales exactos que faltan (ambos requieren navegador)
 
-1. Crear el proyecto Apps Script y desplegarlo como Web App (ver
-   `apps-script/README.md` §3).
-2. Configurar las 3 Script Properties con los valores reales.
-3. Probar `doGet` desde el navegador (health-check).
-4. Probar `doPost` con `clients.create` usando un fixture de test
-   claramente identificable (`NLX-TEST-2A-001`, nunca un cliente real).
+1. Con la cuenta `nutrilongx@gmail.com` (o la que sea propietaria del
+   script), abrir `script.google.com/home/usersettings` y habilitar
+   "Google Apps Script API".
+2. Abrir la URL del Web App desplegado (`https://script.google.com/macros/s/<deploymentId>/exec`
+   — `<deploymentId>` disponible localmente vía `clasp list-deployments`,
+   no commiteado en este informe por la sección 47 del encargo) una vez en
+   el navegador con esa misma cuenta, y completar cualquier pantalla de
+   autorización/publicación que aparezca.
+
+### Proceso recomendado tras completar esos 2 pasos
+
+3. Configurar las 3 Script Properties reales (`SUPABASE_URL`,
+   `SUPABASE_SERVICE_ROLE_KEY`, `DASHBOARD_API_KEY`) — vía la UI de Apps
+   Script directamente, o vía `clasp run-function` una vez habilitada la
+   API del paso 1.
+4. Probar `doGet` (health-check) y luego `doPost` con `clients.create`
+   usando el fixture `NLX-TEST-2A-001` (nunca un cliente real).
 5. Repetir el mismo `doPost` una segunda vez y confirmar que no se duplica
-   (test de idempotencia real, no solo con fakes).
-6. Confirmar en Supabase que `execution_evidence`, `action_logs`,
-   `client_progress`, `daily_progress` siguen en 0 tras las pruebas.
+   (idempotencia real, no solo con fakes).
+6. Confirmar en Supabase (vía MCP o SQL directo) que `execution_evidence`,
+   `action_logs`, `client_progress`, `daily_progress` siguen en 0 tras las
+   pruebas.
 7. Solo entonces, actualizar el estado a
    `READY_FOR_EVIDENCE_IMPLEMENTATION`.
