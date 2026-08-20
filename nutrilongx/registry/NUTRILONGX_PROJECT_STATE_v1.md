@@ -38,12 +38,32 @@ real en esta fase — son contratos conceptuales.
     foundation: IMPLEMENTED
     clients: IMPLEMENTED
     content: IMPLEMENTED
-    deployed: false
-    live_verified: false
+    deployed: true            # proyecto Apps Script real + Web App deployment reales existen
+    live_verified: false      # Web App aun no sirve trafico (HTTP 403); 2 pasos de navegador pendientes
+    script_properties_configured: false
 
   next_gate:
     APPS_SCRIPT_2A_IMPLEMENTED_PENDING_DEPLOY
   ```
+
+  Deploy real intentado 2026-08-20 (sesión posterior, con `clasp`
+  autenticado y acceso Supabase vía MCP): proyecto Apps Script creado,
+  código real subido, Web App desplegado (versión `@1`). **Bloqueado por 2
+  formalidades de plataforma que exigen un paso interactivo en navegador**
+  del propietario de la cuenta Google (habilitar "Apps Script API" a nivel
+  de cuenta; visitar la URL del Web App una vez para completar
+  autorización) — ninguna es un problema del código. `SUPABASE_SERVICE_ROLE_KEY`
+  tampoco es obtenible por ninguna herramienta disponible en esta sesión
+  (las herramientas Supabase solo exponen claves publishable/anon, nunca
+  service role) — no se ha intentado rodear esa frontera. Verificado vía
+  MCP Supabase, sin pasar por Apps Script: proyecto target
+  `muyqbqbyvysgqasllgni` confirmado, Security Advisor 17/17 tablas
+  standalone en `INFO rls_enabled_no_policy` / 0 `WARN`, counts baseline
+  coinciden exactamente con el canon (58/24/20/119/12/207/40) y con 0 en
+  todas las tablas de actividad de cliente. Detalle completo y los 2 pasos
+  exactos que faltan en
+  `governance/implementation/NUTRILONGX_APPS_SCRIPT_PHASE2A_IMPLEMENTATION_REPORT_v1.md`
+  §12-15.
 
   Código en `apps-script/` (`Errors/Response/Validation/Config/
   SupabaseClient/Audit/ClientsService/ContentService/Router/Main.gs`),
