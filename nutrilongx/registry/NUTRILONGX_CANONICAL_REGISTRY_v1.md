@@ -255,8 +255,19 @@ certificado externamente, sin credenciales disponibles en este entorno.
 Detalle completo en
 `governance/implementation/NUTRILONGX_BACKEND_PHASE1_IMPLEMENTATION_REPORT_v1.md`.
 
-**Siguiente gate**: `READY_FOR_APPS_SCRIPT_IMPLEMENTATION`. No
-`PRODUCTION_READY`.
+**Fase 2A de implementación — `IMPLEMENTED, PENDING_DEPLOY` (2026-08-20)**:
+`apps-script/` implementa `FOUNDATION` + `clients.*` + `content.*` del
+`NUTRILONGX_APPS_SCRIPT_FUNCTION_CONTRACT_v1`. 58/58 tests locales PASS
+(`node apps-script/tests/run_all.mjs`) — puros, con dependencias fake, y
+end-to-end con `PropertiesService`/`UrlFetchApp`/`Utilities`/
+`ContentService` nativos stubeados. **No desplegado ni verificado contra
+Apps Script/Supabase reales** — sin credenciales de Google en este entorno.
+Cero referencias a DVG/gamificación/safety rules en `apps-script/src/`
+(verificado por grep). Detalle completo en
+`governance/implementation/NUTRILONGX_APPS_SCRIPT_PHASE2A_IMPLEMENTATION_REPORT_v1.md`.
+
+**Siguiente gate**: `APPS_SCRIPT_2A_IMPLEMENTED_PENDING_DEPLOY`. No
+`READY_FOR_EVIDENCE_IMPLEMENTATION`, no `PRODUCTION_READY`.
 
 ## INFRASTRUCTURE
 

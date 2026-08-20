@@ -1,7 +1,7 @@
 {
   "registry_id": "NUTRILONGX_ARTIFACT_REGISTRY_v1",
-  "generated_at": "2026-08-20T00:38:58.751158+00:00",
-  "total_artifacts": 78,
+  "generated_at": "2026-08-20T01:01:14.166408+00:00",
+  "total_artifacts": 79,
   "artifacts": [
     {
       "artifact_id": "README.md",
@@ -1106,6 +1106,25 @@
       "notes": "CORE CENTRAL: content_registry anadido (17 tablas objetivo); 6 tablas legacy de Mente migran a mind_content sin DROP inicial; Google Apps Script pasa a ser la service/function layer standalone, retirando progresivamente browser->Supabase directo y APIs funcionales legacy de Vercel tras cutover validado. Esta decision de Apps Script como capa de funciones/API prevalece sobre la redaccion conceptual previa de CONSOLE_API_BOUNDARY_v1 (que describia Apps Script como mero cliente de otra API) manteniendo la frontera: no redefine catalogo, DVG, motor ni safety rules."
     },
     {
+      "artifact_id": "governance_implementation_NUTRILONGX_APPS_SCRIPT_PHASE2A_IMPLEMENTATION_REPORT_v1.md",
+      "filename": "NUTRILONGX_APPS_SCRIPT_PHASE2A_IMPLEMENTATION_REPORT_v1.md",
+      "relative_path": "nutrilongx/governance/implementation/NUTRILONGX_APPS_SCRIPT_PHASE2A_IMPLEMENTATION_REPORT_v1.md",
+      "original_source_path": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
+      "domain": "governance",
+      "artifact_type": "implementation_report",
+      "version": "1",
+      "status": "ACTIVE",
+      "source_of_truth": false,
+      "production_ready": false,
+      "frozen": false,
+      "supersedes": null,
+      "superseded_by": null,
+      "sha256": "ae35492ab19c6310b4d8d3fba285cf105069bda63565f7178203f2bde03a8185",
+      "size_bytes": 13345,
+      "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
+      "notes": "Apps Script Phase 2A (FOUNDATION + clients.* + content.*) implementado en apps-script/. 58/58 tests locales PASS (puros + fake deps + end-to-end con Google/Supabase stubeados). NO desplegado, NO verificado contra Apps Script/Supabase reales -- sin credenciales de Google en este entorno. Next state: APPS_SCRIPT_2A_IMPLEMENTED_PENDING_DEPLOY, no READY_FOR_EVIDENCE_IMPLEMENTATION. Cero referencias a DVG/gamificacion/safety rules verificado por grep -- Fase 2A no las toca."
+    },
+    {
       "artifact_id": "governance_implementation_NUTRILONGX_BACKEND_IMPLEMENTATION_PLAN_v1.md",
       "filename": "NUTRILONGX_BACKEND_IMPLEMENTATION_PLAN_v1.md",
       "relative_path": "nutrilongx/governance/implementation/NUTRILONGX_BACKEND_IMPLEMENTATION_PLAN_v1.md",
@@ -1408,8 +1427,8 @@
       "frozen": false,
       "supersedes": null,
       "superseded_by": null,
-      "sha256": "5843933b86c20179d3bd9593fa83ed8d42b1039ce342286aa60517ab13b1d45d",
-      "size_bytes": 16424,
+      "sha256": "f467d7fff9f482d953d411be10108fa8d67506bcf112478705ab63e417277196",
+      "size_bytes": 17183,
       "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
       "notes": null
     },
@@ -1427,8 +1446,8 @@
       "frozen": false,
       "supersedes": null,
       "superseded_by": null,
-      "sha256": "57f6a45116e71e32b0588950b76274194368dba522c80839c4240ca5ec19c03d",
-      "size_bytes": 8415,
+      "sha256": "c8603c99b07463cb5d0c5800799616ca6905181da1b1dfa153299d73e737dab3",
+      "size_bytes": 9457,
       "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
       "notes": null
     },
