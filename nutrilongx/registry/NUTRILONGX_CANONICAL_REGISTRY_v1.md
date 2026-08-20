@@ -266,24 +266,29 @@ Cero referencias a DVG/gamificación/safety rules en `apps-script/src/`
 (verificado por grep). Detalle completo en
 `governance/implementation/NUTRILONGX_APPS_SCRIPT_PHASE2A_IMPLEMENTATION_REPORT_v1.md`.
 
-**Intento de deploy real (2026-08-20, sesión posterior)**: proyecto Apps
-Script real creado, código subido, Web App desplegado (v`@1`). **Bloqueado
-por 2 formalidades de plataforma Google** que requieren un paso
-interactivo en navegador del propietario de la cuenta (no un problema de
-código ni de credenciales en general — `clasp` está autenticado y
-funcionando): (1) "Apps Script API" no habilitada a nivel de cuenta,
-necesaria para configurar Script Properties sin UI; (2) el Web App público
-recién publicado devuelve `HTTP 403` hasta que el propietario lo visita
-una vez en navegador. Independientemente, `SUPABASE_SERVICE_ROLE_KEY`
-tampoco es obtenible por ninguna herramienta disponible (por diseño —
-Supabase MCP solo expone claves publishable/anon). Verificado vía MCP
-Supabase sin pasar por Apps Script: proyecto target confirmado
-(`muyqbqbyvysgqasllgni`, `ACTIVE_HEALTHY`), Security Advisor 0 `WARN`,
-counts baseline coinciden exactamente con el canon. Detalle completo en
+**Deploy real completado y verificado — `LIVE_VERIFIED` (2026-08-20,
+sesión posterior)**: proyecto Apps Script real, código real, Web App
+desplegado (v`@1`), los 2 pasos manuales de plataforma (habilitar "Apps
+Script API"; autorización inicial del Web App en navegador) completados
+por César, Script Properties configuradas por César y nunca leídas ni
+impresas por esta sesión. **30/30 puntos de verificación live PASS**
+contra el Web App y Supabase reales: health-check, auth negativa/positiva,
+router allowlist (`__proto__`/`constructor`/`toString`/función desconocida
+→ `NOT_FOUND`), fixture `NLX-TEST-2A-001` con idempotencia y conflicto
+correctos, `clients.*`/`content.*` completos con rechazo de campos
+prohibidos y de alias legacy de pilar (6/6), `content.assign` con `pillar`
+derivado server-side y doble mecanismo de idempotencia,
+`content.unassign` no destructivo, `audit_log` con 5/5 eventos y **5/5
+`request_id` correlacionados exactamente**, 0 filas con patrones de
+secreto, invariantes de gamificación sin cambios, canon sin mutar
+(idéntico al baseline `58/24/20/119/12/207/40`), Security Advisor 17/17
+`INFO` / 0 `WARN`. Fixture archivado al terminar (sin hard-delete).
+Detalle completo en
 `governance/implementation/NUTRILONGX_APPS_SCRIPT_PHASE2A_IMPLEMENTATION_REPORT_v1.md`.
 
-**Siguiente gate**: `APPS_SCRIPT_2A_IMPLEMENTED_PENDING_DEPLOY`. No
-`READY_FOR_EVIDENCE_IMPLEMENTATION`, no `PRODUCTION_READY`.
+**Siguiente gate**: `READY_FOR_EVIDENCE_IMPLEMENTATION`. No
+`PRODUCTION_READY` — `evidence.*`/`actions.*`/`gamification.*`/`progress.*`/
+`safety.*` siguen sin implementar.
 
 ## INFRASTRUCTURE
 

@@ -331,51 +331,87 @@ explícitamente por el encargo), ni mediante ninguna vía indirecta.
   por cursor real, sin resumen de variants en `listExercises`) siguen
   vigentes sin cambios.
 
-## 14. Deployment status
+## 14. Deployment status — `LIVE_VERIFIED` (2026-08-20, sesión posterior)
+
+Los 2 pasos manuales pendientes en la versión anterior de este informe
+fueron completados por César (habilitar "Google Apps Script API" a nivel
+de cuenta; autorización inicial del Web App en navegador). Con eso
+resuelto, esta sesión ejecutó la batería completa de verificación live
+contra el Web App real y contra Supabase real (vía MCP, sin pasar por
+Apps Script, para los pasos de auditoría/invariantes/canon).
 
 ```yaml
-apps_script_deployed: true          # proyecto + código + deployment de Web App reales existen
-live_verified: false                # el Web App no sirve trafico (HTTP 403, paso interactivo pendiente)
-script_properties_configured: false # bloqueado por el toggle de API a nivel de cuenta
+apps_script_deployed: true
+live_verified: true
+script_properties_configured: true
 ```
+
+**Nota sobre `DASHBOARD_API_KEY`**: `clasp run-function` (mi único
+mecanismo para fijar/rotar Script Properties sin verlas) seguía fallando
+incluso con la API de cuenta habilitada — el error real es que la
+Execution API de Apps Script exige además un proyecto GCP **estándar**
+vinculado, no solo el toggle de cuenta. César compartió el valor real de
+`DASHBOARD_API_KEY` (que él mismo había configurado) a través de un
+fichero local en su escritorio (`DASHBOARD API.txt`, fuera del repo, nunca
+en el chat) tras una pregunta explícita mía sobre cómo prefería
+proporcionarlo. Se leyó ese fichero, se usó **exclusivamente vía
+sustitución de comandos** (`$(cat ...)`) para que el valor nunca apareciera
+literal en ningún comando ni salida visible, y nunca se imprimió, registró
+ni devolvió en ninguna respuesta. El fichero no fue creado por esta sesión
+y no se ha borrado — queda a criterio de César.
+`SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` siguen siendo exactamente los
+que César configuró manualmente; no se tocaron ni se leyeron en ningún
+momento.
 
 ## 15. Next state
 
 ```text
-APPS_SCRIPT_2A_IMPLEMENTED_PENDING_DEPLOY
+READY_FOR_EVIDENCE_IMPLEMENTATION
 ```
 
-No cambia respecto a la versión anterior de este informe. `apps_script_deployed`
-pasa a `true` porque ahora existe, verificablemente, un proyecto Apps
-Script real con el código de Fase 2A desplegado como Web App — pero
-`live_verified` se mantiene en `false` porque ese Web App todavía no sirve
-tráfico, y no se ha ejecutado ni una sola prueba HTTP contra él. No se
-declara `READY_FOR_EVIDENCE_IMPLEMENTATION`: sería falsificar una
-verificación que no ha ocurrido.
+## 16. Resultado test por test (todo contra el Web App y Supabase reales)
 
-### Los 2 pasos manuales exactos que faltan (ambos requieren navegador)
+| # | Prueba | Resultado |
+|---|---|---|
+| 1 | Acceso real al Web App (`doGet`) | PASS — `ok:true`, envelope correcto, `request_id`/`timestamp`/`schema_version` reales |
+| 2 | Auth negativa — sin key | PASS — `UNAUTHORIZED`, sin detalle de la key esperada |
+| 2 | Auth negativa — key inválida | PASS — `UNAUTHORIZED`, mismo comportamiento |
+| 3 | Auth positiva (`content.listRecipes`) | PASS — `ok:true`, 50 recetas reales devueltas (límite por defecto), datos de Supabase real |
+| 4 | Router allowlist — `__proto__`, `constructor`, `toString`, `unknown.function` | PASS — los 4 devuelven `NOT_FOUND`, ninguno se ejecuta |
+| 5-6 | Fixture `NLX-TEST-2A-001` / `clients.create` | PASS — cliente real creado, `id` UUID real |
+| 7 | `clients.create` idempotente (mismo request lógico) | PASS — mismo `id`, `idempotent:true`, sin duplicado |
+| 8 | Conflicto (mismo `external_code`, `first_name` distinto) | PASS — `CONFLICT`, no sobrescribe |
+| 9 | `clients.get` | PASS — registro correcto, sin datos crudos de Supabase |
+| 10 | `clients.update` (campo válido: `phone`) | PASS |
+| 11 | `clients.getProfile` (antes y después del upsert) | PASS — `profile:null` antes, datos correctos después |
+| 12 | `clients.updateProfile` (solo campos de fixture, sin datos clínicos reales) | PASS — upsert correcto |
+| 13 | Rechazo de campos prohibidos (`external_code`, `id` en `clients.update`; `current_level` en `updateProfile`) | PASS — los 3 devuelven `VALIDATION_ERROR` con el campo exacto listado |
+| 14-15 | `content.listRecipes` / `content.getRecipe` (`NLX-001` real, `NLX-999` inexistente) | PASS — datos reales; `CANONICAL_REFERENCE_NOT_FOUND` para el inexistente, nunca `500` |
+| 16-17 | `content.listExercises` (24) / `content.getExercise` (`review_status` real preservado, `PENDING_HUMAN_REVIEW`) | PASS |
+| 18 | `content.listMind` — `sleep`=12, `stress`=19, `conscious_wellbeing`=9 | PASS — **suma exacta 40**, coincide con el canon |
+| 19 | `content.getMindContent` | PASS — `pillar`/`content_type`/`legacy_source` (provenance) presentes |
+| 20 | Rechazo de alias `mind`/`MENTE`/`MEN`/`Sueño`/`Estrés`/`Bienestar emocional` | PASS — 6/6 rechazados con `VALIDATION_ERROR` |
+| 21 | `content.assign` (`NLX-001`, con `idempotency_key`) | PASS — `pillar:"nutrition"` **derivado server-side** (nunca enviado en el payload) |
+| 22 | Idempotencia por `idempotency_key` | PASS — mismo `assignment.id`, `idempotent:true` |
+| 23 | Prevención de duplicado activo (mismo cliente+contenido, sin `idempotency_key`) | PASS — mismo `assignment.id`, `idempotent:true` |
+| 24 | `content.listAssignments` | PASS — `count:1` (una sola fila lógica, confirmado) |
+| 25 | `content.unassign` → `cancelled`, nunca `DELETE` | PASS — `status:cancelled`; repetido → `changed:false`; la fila sigue existiendo (`count:1` con `status=cancelled`) |
+| 26 | `audit_log` — eventos para las 5 operaciones sensibles | PASS — `clients.create`, `clients.update`, `clients.updateProfile`, `content.assign`, `content.unassign` presentes (los intentos idempotentes, por diseño, no auditan un evento nuevo) |
+| 26 | Correlación `request_id` | PASS — **5/5** `audit_log.request_id` coinciden exactamente con el `meta.request_id` de la respuesta HTTP correspondiente, verificado uno a uno |
+| 27 | Ausencia de secretos en `audit_log` | PASS — barrido SQL (`before_data`/`after_data`/`metadata` contra patrones de `service_role`/`dashboard_api_key`/JWT/etc.) → **0 filas sospechosas** |
+| 28 | Invariantes sin cambios | PASS — `execution_evidence=0`, `action_logs=0`, `client_progress=0`, `daily_progress=0`, idénticos al baseline pre-prueba |
+| 29 | Canon no mutado | PASS — `recipes=58`, `exercises=24`, `exercise_variants=20`, `canonical_actions=119`, `exercise_safety_rules=12`, `content_action_bindings=207`, `mind_content=40`, `action_accreditation_rules=0` — **idénticos al baseline**, solo `clients=1`/`client_profiles=1`/`client_content_assignments=1` (el fixture) |
+| 30 | Security Advisor | PASS — 17/17 tablas standalone en `INFO rls_enabled_no_policy`, **0 `WARN`**, sin cambios respecto al pre-deploy |
 
-1. Con la cuenta `nutrilongx@gmail.com` (o la que sea propietaria del
-   script), abrir `script.google.com/home/usersettings` y habilitar
-   "Google Apps Script API".
-2. Abrir la URL del Web App desplegado (`https://script.google.com/macros/s/<deploymentId>/exec`
-   — `<deploymentId>` disponible localmente vía `clasp list-deployments`,
-   no commiteado en este informe por la sección 47 del encargo) una vez en
-   el navegador con esa misma cuenta, y completar cualquier pantalla de
-   autorización/publicación que aparezca.
+**Limpieza del fixture** (sección 46 del encargo): `clients.status` → `archived`
+vía `clients.update` (no hard-delete). `client_profiles.metadata` ya
+contenía `{"fixture": true, "phase": "2A"}` desde el `updateProfile` de la
+prueba 12. `audit_log` no se ha tocado (append-only, como se pide).
 
-### Proceso recomendado tras completar esos 2 pasos
+## 17. Conclusión
 
-3. Configurar las 3 Script Properties reales (`SUPABASE_URL`,
-   `SUPABASE_SERVICE_ROLE_KEY`, `DASHBOARD_API_KEY`) — vía la UI de Apps
-   Script directamente, o vía `clasp run-function` una vez habilitada la
-   API del paso 1.
-4. Probar `doGet` (health-check) y luego `doPost` con `clients.create`
-   usando el fixture `NLX-TEST-2A-001` (nunca un cliente real).
-5. Repetir el mismo `doPost` una segunda vez y confirmar que no se duplica
-   (idempotencia real, no solo con fakes).
-6. Confirmar en Supabase (vía MCP o SQL directo) que `execution_evidence`,
-   `action_logs`, `client_progress`, `daily_progress` siguen en 0 tras las
-   pruebas.
-7. Solo entonces, actualizar el estado a
-   `READY_FOR_EVIDENCE_IMPLEMENTATION`.
+Los 30 puntos de verificación solicitados: **30/30 PASS**. El deployment
+de Apps Script Phase 2A es real, funcional, y se comporta exactamente
+según el contrato (`NUTRILONGX_APPS_SCRIPT_FUNCTION_CONTRACT_v1`) contra
+Supabase real. No se ha relajado RLS, no se han expuesto secretos, no se
+ha mutado el canon, no se han generado efectos de gamificación.
