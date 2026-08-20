@@ -34,12 +34,31 @@ real en esta fase — son contratos conceptuales.
     rls_security: PASS
     security_advisor_warnings: 0
 
-  apps_script:
-    status: NOT_IMPLEMENTED
+  apps_script_phase2a:
+    foundation: IMPLEMENTED
+    clients: IMPLEMENTED
+    content: IMPLEMENTED
+    deployed: false
+    live_verified: false
 
   next_gate:
-    READY_FOR_APPS_SCRIPT_IMPLEMENTATION
+    APPS_SCRIPT_2A_IMPLEMENTED_PENDING_DEPLOY
   ```
+
+  Código en `apps-script/` (`Errors/Response/Validation/Config/
+  SupabaseClient/Audit/ClientsService/ContentService/Router/Main.gs`),
+  implementando `clients.*` (list/get/create/update/getProfile/
+  updateProfile) y `content.*` (listRecipes/getRecipe/listExercises/
+  getExercise/listMind/getMindContent/assign/unassign/listAssignments) del
+  contrato funcional. 58/58 tests locales PASS (`node
+  apps-script/tests/run_all.mjs`) — puros + con dependencias fake +
+  end-to-end con `PropertiesService`/`UrlFetchApp`/`Utilities`/
+  `ContentService` nativos stubeados. **No desplegado, no verificado
+  contra Apps Script/Supabase reales** — sin credenciales de Google en
+  este entorno. Cero referencias a DVG/gamificación/safety rules en
+  `apps-script/src/` (verificado por grep) — Fase 2A no toca esos dominios.
+  Detalle completo en
+  `governance/implementation/NUTRILONGX_APPS_SCRIPT_PHASE2A_IMPLEMENTATION_REPORT_v1.md`.
 
   `supabase/migrations/0002_standalone_backend_v1.sql` (17 tablas objetivo)
   y `supabase/migrations/0003_standalone_backend_v1_security_hardening.sql`
