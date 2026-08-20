@@ -1,6 +1,6 @@
 {
   "manifest_id": "NUTRILONGX_REPOSITORY_MANIFEST_v1",
-  "generated_at": "2026-08-20T00:07:56.246650+00:00",
+  "generated_at": "2026-08-20T00:38:58.751158+00:00",
   "total_files": 75,
   "files": [
     {
@@ -596,8 +596,8 @@
     {
       "relative_path": "nutrilongx/governance/implementation/NUTRILONGX_BACKEND_PHASE1_IMPLEMENTATION_REPORT_v1.md",
       "filename": "NUTRILONGX_BACKEND_PHASE1_IMPLEMENTATION_REPORT_v1.md",
-      "sha256": "44ec105296625ec8464a72522e55b1d29d52d71664d0c18244f167d42854c80e",
-      "size_bytes": 10532,
+      "sha256": "c7fd4f454f8c27d19c6f25d6a88fe10a574bbaa9a30af219dc0a0a379a4e3642",
+      "size_bytes": 14582,
       "domain": "governance",
       "artifact_type": "implementation_report",
       "version": "1",
@@ -726,8 +726,8 @@
     {
       "relative_path": "nutrilongx/registry/NUTRILONGX_CANONICAL_REGISTRY_v1.md",
       "filename": "NUTRILONGX_CANONICAL_REGISTRY_v1.md",
-      "sha256": "e123755154e46e93c5286b3bc4933c08cc3578c4c320083c58d624b2832403f7",
-      "size_bytes": 15892,
+      "sha256": "5843933b86c20179d3bd9593fa83ed8d42b1039ce342286aa60517ab13b1d45d",
+      "size_bytes": 16424,
       "domain": "governance",
       "artifact_type": "canonical_registry_human",
       "version": "1",
@@ -736,8 +736,8 @@
     {
       "relative_path": "nutrilongx/registry/NUTRILONGX_PROJECT_STATE_v1.md",
       "filename": "NUTRILONGX_PROJECT_STATE_v1.md",
-      "sha256": "eed8b133f2022ca33b0d216920b8780839411a336ac6b3204b97a32a69b2e1c7",
-      "size_bytes": 7916,
+      "sha256": "57f6a45116e71e32b0588950b76274194368dba522c80839c4240ca5ec19c03d",
+      "size_bytes": 8415,
       "domain": "governance",
       "artifact_type": "project_state",
       "version": "1",

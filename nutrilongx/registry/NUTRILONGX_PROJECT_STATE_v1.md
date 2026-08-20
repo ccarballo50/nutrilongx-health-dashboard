@@ -23,21 +23,42 @@ real en esta fase — son contratos conceptuales.
   modelo de datos, contrato de funciones Apps Script, auditoría Supabase
   existente, plan de implementación). Ver sección `STANDALONE BACKEND v1`
   de `NUTRILONGX_CANONICAL_REGISTRY_v1.md`.
-- **Implementation — Fase 1 (2026-08-20)**: `IMPLEMENTATION_READY_FOR_SUPABASE_APPLY`.
-  `supabase/migrations/0002_standalone_backend_v1.sql` (17 tablas objetivo,
-  aditiva, sin DROP de legacy, RLS habilitado sin policies nuevas,
-  migración no destructiva de Mente incluida) **escrita, validada
-  estáticamente, NO aplicada contra Supabase real** — sin credenciales
-  disponibles en el entorno de ejecución. `scripts/nutrilongx/import_standalone_canon.mjs`
-  (dry-run: 58 recipes/207 bindings/24 exercises/20 variants/119
-  canonical_actions/12 safety_rules/0 accreditation_rules, todos verificados
-  contra el canon real en Git) y `scripts/nutrilongx/verify_standalone_backend.mjs`
-  escritos, sintaxis validada, no ejecutados contra un proyecto real.
-  Apps Script sigue `NOT_IMPLEMENTED`. Detalle completo en
-  `governance/implementation/NUTRILONGX_BACKEND_PHASE1_IMPLEMENTATION_REPORT_v1.md`.
-- **Next gate**: `IMPLEMENTATION_READY_FOR_SUPABASE_APPLY` (no
-  `READY_FOR_APPS_SCRIPT_IMPLEMENTATION` — no declarado hasta que la
-  migración se aplique y verifique contra el proyecto real).
+- **Implementation — Fase 1, actualizado 2026-08-20 tras verificación live**:
+
+  ```yaml
+  standalone_backend_phase1:
+    schema: APPLIED_AND_VERIFIED
+    canonical_import: APPLIED_AND_VERIFIED
+    mind_migration: APPLIED_AND_VERIFIED
+    referential_integrity: PASS
+    rls_security: PASS
+    security_advisor_warnings: 0
+
+  apps_script:
+    status: NOT_IMPLEMENTED
+
+  next_gate:
+    READY_FOR_APPS_SCRIPT_IMPLEMENTATION
+  ```
+
+  `supabase/migrations/0002_standalone_backend_v1.sql` (17 tablas objetivo)
+  y `supabase/migrations/0003_standalone_backend_v1_security_hardening.sql`
+  (2 `ALTER` de hardening) **aplicadas contra el proyecto Supabase real**
+  (`muyqbqbyvysgqasllgni`) y certificadas por CORE CENTRAL — no verificadas
+  de forma independiente por Claude Code, que sigue sin credenciales en
+  este entorno de ejecución (ver nota de autoría en
+  `governance/implementation/NUTRILONGX_BACKEND_PHASE1_IMPLEMENTATION_REPORT_v1.md`
+  §0). `public` pasa de 6 a 23 tablas (17 nuevas + 6 legacy preservadas
+  intactas). Mente: 27+6+4+3 filas legacy → 40 `mind_content`, 0 huérfanos.
+  Import canónico: 58 recipes/207 bindings/24 exercises/20 variants/119
+  canonical_actions/12 safety_rules/0 accreditation_rules, verificado
+  idempotente (2 ejecuciones `--apply`, mismos counts). Invariantes
+  confirmadas live: `execution_evidence=0`, `action_logs=0`,
+  `client_progress=0`, `daily_progress=0`. Apps Script sigue
+  `NOT_IMPLEMENTED`.
+- **Next gate**: `READY_FOR_APPS_SCRIPT_IMPLEMENTATION`. **No**
+  `PRODUCTION_READY` — Apps Script y el flujo E2E completo no existen
+  todavía.
 - Decisiones CORE CENTRAL congeladas: `content_registry` añadido (17 tablas
   objetivo, no 16); las 6 tablas legacy de Mente migran a `mind_content` sin
   `DROP` inicial; Google Apps Script pasa a ser la service/function layer

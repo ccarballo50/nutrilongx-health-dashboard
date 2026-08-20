@@ -1,8 +1,133 @@
 # NUTRILONGX — Backend Phase 1 Implementation Report v1
 
-Fecha: 2026-08-20.
-Estado del informe: `ACTIVE` — registra lo realmente implementado en esta
-ejecución, no es fuente de verdad de contenido (`source_of_truth: false`).
+Fecha: 2026-08-20. Actualizado 2026-08-20 tras verificación live.
+Estado del informe: `ACTIVE` — registra lo realmente implementado, no es
+fuente de verdad de contenido (`source_of_truth: false`).
+
+## 0. Estado live (actualización — certificado por CORE CENTRAL)
+
+```yaml
+migration_0002:
+  status: APPLIED_AND_VERIFIED   # antes: NOT_APPLIED
+canonical_import:
+  status: APPLIED_AND_VERIFIED   # antes: DRY_RUN_ONLY
+mind_migration:
+  status: APPLIED_AND_VERIFIED
+referential_integrity: PASS
+rls_security: PASS
+security_advisor_warnings: 0
+```
+
+**Nota de autoría de esta actualización**: la aplicación de `0002`, la
+ejecución del import canónico (`--apply`, dos veces, para la prueba de
+idempotencia), la migración de Mente y el hardening de seguridad se
+ejecutaron y verificaron **fuera de este entorno de ejecución de Claude
+Code**, directamente contra el proyecto Supabase real
+(`muyqbqbyvysgqasllgni`), y fueron certificados por César/CORE CENTRAL. Yo
+sigo sin credenciales de Supabase en este entorno — no he ejecutado ninguno
+de estos pasos yo mismo, ni los he vuelto a verificar de forma
+independiente. Este informe registra la certificación recibida, igual que
+ya se hizo con el live audit de la fase anterior (§1).
+
+### Proyecto y estado general
+
+```yaml
+project: muyqbqbyvysgqasllgni (nutrilongx-health-dashboard)
+status: ACTIVE_HEALTHY
+public_tables_before_0002: 6
+public_tables_after_0002: 23
+standalone_target_tables: 17
+legacy_tables_preserved: 6
+```
+
+### Migración de Mente — counts live
+
+```yaml
+# Origen (legacy, sin modificar)
+content_pieces: 27
+retos_insignia: 6
+videos: 4
+video_bloques: 17
+infografias: 3
+subpilar_mapeo: 24
+
+# Destino
+mind_content: 40
+mind_orphans: 0
+videos_with_embedded_blocks: 4
+```
+
+40 = 27 (`content_pieces`) + 6 (`retos_insignia`) + 4 (`videos`, con sus
+`video_bloques` embebidos en `data.video_blocks[]`, no como filas propias)
++ 3 (`infografias`). Mapping de pilar (`Sueño→sleep`, `Estrés→stress`,
+`Bienestar emocional→conscious_wellbeing`) y de tipo
+(`ficha_pilar→pillar_card`, `ficha_subpilar→subpillar_card`,
+`retos_insignia→challenge`, `videos→video`, `infografias→infographic`)
+validados según certificación recibida. 0 huérfanos
+(`mind_content.registry_id → content_registry.id`).
+
+### Canonical import — counts live (`apply_run_1` y `apply_run_2` idénticos)
+
+```yaml
+recipes: 58
+exercises: 24
+exercise_variants: 20
+canonical_actions: 119
+exercise_safety_rules: 12
+nutrition_bindings: 207   # supports: 186, candidate: 18, contextual_opposite: 3
+action_accreditation_rules: 0   # correcto y deliberado
+idempotency: PASS   # segunda ejecucion de --apply no duplico filas
+```
+
+### Invariantes live
+
+```yaml
+execution_evidence: 0
+action_logs: 0
+client_progress: 0
+daily_progress: 0
+orphan_recipes: 0
+orphan_exercises: 0
+orphan_variants: 0
+orphan_mind: 0
+orphan_bindings: 0
+```
+
+Confirma en producción real lo que el diseño ya garantizaba: `CONTENT !=
+DVG`, `BINDING != DVG`, `EVIDENCE != DVG` — el bootstrap canónico no generó
+evidencia, `action_logs`, DVG ni progreso.
+
+### Security hardening live
+
+Supabase Security Advisor detectó inicialmente:
+
+```text
+WARN function_search_path_mutable  public.nlx_set_updated_at
+WARN extension_in_public           unaccent
+```
+
+Corregido live con dos `ALTER` (documentados en Git en
+`supabase/migrations/0003_standalone_backend_v1_security_hardening.sql`,
+ver §2b):
+
+```sql
+alter function public.nlx_set_updated_at() set search_path = pg_catalog;
+alter extension unaccent set schema extensions;
+```
+
+Resultado tras el hardening: **`WARN: 0`**. Persisten únicamente `INFO
+rls_enabled_no_policy` en las 17 tablas standalone — **esperado y
+aceptado** en esta fase (RLS habilitado, cero policies nuevas, deny-by-
+default para anon/authenticated; Apps Script con service role bypassa
+RLS).
+
+### Extensión `http` (temporal, no forma parte de la arquitectura)
+
+Para el import canónico desde los JSON FROZEN de GitHub se usó
+temporalmente la extensión PostgreSQL `http` (schema `extensions`),
+**eliminada inmediatamente después del import**. No se crea migración para
+ella ni se registra como dependencia — no es parte del modelo de datos
+aprobado.
 
 ---
 
@@ -35,7 +160,7 @@ RLS/policies/constraints live de las 6 tablas coinciden con
 Supabase en este entorno de ejecución. La trato como dato de entrada
 autorizado por el CORE CENTRAL, tal como instruido.
 
-## 2. Migración creada (NO aplicada live)
+## 2. Migración — `APPLIED_AND_VERIFIED` (ver §0)
 
 `supabase/migrations/0002_standalone_backend_v1.sql`
 
@@ -52,12 +177,12 @@ autorizado por el CORE CENTRAL, tal como instruido.
 - Incluye, al final, la migración no destructiva de las 6 tablas de Mente
   hacia `mind_content` (ver §5).
 
-**No se ha aplicado contra ningún proyecto Supabase real** — sigo sin
-credenciales en este entorno. El fichero queda listo para revisión y
-aplicación manual (SQL Editor o `supabase db push`) por quien sí tenga
-acceso.
+**Aplicada contra el proyecto Supabase real** (`muyqbqbyvysgqasllgni`),
+certificado por CORE CENTRAL — ver §0. `0002` es ahora **inmutable**: no se
+edita in situ; cualquier cambio futuro requiere una migración nueva
+(`0003+`).
 
-### Validación estática realizada (sin Postgres local disponible)
+### Validación estática realizada por mí antes del apply (sin Postgres local disponible)
 
 - `sqlparse`: 106 sentencias, 0 desequilibrios de paréntesis.
 - Recuento de sentencias por tipo coincide exactamente con el diseño: 17
@@ -66,9 +191,22 @@ acceso.
   SECURITY`, 18 `COMMENT ON`, 8 `INSERT` (migración de Mente).
 - Nombres de columnas de las 6 tablas legacy usados en la migración de
   Mente verificados uno a uno contra `0001_contenido_pilares.sql` real.
-- **No probado contra una instancia Postgres real** (no hay `psql`/`docker`
-  disponibles en este entorno). Recomendación explícita: ejecutar primero
-  en un branch/proyecto Supabase de staging antes de aplicar a producción.
+- **No probado por mí contra una instancia Postgres real** (no hay
+  `psql`/`docker` disponibles en este entorno) — la aplicación real y su
+  verificación se hicieron fuera de este entorno (§0).
+
+## 2b. `0003_standalone_backend_v1_security_hardening.sql`
+
+Documenta en Git, de forma retroactiva, dos `ALTER` **ya aplicados live**
+por CORE CENTRAL para resolver los 2 `WARN` del Security Advisor (§0):
+`search_path` mutable en `nlx_set_updated_at()` y la extensión `unaccent`
+instalada en `public` en vez de `extensions`. **No se ha ejecutado desde
+Claude Code contra Supabase** — es documentación/reproducibilidad de un
+cambio ya certificado, para evitar drift Git↔Supabase. Supabase registra
+live las migraciones `0001_contenido_pilares`,
+`standalone_backend_v1` (=`0002`) y `standalone_backend_v1_security_hardening`
+(=`0003`), con timestamps `20260815144553`, `20260820003038` y
+`20260820003232` respectivamente.
 
 ## 3. Canonical import — método
 
@@ -102,8 +240,10 @@ Todos los counts coinciden exactamente con los artefactos FROZEN reales
 (verificado leyendo los JSON, no de memoria). `node --check` confirma
 sintaxis válida en ambos scripts nuevos.
 
-**No ejecutado con `--apply`** — requiere credenciales que no están
-disponibles aquí.
+**Ejecutado con `--apply` dos veces contra el proyecto real** (fuera de
+este entorno, certificado por CORE CENTRAL — ver §0). Los counts live
+finales coinciden exactamente con los del dry-run de arriba, y la segunda
+ejecución no produjo duplicados (`idempotency: PASS`).
 
 ## 4. Mente migration summary
 
@@ -129,14 +269,13 @@ original, `pilar_visible` original, timestamps.
 
 **Caso borde documentado, no oculto**: si algún `videos.subpilar` es `NULL`
 o no tiene fila correspondiente en `subpilar_mapeo`, ese vídeo se omite de
-esta pasada (no se le fuerza un pilar arbitrario) y queda pendiente de una
-migración manual/posterior. No puedo saber si este caso existe hoy en los
-datos reales sin acceso live — el count exacto de vídeos afectados (si los
-hay) se conocerá al ejecutar `verify_standalone_backend.mjs` contra el
-proyecto real.
+esta pasada. Live: `videos=4` origen → `videos_with_embedded_blocks=4`
+destino (§0) — los 4 vídeos legacy resolvieron pilar correctamente, 0
+omitidos.
 
-**No ejecutado contra datos reales** — depende de que `0002` se aplique
-primero.
+**Ejecutado contra datos reales y verificado** (§0):
+`content_pieces=27, retos_insignia=6, videos=4, infografias=3 → mind_content=40,
+mind_orphans=0`.
 
 ## 5. Database
 
@@ -164,14 +303,14 @@ primero.
 ## 6. Limitations
 
 - **Apps Script: `NOT_IMPLEMENTED`** — fuera de scope de esta fase.
-- **Migración `0002`: escrita, no aplicada live.** Requiere credenciales
-  que no están disponibles en este entorno de ejecución.
-- **Import canónico: dry-run verificado, no ejecutado con `--apply`.**
-- **Migración de Mente: SQL escrito y revisado línea a línea contra
-  `0001`, no ejecutado contra datos reales.**
-- **Tests de idempotencia/integridad referencial/no-duplicación
-  (`verify_standalone_backend.mjs`): escritos, sintaxis validada, no
-  ejecutados contra un proyecto real** (requieren las mismas credenciales).
+- **Yo (Claude Code, este entorno) sigo sin credenciales de Supabase.**
+  La aplicación de `0002`, el import `--apply` (×2) y la verificación live
+  se ejecutaron fuera de este entorno y se registran aquí por
+  certificación de CORE CENTRAL, no por comprobación directa mía — ver
+  nota de autoría en §0.
+- **Migración de Mente y `verify_standalone_backend.mjs`: certificados
+  como ejecutados/PASS por CORE CENTRAL (§0), no verificados de forma
+  independiente por mí.**
 - Referencias de código legacy a tablas hoy ausentes live (`content`,
   `content_media`, `actions_catalog`, `action_logs`, `users`,
   `achievements`, `user_day`, `badges`, `user_badges`, `tips`,
@@ -188,25 +327,11 @@ primero.
 ## 7. Next state
 
 ```text
-IMPLEMENTATION_READY_FOR_SUPABASE_APPLY
+READY_FOR_APPS_SCRIPT_IMPLEMENTATION
 ```
 
-No se declara `READY_FOR_APPS_SCRIPT_IMPLEMENTATION` porque la migración no
-se ha aplicado ni verificado contra el proyecto real — declararlo sería
-falsificar `APPLIED`, cosa que el propio encargo prohíbe explícitamente.
-
-### Proceso seguro recomendado para aplicar (no ejecutado aquí)
-
-1. Revisar `supabase/migrations/0002_standalone_backend_v1.sql` (idealmente
-   contra un proyecto Supabase de staging primero).
-2. Aplicar la migración (SQL Editor o `supabase db push`, quien tenga
-   acceso).
-3. `SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... node scripts/nutrilongx/import_standalone_canon.mjs`
-   (dry-run) para confirmar de nuevo los counts contra el proyecto real.
-4. `... --apply` para escribir de verdad.
-5. Repetir el paso 4 una segunda vez, sin cambios de canon en Git de por
-   medio, y confirmar que los counts no cambian (test de idempotencia).
-6. `SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... node scripts/nutrilongx/verify_standalone_backend.mjs`
-   para la verificación de integridad referencial/invariantes.
-7. Solo entonces, actualizar el estado a
-   `READY_FOR_APPS_SCRIPT_IMPLEMENTATION`.
+No se declara `PRODUCTION_READY`: Apps Script y el flujo E2E completo
+(Dashboard → Apps Script → Supabase, acreditación real, motor invocado en
+producción) todavía no existen. Backend Phase 1 (schema + import canónico +
+migración de Mente) queda `APPLIED_AND_VERIFIED` según certificación de
+CORE CENTRAL (§0); Apps Script sigue `NOT_IMPLEMENTED`.
