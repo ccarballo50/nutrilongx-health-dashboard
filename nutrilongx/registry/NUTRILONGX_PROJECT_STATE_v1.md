@@ -35,35 +35,48 @@ real en esta fase — son contratos conceptuales.
     security_advisor_warnings: 0
 
   apps_script_phase2a:
-    foundation: IMPLEMENTED
-    clients: IMPLEMENTED
-    content: IMPLEMENTED
-    deployed: true            # proyecto Apps Script real + Web App deployment reales existen
-    live_verified: false      # Web App aun no sirve trafico (HTTP 403); 2 pasos de navegador pendientes
-    script_properties_configured: false
+    foundation: APPLIED_AND_VERIFIED
+    clients: APPLIED_AND_VERIFIED
+    content: APPLIED_AND_VERIFIED
+    deployed: true
+    live_verified: true
+    script_properties_configured: true
 
   next_gate:
-    APPS_SCRIPT_2A_IMPLEMENTED_PENDING_DEPLOY
+    READY_FOR_EVIDENCE_IMPLEMENTATION
   ```
 
-  Deploy real intentado 2026-08-20 (sesión posterior, con `clasp`
-  autenticado y acceso Supabase vía MCP): proyecto Apps Script creado,
-  código real subido, Web App desplegado (versión `@1`). **Bloqueado por 2
-  formalidades de plataforma que exigen un paso interactivo en navegador**
-  del propietario de la cuenta Google (habilitar "Apps Script API" a nivel
-  de cuenta; visitar la URL del Web App una vez para completar
-  autorización) — ninguna es un problema del código. `SUPABASE_SERVICE_ROLE_KEY`
-  tampoco es obtenible por ninguna herramienta disponible en esta sesión
-  (las herramientas Supabase solo exponen claves publishable/anon, nunca
-  service role) — no se ha intentado rodear esa frontera. Verificado vía
-  MCP Supabase, sin pasar por Apps Script: proyecto target
-  `muyqbqbyvysgqasllgni` confirmado, Security Advisor 17/17 tablas
-  standalone en `INFO rls_enabled_no_policy` / 0 `WARN`, counts baseline
-  coinciden exactamente con el canon (58/24/20/119/12/207/40) y con 0 en
-  todas las tablas de actividad de cliente. Detalle completo y los 2 pasos
-  exactos que faltan en
+  Deploy real completado y verificado 2026-08-20 (sesión posterior, con
+  `clasp` autenticado y acceso Supabase vía MCP): proyecto Apps Script
+  real, código real subido, Web App desplegado (versión `@1`), los 2
+  pasos manuales pendientes (habilitar "Apps Script API"; autorización
+  inicial del Web App en navegador) completados por César, Script
+  Properties configuradas por César
+  (`SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY`/`DASHBOARD_API_KEY`, nunca
+  leídas ni impresas por esta sesión).
+
+  **30/30 puntos de verificación live PASS**: health-check real; auth
+  negativa (`UNAUTHORIZED` sin/con key inválida) y positiva reales; router
+  allowlist rechaza `__proto__`/`constructor`/`toString`/función
+  desconocida (`NOT_FOUND`); fixture `NLX-TEST-2A-001` creado, idempotente,
+  conflicto correctamente rechazado; `clients.get/update/getProfile/updateProfile`
+  reales, con rechazo de campos prohibidos (`external_code`, `id`,
+  `current_level`); `content.listRecipes/getRecipe/listExercises/getExercise`
+  reales, `CANONICAL_REFERENCE_NOT_FOUND` para inexistentes; `content.listMind`
+  por pilar (`sleep=12, stress=19, conscious_wellbeing=9`, **suma exacta 40**);
+  6/6 alias legacy de pilar rechazados; `content.assign` con `pillar`
+  derivado server-side (nunca del payload), idempotente en los dos
+  mecanismos (`idempotency_key` y duplicado activo); `content.unassign` →
+  `cancelled`, nunca `DELETE`; `audit_log` con 5/5 eventos y **5/5
+  `request_id` correlacionados exactamente** con las respuestas HTTP; 0
+  filas de `audit_log` con patrones de secreto; invariantes de
+  gamificación sin cambios (`execution_evidence/action_logs/client_progress/
+  daily_progress = 0`); canon sin mutar (`58/24/20/119/12/207/40`
+  idénticos al baseline); Security Advisor **17/17 `INFO`, 0 `WARN`**, sin
+  cambios. Fixture archivado (`status=archived`) al terminar, sin
+  hard-delete, `audit_log` intacto. Detalle test por test en
   `governance/implementation/NUTRILONGX_APPS_SCRIPT_PHASE2A_IMPLEMENTATION_REPORT_v1.md`
-  §12-15.
+  §14-17.
 
   Código en `apps-script/` (`Errors/Response/Validation/Config/
   SupabaseClient/Audit/ClientsService/ContentService/Router/Main.gs`),

@@ -1,6 +1,6 @@
 {
   "registry_id": "NUTRILONGX_ARTIFACT_REGISTRY_v1",
-  "generated_at": "2026-08-20T07:10:13.723396+00:00",
+  "generated_at": "2026-08-20T16:13:43.631233+00:00",
   "total_artifacts": 79,
   "artifacts": [
     {
@@ -1119,8 +1119,8 @@
       "frozen": false,
       "supersedes": null,
       "superseded_by": null,
-      "sha256": "9a2402298317587f84f464d9059902595826a0f59e0a0dade9086680f51a754c",
-      "size_bytes": 20114,
+      "sha256": "5051385b74867b7e2ddce240cde1eb125c814a288e7b6f930246a23fbdde0033",
+      "size_bytes": 24499,
       "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
       "notes": "Apps Script Phase 2A (FOUNDATION + clients.* + content.*) implementado en apps-script/. 58/58 tests locales PASS (puros + fake deps + end-to-end con Google/Supabase stubeados). NO desplegado, NO verificado contra Apps Script/Supabase reales -- sin credenciales de Google en este entorno. Next state: APPS_SCRIPT_2A_IMPLEMENTED_PENDING_DEPLOY, no READY_FOR_EVIDENCE_IMPLEMENTATION. Cero referencias a DVG/gamificacion/safety rules verificado por grep -- Fase 2A no las toca."
     },
@@ -1427,8 +1427,8 @@
       "frozen": false,
       "supersedes": null,
       "superseded_by": null,
-      "sha256": "ee3efceca3f13414fff9920553254571f97d329954214e1a75ddceb4b48b208c",
-      "size_bytes": 18267,
+      "sha256": "6de0d65ab11ccad820ee4c56ce3f2da6809a29802b98d7bbc1c06c2993a988c5",
+      "size_bytes": 18538,
       "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
       "notes": null
     },
@@ -1446,8 +1446,8 @@
       "frozen": false,
       "supersedes": null,
       "superseded_by": null,
-      "sha256": "af7f1513fd6864020ee0468b3be9e6d0fc908948827b27f45c60ade3dae7c3fd",
-      "size_bytes": 10860,
+      "sha256": "17d488dc1291557f89783468bd41de769e5e3c761d1fed6596c34df327ae2238",
+      "size_bytes": 11560,
       "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
       "notes": null
     },
