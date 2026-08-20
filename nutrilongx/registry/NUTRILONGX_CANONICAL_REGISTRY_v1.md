@@ -237,17 +237,26 @@ Los 5 documentos son `frozen: true` (no se editan in situ; una revisión
 futura requeriría `_v2`) y `production_ready: false` — son especificaciones
 aprobadas previas a implementación, no el backend en sí.
 
-**Fase 1 de implementación (2026-08-20)**: `supabase/migrations/0002_standalone_backend_v1.sql`
-(17 tablas, aditiva, RLS sin policies nuevas, migración de Mente incluida) y
-`scripts/nutrilongx/import_standalone_canon.mjs` +
-`scripts/nutrilongx/verify_standalone_backend.mjs` escritos y validados
-estáticamente (dry-run contra Git: 58 recipes/207 bindings/24 exercises/20
-variants/119 canonical_actions/12 safety_rules/0 accreditation_rules).
-**No aplicados contra Supabase real** — sin credenciales en el entorno de
-ejecución. Detalle completo en
+**Fase 1 de implementación — `APPLIED_AND_VERIFIED` (2026-08-20)**:
+`supabase/migrations/0002_standalone_backend_v1.sql` (17 tablas, aditiva,
+RLS sin policies nuevas, migración de Mente incluida) +
+`supabase/migrations/0003_standalone_backend_v1_security_hardening.sql`
+(2 `ALTER` de hardening: `search_path` de `nlx_set_updated_at()` y schema
+de la extensión `unaccent`) **aplicadas contra el proyecto Supabase real**
+(`muyqbqbyvysgqasllgni`) y certificadas por CORE CENTRAL — `public` pasa de
+6 a 23 tablas, Security Advisor `WARN: 0` tras el hardening. Import
+canónico ejecutado y verificado idempotente: 58 recipes/207 bindings/24
+exercises/20 variants/119 canonical_actions/12 safety_rules/0
+accreditation_rules. Mente migrada: 27+6+4+3 filas legacy → 40
+`mind_content`, 0 huérfanos. Invariantes confirmadas live
+(`execution_evidence/action_logs/client_progress/daily_progress = 0`).
+**No verificado de forma independiente por Claude Code** — ejecutado y
+certificado externamente, sin credenciales disponibles en este entorno.
+Detalle completo en
 `governance/implementation/NUTRILONGX_BACKEND_PHASE1_IMPLEMENTATION_REPORT_v1.md`.
 
-**Siguiente gate**: `IMPLEMENTATION_READY_FOR_SUPABASE_APPLY`.
+**Siguiente gate**: `READY_FOR_APPS_SCRIPT_IMPLEMENTATION`. No
+`PRODUCTION_READY`.
 
 ## INFRASTRUCTURE
 

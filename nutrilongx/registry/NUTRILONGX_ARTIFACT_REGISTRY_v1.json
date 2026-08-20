@@ -1,6 +1,6 @@
 {
   "registry_id": "NUTRILONGX_ARTIFACT_REGISTRY_v1",
-  "generated_at": "2026-08-20T00:07:56.246650+00:00",
+  "generated_at": "2026-08-20T00:38:58.751158+00:00",
   "total_artifacts": 78,
   "artifacts": [
     {
@@ -1138,10 +1138,10 @@
       "frozen": false,
       "supersedes": null,
       "superseded_by": null,
-      "sha256": "44ec105296625ec8464a72522e55b1d29d52d71664d0c18244f167d42854c80e",
-      "size_bytes": 10532,
+      "sha256": "c7fd4f454f8c27d19c6f25d6a88fe10a574bbaa9a30af219dc0a0a379a4e3642",
+      "size_bytes": 14582,
       "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
-      "notes": "Migracion 0002 (17 tablas) escrita, NO aplicada live. Import canonico (58 recipes/207 bindings/24 exercises/20 variants/119 canonical_actions/12 safety_rules/0 accreditation_rules) validado en dry-run contra Git, no ejecutado --apply. Migracion de Mente escrita en SQL, no ejecutada. Next state: IMPLEMENTATION_READY_FOR_SUPABASE_APPLY, no READY_FOR_APPS_SCRIPT_IMPLEMENTATION."
+      "notes": "Actualizado tras verificacion live certificada por CORE CENTRAL (fuera de este entorno de ejecucion, sin credenciales Supabase disponibles aqui). migration_0002: APPLIED_AND_VERIFIED. canonical_import: APPLIED_AND_VERIFIED (58 recipes/207 bindings/24 exercises/20 variants/119 canonical_actions/12 safety_rules/0 accreditation_rules, idempotencia confirmada). mind_migration: APPLIED_AND_VERIFIED (27+6+4+3 legacy -> 40 mind_content, 0 huerfanos). Security Advisor WARN 0 tras hardening (0003_standalone_backend_v1_security_hardening.sql, documentado en Git, no ejecutado desde Claude Code). Next state: READY_FOR_APPS_SCRIPT_IMPLEMENTATION, no PRODUCTION_READY."
     },
     {
       "artifact_id": "nutrition_canonical_NUTRILONGX_ALIMENTACION_MASTER_v1.json",
@@ -1408,8 +1408,8 @@
       "frozen": false,
       "supersedes": null,
       "superseded_by": null,
-      "sha256": "e123755154e46e93c5286b3bc4933c08cc3578c4c320083c58d624b2832403f7",
-      "size_bytes": 15892,
+      "sha256": "5843933b86c20179d3bd9593fa83ed8d42b1039ce342286aa60517ab13b1d45d",
+      "size_bytes": 16424,
       "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
       "notes": null
     },
@@ -1427,8 +1427,8 @@
       "frozen": false,
       "supersedes": null,
       "superseded_by": null,
-      "sha256": "eed8b133f2022ca33b0d216920b8780839411a336ac6b3204b97a32a69b2e1c7",
-      "size_bytes": 7916,
+      "sha256": "57f6a45116e71e32b0588950b76274194368dba522c80839c4240ca5ec19c03d",
+      "size_bytes": 8415,
       "provenance": "generado en esta sesion de consolidacion (2026-08-19), no es fuente externa",
       "notes": null
     },
