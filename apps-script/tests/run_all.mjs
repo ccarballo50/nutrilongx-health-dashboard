@@ -14,6 +14,7 @@ import { run as runRouter } from "./router.test.mjs";
 import { run as runClientsService } from "./clients_service.test.mjs";
 import { run as runContentService } from "./content_service.test.mjs";
 import { run as runEvidenceService } from "./evidence_service.test.mjs";
+import { run as runActionsService } from "./actions_service.test.mjs";
 import { run as runMainIntegration } from "./main_integration.test.mjs";
 
 const suites = [
@@ -23,6 +24,7 @@ const suites = [
   ["ClientsService.gs (fake deps)", runClientsService],
   ["ContentService.gs (fake deps)", runContentService],
   ["EvidenceService.gs (fake deps)", runEvidenceService],
+  ["ActionsService.gs (fake deps)", runActionsService],
   ["Main.gs end-to-end (stubbed Google/Supabase)", runMainIntegration],
 ];
 
