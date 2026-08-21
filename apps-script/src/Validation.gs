@@ -17,6 +17,12 @@ var NLX_ASSIGNMENT_STATUSES = Object.freeze(['assigned', 'active', 'completed', 
 // Fase 2B — evidence.* (NUTRILONGX_APPS_SCRIPT_FUNCTION_CONTRACT_v1.md seccion 7).
 var NLX_EVIDENCE_SOURCE_TYPES = Object.freeze(['manual', 'dashboard', 'app', 'professional', 'apps_script', 'wearable', 'import']);
 
+// Fase 2C — actions.* (NUTRILONGX_ACTION_ACCREDITATION_CONTRACT_v1.md).
+var NLX_BINDING_TYPES = Object.freeze(['supports', 'candidate', 'contextual_opposite', 'unmapped', 'direct']);
+var NLX_BINDING_STATUSES = Object.freeze(['active', 'inactive', 'review_required']);
+var NLX_ACCREDITATION_RULE_STATUSES = Object.freeze(['active', 'inactive', 'review_required']);
+var NLX_ACTION_LOG_STATUSES = Object.freeze(['validated', 'pending', 'rejected', 'reversed']);
+
 // Pilares/valores legacy explicitamente rechazados como pillar/content_type
 // persistido o de API (NUTRILONGX_STANDALONE_DATA_MODEL_v1.md seccion 2;
 // encargo secciones 29/34).

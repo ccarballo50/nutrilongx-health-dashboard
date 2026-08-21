@@ -50,9 +50,81 @@ real en esta fase — son contratos conceptuales.
     deduplication: PASS
     audit: PASS
 
+  apps_script_phase2c:
+    actions_list: APPLIED_AND_VERIFIED
+    actions_get: APPLIED_AND_VERIFIED
+    actions_accredit: APPLIED_AND_VERIFIED
+    actions_list_logs: APPLIED_AND_VERIFIED
+    actions_get_log: APPLIED_AND_VERIFIED
+    action_accreditation_rules: 0
+    automatic_validation:
+      status: NOT_AVAILABLE
+      reason: NO_CANONICAL_ACCREDITATION_RULES
+    action_log_creation:
+      validated: 0
+      pending: 0
+      rejected: 0
+    review_required_flow:
+      status: APPLIED_AND_VERIFIED
+    gamification: NOT_IMPLEMENTED
+    progress: NOT_IMPLEMENTED
+    safety: NOT_IMPLEMENTED
+
   next_gate:
-    READY_FOR_ACTION_ACCREDITATION_IMPLEMENTATION
+    MVP_ACCREDITATION_RULES_REQUIRED
   ```
+
+  **Fase 2C (actions.\*), actualizado 2026-08-21 tras verificación live**:
+  mismo Web App de fases anteriores actualizado en el sitio (deployment
+  `AKfycby9c...` @5, script versión 5, sin segundo proyecto/deployment
+  paralelo), fixtures reutilizados de Fase 2B (`b15191be-...` con
+  contenido real, `10b0f992-...` sin contenido), sin crear ningún fixture
+  nuevo. **21/21 puntos de verificación live PASS**: baseline
+  (`action_logs=0, client_progress=0, daily_progress=0,
+  action_accreditation_rules=0, canonical_actions=119`); auth
+  negativa/positiva reales; router allowlist rechaza `__proto__`/
+  `constructor`/`toString`/**`actions.accreditAndCalculate`**/
+  **`gamification.calculateAction`** (`NOT_FOUND`); `actions.list` con
+  paginación por defecto (`count=50` de 119, mismo patrón ya documentado
+  para `recipes`) y tope server-side real de `limit=100`; `actions.get`
+  real y `CANONICAL_REFERENCE_NOT_FOUND`; `actions.accredit` sobre
+  evidencia con **5 bindings `supports` activos reales** →
+  `{status:"pending", reason:"ACCREDITATION_REVIEW_REQUIRED",
+  candidate_actions:[5], action_log_created:false}`; `actions.accredit`
+  sobre evidencia sin contenido → mismo resultado con
+  `candidate_actions:[]`; `action_logs` permanece en 0 tras ambas
+  llamadas; **2/2 `request_id` correlacionados** en `audit_log`;
+  `actions.listLogs` devuelve colección vacía con `ok:true` (no un
+  error); `actions.getLog` con `action_log_id` fabricado → `NOT_FOUND`
+  sin crear ningún fixture artificial; Security Advisor **17/17 `INFO`,
+  0 `WARN`**, sin cambios. 103/103 tests locales PASS (79 de Fase 2A+2B
+  intactos + 24 nuevos). Detalle test por test en
+  `governance/implementation/NUTRILONGX_APPS_SCRIPT_PHASE2C_ACTION_ACCREDITATION_IMPLEMENTATION_REPORT_v1.md`
+  §6.
+
+  `action_accreditation_rules` no determina `level_variant`; por tanto no
+  existe base canónica suficiente para materializar un `ACTION_LOG` con
+  los campos NOT NULL actuales sin inventar datos. Se opta correctamente
+  por `ACCREDITATION_REVIEW_REQUIRED` sin insertar filas — esto **no es
+  un error técnico**, es el resultado explícitamente sancionado por
+  `NUTRILONGX_ACTION_ACCREDITATION_CONTRACT_v1.md` §5 para el estado
+  actual del canon.
+
+  Código nuevo: `apps-script/src/ActionsService.gs` (fábrica con
+  inyección de dependencias, mismo patrón que `EvidenceService.gs`).
+  Cambios aditivos mínimos en `Validation.gs` (nuevos enums), `Router.gs`
+  y `Main.gs` (cablear las 5 rutas nuevas). **No** implementa
+  `actions.accreditAndCalculate`/`gamification.*`/`progress.*`/
+  `safety.*` — confirmado por grep y verificado en real (router
+  `NOT_FOUND`).
+
+  **Next gate**: `MVP_ACCREDITATION_RULES_REQUIRED`. **No**
+  `READY_FOR_GAMIFICATION_IMPLEMENTATION` — alineado con la estrategia de
+  producto `NUTRILONGX_PLAYABLE_MVP`: CORE CENTRAL debe seleccionar
+  primero un subconjunto mínimo de acciones canónicas con reglas de
+  acreditación explícitas y versionadas, en vez de construir las 119 de
+  golpe, antes de que `actions.accredit` pueda producir su primer
+  `ACTION_LOG` real.
 
   **Fase 2B (evidence.\*), actualizado 2026-08-21 tras verificación live**:
   mismo Web App de Fase 2A actualizado en el sitio (deployment

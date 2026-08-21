@@ -107,7 +107,7 @@ function buildSandbox() {
     [
       "Errors.gs", "Response.gs", "Validation.gs",
       "Config.gs", "SupabaseClient.gs", "Audit.gs",
-      "ClientsService.gs", "ContentService.gs", "EvidenceService.gs", "Router.gs", "Main.gs",
+      "ClientsService.gs", "ContentService.gs", "EvidenceService.gs", "ActionsService.gs", "Router.gs", "Main.gs",
     ],
     extraGlobals
   );
@@ -220,6 +220,52 @@ export function run() {
     assert.equal(fakePg.tables.execution_evidence.length, 1);
     const auditRow = fakePg.tables.audit_log[fakePg.tables.audit_log.length - 1];
     assert.equal(auditRow.action, "evidence.register");
+    assert.equal(auditRow.request_id, envelope.meta.request_id);
+  });
+
+  test("doPost actions.accredit requires auth same as any other function (Phase 2C reuses Phase 2A auth)", () => {
+    const { sb } = buildSandbox();
+    const output = sb.doPost(fakePostEvent({ function: "actions.accredit", auth: { dashboard_key: "WRONG" }, payload: {} }));
+    const envelope = JSON.parse(output._text);
+    assert.equal(envelope.ok, false);
+    assert.equal(envelope.error.code, "UNAUTHORIZED");
+  });
+
+  test("doPost actions.accredit end-to-end: no rule in canon -> review_required, no action_log row, audit correlates", () => {
+    const { sb, fakePg } = buildSandbox();
+    fakePg.tables.clients.push({ id: "44444444-4444-4444-4444-000000000003", status: "active" });
+    fakePg.tables.content_registry = [{ id: "reg-2", content_type: "recipe", canonical_id: "NLX-001", pillar: "nutrition", is_active: true }];
+    fakePg.tables.content_action_bindings = [{ id: "bind-1", content_id: "reg-2", canonical_action_id: "nutrition.mediterranean_pattern.legumbres_veces_sem", binding_type: "supports", status: "active" }];
+    // action_accreditation_rules queda vacia -- canon real actual.
+
+    const evOutput = sb.doPost(fakePostEvent({
+      function: "evidence.register",
+      auth: { dashboard_key: "fake-dashboard-key" },
+      payload: {
+        client_id: "44444444-4444-4444-4444-000000000003",
+        source_type: "dashboard",
+        source_content: { content_type: "recipe", canonical_id: "NLX-001" },
+        occurred_at: "2026-08-21T12:00:00Z",
+        quantity: 1,
+        unit: "serving",
+      },
+    }));
+    const evidenceId = JSON.parse(evOutput._text).data.evidence.id;
+
+    const output = sb.doPost(fakePostEvent({
+      function: "actions.accredit",
+      auth: { dashboard_key: "fake-dashboard-key" },
+      payload: { evidence_id: evidenceId },
+    }));
+    const envelope = JSON.parse(output._text);
+    assert.equal(envelope.ok, true);
+    assert.equal(envelope.data.status, "pending");
+    assert.equal(envelope.data.reason, "ACCREDITATION_REVIEW_REQUIRED");
+    assert.equal(envelope.data.action_log_created, false);
+    assert.equal((fakePg.tables.action_logs || []).length, 0);
+
+    const auditRow = fakePg.tables.audit_log[fakePg.tables.audit_log.length - 1];
+    assert.equal(auditRow.action, "actions.accredit");
     assert.equal(auditRow.request_id, envelope.meta.request_id);
   });
 
