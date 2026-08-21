@@ -97,9 +97,67 @@ real en esta fase — son contratos conceptuales.
     mechanisms_b_c_documented_not_implemented:
       [streaks.weekly, boosters, combos, weekly_multipliers, weekly_cap, diminishing_returns]
 
+  playable_mvp_ui_integration:
+    client_selection: APPLIED_AND_VERIFIED
+    today_screen: APPLIED_AND_VERIFIED
+    mark_done_flow: APPLIED_AND_VERIFIED
+    progress_display: APPLIED_AND_VERIFIED
+    browser_secret_exposed: false
+    direct_supabase_reads_added: false
+    blocked_by_browser_auth_boundary: false
+    blocked_by_backend_requirement: false
+
   next_gate:
-    READY_FOR_PLAYABLE_MVP_UI_INTEGRATION
+    PLAYABLE_MVP_READY_FOR_PILOT
   ```
+
+  **Playable MVP UI Integration, actualizado 2026-08-21 tras
+  verificación real**: se encontró que una sesión previa (PR-01..04) ya
+  había construido el bridge server-side seguro
+  (`api/apps-script.ts` + `src/services/appsScriptContract.ts`) que
+  resuelve por completo el gate de seguridad navegador→Apps Script — el
+  navegador nunca ha conocido `DASHBOARD_API_KEY`. Esta fase **extiende**
+  esa capa (allowlist ampliada con exactamente `evidence.register`,
+  `actions.accreditAndCalculate`, `progress.get/getDaily/getPillar`) en
+  vez de construir una nueva. **No se declaró
+  `BLOCKED_BY_BROWSER_AUTH_BOUNDARY`** — el bridge ya existía y sigue la
+  arquitectura aprobada.
+
+  Nueva pantalla `pages/admin/ClientToday.tsx` ("HOY"): flujo completo
+  `evidence.register → actions.accreditAndCalculate → progress.get`,
+  agrupado por los 5 pilares reales, sobre las 11 acciones acreditables
+  del MVP Accreditation Pack v1 (`src/services/mvpAccreditedActions.ts`,
+  espejo literal del handoff — no reproduce lógica de resolución de
+  reglas). Idempotencia UI (`idempotency_key` determinista por
+  cliente+acción+día, botón deshabilitado en vuelo). `current_level`
+  nunca inventado — se omite si el backend devuelve `null`.
+
+  **9/9 bloques de verificación PASS** (27 aserciones) vía smoke test de
+  integración real (`scripts/nutrilongx/smoke_test_dashboard_proxy.mjs`,
+  ejecuta el handler real de `api/apps-script.ts` contra el Web App
+  real): load clients, zero progress, progress refresh, mark done
+  validated (DVG real), doble click sin duplicar, mark done pending
+  (acción real de las 119 sin regla MVP), función fuera de la allowlist
+  del proxy → `NOT_FOUND` sin llegar a Apps Script, auth inválida →
+  `UNAUTHORIZED`. Security Advisor 17/17 `INFO`, 0 `WARN`. `npx tsc
+  --noEmit` sin errores nuevos (7 preexistentes en páginas legacy no
+  tocadas). `node apps-script/tests/run_all.mjs` 154/154 intacto (backend
+  no tocado en esta fase). Sin framework de tests de componentes en el
+  repo (no introducido, fuera de alcance). Detalle completo en
+  `governance/implementation/NUTRILONGX_PLAYABLE_MVP_UI_IMPLEMENTATION_REPORT_v1.md`.
+
+  `direct_supabase_reads_added: false` — cero imports de
+  `@supabase/supabase-js` en el código nuevo. `browser_secret_exposed:
+  false` — verificado por grep, solo `api/apps-script.ts` (server-side)
+  referencia el secreto.
+
+  **Next gate**: `PLAYABLE_MVP_READY_FOR_PILOT`. Un profesional puede
+  completar el happy path completo (seleccionar cliente de prueba → ver
+  HOY → marcar hecho → feedback → DVG actualizado) sin Supabase console,
+  sin editor de Apps Script, sin CLI. **No** se amplía más el backend ni
+  la UI automáticamente — achievements, badges, leaderboard, gráficas
+  avanzadas, IA, notificaciones, wearables, safety completo y las 108
+  reglas de acreditación restantes quedan explícitamente fuera.
 
   **MVP Gamification Minimal v1 (gamification.\*/progress.\*/
   actions.accreditAndCalculate), actualizado 2026-08-21 tras verificación

@@ -19,6 +19,7 @@ import AdminContentManager from "./pages/admin/AdminContentManager";
 import ClientsList from "./pages/admin/ClientsList"; // <- PR-02: primer consumidor real de appsScriptContract
 import ClientDetail from "./pages/admin/ClientDetail"; // <- PR-03: ficha básica de cliente, solo lectura
 import ContentCatalog from "./pages/admin/ContentCatalog"; // <- PR-04: biblioteca de contenido canónico, solo lectura
+import ClientToday from "./pages/admin/ClientToday"; // <- PLAYABLE MVP UI INTEGRATION: flujo "marcar hecho" + DVG/progreso
 
 const titles: Record<string, string> = {
   "/dashboard": "Bienestar",
@@ -74,6 +75,7 @@ const AppRoutes: React.FC = () => {
         <RRD.Route path="admin/list" element={<AdminContentList />} />
         <RRD.Route path="admin/clients" element={<ClientsList />} />
         <RRD.Route path="admin/clients/:clientId" element={<ClientDetail />} />
+        <RRD.Route path="admin/clients/:clientId/today" element={<ClientToday />} />
         <RRD.Route path="admin/content-catalog" element={<ContentCatalog />} />
       </RRD.Route>
       <RRD.Route path="*" element={<RRD.Navigate to={state.isAuthenticated ? "/dashboard" : "/welcome"} replace />} />

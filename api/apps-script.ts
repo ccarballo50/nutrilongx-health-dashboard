@@ -20,10 +20,15 @@ export const config = { runtime: 'edge' };
  * - devolver al frontend el envelope ya parseado tal cual, sin reenviar
  *   cabeceras/cookies del upstream.
  *
- * Deliberadamente NO incluye evidence.* / actions.* / gamification.* /
- * progress.* / safety.* en la allowlist (encargo PR-01), aunque
- * evidence.* ya esté disponible en el backend real — ver
- * docs/DASHBOARD_APPS_SCRIPT_CLIENT_v0.md.
+ * PLAYABLE MVP UI INTEGRATION (2026-08-21): se amplía la allowlist con
+ * exactamente las funciones que el flujo "marcar hecho" necesita
+ * (evidence.register, actions.accreditAndCalculate, progress.get/
+ * getDaily/getPillar) — ver
+ * nutrilongx/governance/implementation/PLAYABLE_MVP_BACKEND_HANDOFF_v1.md.
+ * `actions.accredit` suelto, `gamification.*` administrativo y
+ * `safety.*` siguen fuera: no forman parte del flujo "marcar hecho" del
+ * Dashboard (accreditAndCalculate ya orquesta accredit+calculateAction+
+ * recalculateDay en una sola llamada server-side).
  */
 
 const ALLOWED_FUNCTIONS = new Set([
@@ -43,6 +48,14 @@ const ALLOWED_FUNCTIONS = new Set([
   'content.assign',
   'content.unassign',
   'content.listAssignments',
+
+  'evidence.register',
+
+  'actions.accreditAndCalculate',
+
+  'progress.get',
+  'progress.getDaily',
+  'progress.getPillar',
 ]);
 
 function nowIso() {

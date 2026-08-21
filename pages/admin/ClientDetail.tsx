@@ -218,6 +218,15 @@ export default function ClientDetail() {
         )}
       </div>
 
+      {clientId && (
+        <RRD.Link
+          to={`/admin/clients/${clientId}/today`}
+          className="block text-center bg-emerald-600 text-white text-sm font-medium rounded-xl px-4 py-2.5 mb-4"
+        >
+          Ver HOY — marcar actividades y DVG
+        </RRD.Link>
+      )}
+
       {loading && <div className="text-sm text-gray-500 mb-4">Cargando ficha…</div>}
 
       {!loading && clientErr && (
