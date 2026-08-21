@@ -70,9 +70,74 @@ real en esta fase — son contratos conceptuales.
     progress: NOT_IMPLEMENTED
     safety: NOT_IMPLEMENTED
 
+  mvp_accreditation_pack_v1:
+    rules_count: 11
+    rules_by_pillar: { nutrition: 3, exercise: 2, sleep: 2, stress: 2, conscious_wellbeing: 2 }
+    persisted_migration: supabase/migrations/0004_mvp_accreditation_rules_v1.sql
+    canonical_artifact: nutrilongx/accreditation/canonical/NUTRILONGX_MVP_ACCREDITATION_RULES_v1.json
+    canonical_artifact_status: APPROVED_FOR_PLAYABLE_MVP
+    coverage: PARTIAL
+    not_full_action_catalog: true
+    validated_action_log_created: true
+    rejected_action_log_created: true
+    max_occurrences_per_day_enforced: true
+    gamification_called: false
+    progress_changed: false
+
   next_gate:
-    MVP_ACCREDITATION_RULES_REQUIRED
+    READY_FOR_MVP_GAMIFICATION_IMPLEMENTATION
   ```
+
+  **MVP Accreditation Pack v1 (actions.accredit -> validated ACTION_LOG),
+  actualizado 2026-08-21 tras verificación live**: puebla
+  `action_accreditation_rules` (vacía desde Fase 1, correctamente) con 11
+  reglas deterministas (nutrition=3, exercise=2, sleep=2, stress=2,
+  conscious_wellbeing=2), vía migración versionada
+  `0004_mvp_accreditation_rules_v1.sql` (git como fuente canónica, no solo
+  insertado en live). Cada regla cita literalmente el `title` del
+  `level_variant` "Inicial" del catálogo canónico real — ningún threshold
+  inventado. `base_dvg_hours` nunca se escribe en la regla: se resuelve en
+  runtime desde `canonical_actions.data.level_variants`; si el
+  `level_variant` no existe en el catálogo -> `DATA_INTEGRITY_ERROR`, sin
+  fallback (verificado con test local dedicado).
+
+  `content_action_bindings` real solo cubre `recipe`/`nutrition` (0 en
+  exercise/mind_content) — se activó `execution_evidence.
+  source_entity_type`/`source_entity_id` (columnas reales desde Fase 2B,
+  sin uso hasta ahora) como segunda vía de resolución para evidencia sin
+  binding de contenido, mutuamente excluyente con `source_content`.
+
+  **14/14 puntos de verificación live PASS**: primer `validated ACTION_LOG`
+  real del sistema creado (`mind.stress.musica_relajante_min`,
+  `base_dvg_hours=1.0` resuelto del catálogo); repetición idempotente sin
+  fila duplicada; evidencia que no cumple condiciones -> `rejected` con
+  fila creada igualmente (el esquema real declara `rejected` como status
+  válido); vía `content_binding` real (`NLX-007`) también produce
+  `validated`; tope `max_occurrences=1/día` verificado con una evidencia
+  distinta el mismo día -> reutiliza el `action_log` ya validado, sin
+  segunda fila; `action_logs` con exactamente 3 filas tras todas las
+  pruebas (2 validated + 1 rejected); `client_progress`/`daily_progress`
+  en 0 -- gamificación no se ejecutó; router sigue rechazando
+  `gamification.calculateAction`/`actions.accreditAndCalculate`
+  (`NOT_FOUND`) tras el redeploy; Security Advisor 17/17 `INFO`, 0 `WARN`.
+  118/118 tests locales PASS (103 previos intactos + 15 nuevos). Detalle
+  test por test en
+  `governance/implementation/NUTRILONGX_MVP_ACCREDITATION_PACK_v1_IMPLEMENTATION_REPORT.md`
+  §10.
+
+  Deploy: mismo Web App (`AKfycby9c...`), script versión 6, deployment
+  @7. Código nuevo/modificado: `apps-script/src/ActionsService.gs`
+  (resolución de regla + creación de `action_logs`),
+  `apps-script/src/EvidenceService.gs` (aditivo:
+  `source_entity_type`/`source_entity_id`), `apps-script/src/
+  Validation.gs` (aditivo: `NLX_EVIDENCE_SOURCE_ENTITY_TYPES`). **No**
+  implementa `gamification.*`/`progress.*`/`safety.*` -- confirmado por
+  grep y en real (`client_progress`/`daily_progress` sin cambios).
+
+  **Next gate**: `READY_FOR_MVP_GAMIFICATION_IMPLEMENTATION`. Cobertura
+  deliberadamente parcial: 11 de 119 familias canónicas
+  (`not_full_action_catalog=true`) -- no implica que las 108 restantes
+  estén descartadas, solo que quedan fuera de este pack MVP.
 
   **Fase 2C (actions.\*), actualizado 2026-08-21 tras verificación live**:
   mismo Web App de fases anteriores actualizado en el sitio (deployment
