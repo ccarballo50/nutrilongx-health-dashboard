@@ -15,7 +15,7 @@
  * Construye el mapa de rutas permitidas a partir de instancias ya creadas
  * de los servicios de dominio.
  */
-function buildRoutes(clientsService, contentService, evidenceService, actionsService) {
+function buildRoutes(clientsService, contentService, evidenceService, actionsService, gamificationService, progressService) {
   return {
     'clients.list': clientsService.list,
     'clients.get': clientsService.get,
@@ -39,14 +39,23 @@ function buildRoutes(clientsService, contentService, evidenceService, actionsSer
     'evidence.list': evidenceService.list,
     'evidence.get': evidenceService.get,
 
-    // Fase 2C — actions.* (ActionsService.gs). Solo estas 5 funciones;
-    // gamification.*/progress.*/safety.* quedan fuera de alcance, y
-    // actions.accreditAndCalculate no se implementa (encargo seccion 2).
+    // Fase 2C — actions.* (ActionsService.gs).
     'actions.list': actionsService.list,
     'actions.get': actionsService.get,
     'actions.accredit': actionsService.accredit,
     'actions.listLogs': actionsService.listLogs,
-    'actions.getLog': actionsService.getLog
+    'actions.getLog': actionsService.getLog,
+
+    // Fase 2D — MVP Gamification Minimal v1 (GamificationService.gs/
+    // ProgressService.gs). safety.* y las 108 reglas de acreditacion
+    // restantes siguen fuera de alcance.
+    'gamification.calculateAction': gamificationService.calculateAction,
+    'gamification.recalculateDay': gamificationService.recalculateDay,
+    'gamification.rebuildProgress': gamificationService.rebuildProgress,
+    'progress.get': progressService.get,
+    'progress.getDaily': progressService.getDaily,
+    'progress.getPillar': progressService.getPillar,
+    'actions.accreditAndCalculate': actionsService.accreditAndCalculate
   };
 }
 

@@ -7,7 +7,7 @@ import { test, assert } from "./lib/tiny_test.mjs";
 const sb = loadGsFiles(["Errors.gs", "Router.gs"]);
 
 export function run() {
-  test("buildRoutes exposes exactly the 23 Phase 2A + 2B + 2C functions", () => {
+  test("buildRoutes exposes exactly the 30 Phase 2A + 2B + 2C + 2D functions", () => {
     const clientsService = {
       list: () => "list", get: () => "get", create: () => "create",
       update: () => "update", getProfile: () => "getProfile", updateProfile: () => "updateProfile",
@@ -23,15 +23,24 @@ export function run() {
     };
     const actionsService = {
       list: () => "list", get: () => "get", accredit: () => "accredit",
-      listLogs: () => "listLogs", getLog: () => "getLog",
+      listLogs: () => "listLogs", getLog: () => "getLog", accreditAndCalculate: () => "accreditAndCalculate",
     };
-    const routes = sb.buildRoutes(clientsService, contentService, evidenceService, actionsService);
+    const gamificationService = {
+      calculateAction: () => "calculateAction", recalculateDay: () => "recalculateDay", rebuildProgress: () => "rebuildProgress",
+    };
+    const progressService = {
+      get: () => "get", getDaily: () => "getDaily", getPillar: () => "getPillar",
+    };
+    const routes = sb.buildRoutes(clientsService, contentService, evidenceService, actionsService, gamificationService, progressService);
     const expectedKeys = [
       "clients.list", "clients.get", "clients.create", "clients.update", "clients.getProfile", "clients.updateProfile",
       "content.listRecipes", "content.getRecipe", "content.listExercises", "content.getExercise",
       "content.listMind", "content.getMindContent", "content.assign", "content.unassign", "content.listAssignments",
       "evidence.register", "evidence.list", "evidence.get",
       "actions.list", "actions.get", "actions.accredit", "actions.listLogs", "actions.getLog",
+      "gamification.calculateAction", "gamification.recalculateDay", "gamification.rebuildProgress",
+      "progress.get", "progress.getDaily", "progress.getPillar",
+      "actions.accreditAndCalculate",
     ];
     assert.deepEqual(Object.keys(routes).sort(), expectedKeys.sort());
   });

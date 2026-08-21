@@ -84,9 +84,76 @@ real en esta fase — son contratos conceptuales.
     gamification_called: false
     progress_changed: false
 
+  apps_script_mvp_gamification:
+    calculate_action: APPLIED_AND_VERIFIED
+    recalculate_day: APPLIED_AND_VERIFIED
+    rebuild_progress: APPLIED_AND_VERIFIED
+    progress_read: APPLIED_AND_VERIFIED
+    accredit_and_calculate: APPLIED_AND_VERIFIED
+    first_dvg: VERIFIED
+    rebuild_deterministic: PASS
+    simplified_parallel_engine: false
+    mechanisms_a_implemented: [base_dvg, streaks.daily, daily_caps]
+    mechanisms_b_c_documented_not_implemented:
+      [streaks.weekly, boosters, combos, weekly_multipliers, weekly_cap, diminishing_returns]
+
   next_gate:
-    READY_FOR_MVP_GAMIFICATION_IMPLEMENTATION
+    READY_FOR_PLAYABLE_MVP_UI_INTEGRATION
   ```
+
+  **MVP Gamification Minimal v1 (gamification.\*/progress.\*/
+  actions.accreditAndCalculate), actualizado 2026-08-21 tras verificación
+  live**: mismo Web App actualizado en el sitio (deployment `AKfycby9c...`
+  @9, script versión 8). Implementa el subconjunto canónico necesario
+  (`base_dvg`, `streaks.daily` con derivación real de días consecutivos,
+  `daily_caps` con reducción proporcional) para procesar los ACTION_LOG
+  que el MVP Accreditation Pack v1 puede producir hoy —
+  `simplified_parallel_engine: false`, ningún mecanismo sustituido por una
+  aproximación propia. Mecanismos sin datos/condiciones suficientes
+  (boosters, combos, multiplicadores/cap semanales, diminishing_returns)
+  quedan documentados como `NOT_TRIGGERED_IN_CURRENT_MVP_FIXTURE`, nunca
+  eliminados ni sustituidos — `weekly_multipliers`/`weekly_cap`
+  confirmados fuera de v1 por el propio comentario del esquema real
+  (`daily_progress`). `legacy_deprecated.level_multiplier` excluido por
+  decisión de gobernanza, verificado con test dedicado.
+
+  **15/15 puntos de verificación live PASS**: primer `validated
+  ACTION_LOG → DVG` real del sistema (1.0h); `action_log` `rejected`
+  existente → `DATA_INTEGRITY_ERROR`, sin DVG; `recalculateDay` deriva
+  `total_dvg_hours=1.8` exclusivamente del ledger, con 2/2 pilares
+  correctos; `progress.get` devuelve el shape MVP exacto
+  (`total_dvg_hours`/`by_pillar`/`updated_at`), `current_level:null` (no
+  inventado); `progress.getPillar` rechaza `mind`; repetición de
+  `calculateAction`/`recalculateDay` idempotente, **sin duplicar**
+  ninguna fila; `rebuildProgress` reconstruye el resultado real incluso
+  tras corromper manualmente la proyección; `actions.accreditAndCalculate`
+  probado de extremo a extremo en una sola llamada real (evidencia nueva
+  → `validated` → DVG → progreso actualizado); Security Advisor 17/17
+  `INFO`, **0 `WARN`**. 154/154 tests locales PASS (118 previos intactos +
+  36 nuevos). Detalle test por test en
+  `governance/implementation/NUTRILONGX_MVP_GAMIFICATION_IMPLEMENTATION_REPORT_v1.md`
+  §10.
+
+  Código nuevo: `apps-script/src/GamificationService.gs`,
+  `apps-script/src/ProgressService.gs`; extensión de
+  `apps-script/src/ActionsService.gs` (`accreditAndCalculate`, orquesta
+  `accredit → validated? → calculateAction → recalculateDay`, gamificación
+  **nunca** se invoca si `pending`/`rejected`, verificado en real y en
+  test). Cambio aditivo mínimo en `Validation.gs`
+  (`requireIsoDate`). **No** implementa `safety.*` ni las 108 reglas de
+  acreditación restantes — confirmado por grep.
+
+  Handoff para el Dashboard:
+  `governance/implementation/PLAYABLE_MVP_BACKEND_HANDOFF_v1.md`
+  (funciones live, request/response shapes, códigos de error, flujo
+  "marcar hecho", lista de las 11 acciones con regla activa).
+
+  **Next gate**: `READY_FOR_PLAYABLE_MVP_UI_INTEGRATION`. **No**
+  `READY_FOR_SAFETY`/`READY_FOR_FULL_GAMIFICATION`/
+  `READY_FOR_119_ACCREDITATION_RULES` — con cliente + contenido +
+  evidence + validated action_log + DVG + progress todos reales y
+  verificados, el backend del MVP jugable está completo; el siguiente
+  paso es integración del Dashboard, no más construcción de backend.
 
   **MVP Accreditation Pack v1 (actions.accredit -> validated ACTION_LOG),
   actualizado 2026-08-21 tras verificación live**: puebla

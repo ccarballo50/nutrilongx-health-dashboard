@@ -102,6 +102,7 @@ function createActionsService(deps) {
   var sbSelectFn = deps.sbSelect;
   var sbInsertFn = deps.sbInsert;
   var auditFn = deps.writeAudit;
+  var gamificationService = deps.gamificationService; // MVP Gamification Minimal v1 -- solo usado por accreditAndCalculate.
 
   /** actions.list(payload: { domain?, subdomain?, is_active?, limit?, cursor? }) */
   function list(payload) {
@@ -449,6 +450,32 @@ function createActionsService(deps) {
     return result;
   }
 
+  /**
+   * actions.accreditAndCalculate(payload: { evidence_id }) — orquestacion
+   * (encargo PLAYABLE MVP seccion 20). Secuencia EXACTA:
+   *   actions.accredit -> validated? -> gamification.calculateAction ->
+   *   gamification.recalculateDay. Si accredit resuelve pending/rejected,
+   *   gamification NUNCA se llama -- ninguna rama alternativa.
+   */
+  function accreditAndCalculate(payload, ctx) {
+    var accreditResult = accredit(payload, ctx);
+    if (accreditResult.status !== 'validated') {
+      return { accredit: accreditResult, gamification: null, daily_progress: null };
+    }
+    if (!gamificationService) {
+      throw NlxInternalError('gamification service not wired.', {});
+    }
+    var actionLogRows = sbSelectFn('action_logs', qsEq('id', accreditResult.action_log_id) + '&select=client_id,occurred_at&limit=1');
+    var actionLog = actionLogRows && actionLogRows[0];
+    if (!actionLog) {
+      throw NlxDataIntegrityError('Validated action_log disappeared before gamification could run.', { action_log_id: accreditResult.action_log_id });
+    }
+    var calcResult = gamificationService.calculateAction({ action_log_id: accreditResult.action_log_id }, ctx);
+    var dayStr = new Date(actionLog.occurred_at).toISOString().slice(0, 10);
+    var dayResult = gamificationService.recalculateDay({ client_id: actionLog.client_id, date: dayStr }, ctx);
+    return { accredit: accreditResult, gamification: calcResult, daily_progress: dayResult };
+  }
+
   /** actions.listLogs(payload: { client_id?, status?, canonical_action_id?, from?, to?, limit?, cursor? }) */
   function listLogs(payload) {
     payload = payload || {};
@@ -490,5 +517,5 @@ function createActionsService(deps) {
     return { action_log: rows[0] };
   }
 
-  return { list: list, get: get, accredit: accredit, listLogs: listLogs, getLog: getLog };
+  return { list: list, get: get, accredit: accredit, accreditAndCalculate: accreditAndCalculate, listLogs: listLogs, getLog: getLog };
 }

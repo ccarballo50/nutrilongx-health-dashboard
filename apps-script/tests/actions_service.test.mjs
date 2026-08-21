@@ -400,6 +400,63 @@ export function run() {
     assert.equal(db.auditLog.length, 2); // cada intento se audita (no hay retry idempotente que suprimir)
   });
 
+  // ── actions.accreditAndCalculate (MVP Gamification Minimal v1, encargo seccion 20) ──
+
+  function makeFakeGamificationService(calls) {
+    return {
+      calculateAction: (payload, ctx) => { calls.calculateAction.push(payload); return { action_log_id: payload.action_log_id, event_dvg_hours: 1.4, idempotent: false }; },
+      recalculateDay: (payload, ctx) => { calls.recalculateDay.push(payload); return { client_id: payload.client_id, date: payload.date, pillars: ["nutrition"], total_dvg_hours: 1.4 }; },
+    };
+  }
+
+  test("actions.accreditAndCalculate: validated path calls calculateAction then recalculateDay, in that order", () => {
+    const db = makeFakeDb();
+    seedEvidence(db, { source_content_id: "content-1", duration_minutes: 20, occurred_at: "2026-08-21T10:00:00Z" });
+    db.tables.content_action_bindings.push({ id: "b1", content_id: "content-1", canonical_action_id: ACTION_ID, binding_type: "supports", status: "active" });
+    seedRuleActionAndData(db);
+    const calls = { calculateAction: [], recalculateDay: [] };
+    const svc = sb.createActionsService({ ...db.deps, gamificationService: makeFakeGamificationService(calls) });
+    const r = svc.accreditAndCalculate({ evidence_id: EVIDENCE_ID }, CTX);
+    assert.equal(r.accredit.status, "validated");
+    assert.equal(r.gamification.event_dvg_hours, 1.4);
+    assert.equal(r.daily_progress.total_dvg_hours, 1.4);
+    assert.equal(calls.calculateAction.length, 1);
+    assert.equal(calls.calculateAction[0].action_log_id, r.accredit.action_log_id);
+    assert.equal(calls.recalculateDay.length, 1);
+    assert.equal(calls.recalculateDay[0].client_id, "88888888-1111-1111-1111-111111111111");
+    assert.equal(calls.recalculateDay[0].date, "2026-08-21");
+  });
+
+  test("actions.accreditAndCalculate: review_required path NEVER calls gamification", () => {
+    const db = makeFakeDb();
+    seedEvidence(db, { source_content_id: "content-1" });
+    db.tables.content_action_bindings.push({ id: "b1", content_id: "content-1", canonical_action_id: ACTION_ID, binding_type: "supports", status: "active" });
+    // sin action_accreditation_rules -- review_required.
+    const calls = { calculateAction: [], recalculateDay: [] };
+    const svc = sb.createActionsService({ ...db.deps, gamificationService: makeFakeGamificationService(calls) });
+    const r = svc.accreditAndCalculate({ evidence_id: EVIDENCE_ID }, CTX);
+    assert.equal(r.accredit.status, "pending");
+    assert.equal(r.gamification, null);
+    assert.equal(r.daily_progress, null);
+    assert.equal(calls.calculateAction.length, 0);
+    assert.equal(calls.recalculateDay.length, 0);
+  });
+
+  test("actions.accreditAndCalculate: rejected path NEVER calls gamification", () => {
+    const db = makeFakeDb();
+    seedEvidence(db, { source_content_id: "content-1", duration_minutes: 2, occurred_at: "2026-08-21T10:00:00Z" }); // no cumple >=18
+    db.tables.content_action_bindings.push({ id: "b1", content_id: "content-1", canonical_action_id: ACTION_ID, binding_type: "supports", status: "active" });
+    seedRuleActionAndData(db);
+    const calls = { calculateAction: [], recalculateDay: [] };
+    const svc = sb.createActionsService({ ...db.deps, gamificationService: makeFakeGamificationService(calls) });
+    const r = svc.accreditAndCalculate({ evidence_id: EVIDENCE_ID }, CTX);
+    assert.equal(r.accredit.status, "rejected");
+    assert.equal(r.gamification, null);
+    assert.equal(r.daily_progress, null);
+    assert.equal(calls.calculateAction.length, 0);
+    assert.equal(calls.recalculateDay.length, 0);
+  });
+
   test("actions.listLogs: filters by client_id/status/canonical_action_id (empty in current canon)", () => {
     const db = makeFakeDb();
     const svc = sb.createActionsService(db.deps);

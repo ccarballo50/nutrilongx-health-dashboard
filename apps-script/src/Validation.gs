@@ -169,6 +169,24 @@ function requireIsoDateTime(v, fieldName) {
   return v;
 }
 
+// "YYYY-MM-DD" -- fecha natural (dia calendario), distinta de
+// requireIsoDateTime (que exige hora+offset). Usada por
+// gamification.recalculateDay y los filtros from/to de progress.getDaily/
+// progress.getPillar (MVP Gamification Minimal v1).
+var NLX_ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+function requireIsoDate(v, fieldName) {
+  requireString(v, fieldName);
+  if (!NLX_ISO_DATE_RE.test(v)) {
+    throw NlxValidationError('"' + fieldName + '" must be an ISO-8601 date (YYYY-MM-DD)', { field: fieldName, value: v });
+  }
+  var d = new Date(v + 'T00:00:00.000Z');
+  if (isNaN(d.getTime())) {
+    throw NlxValidationError('"' + fieldName + '" is not a valid date', { field: fieldName, value: v });
+  }
+  return v;
+}
+
 function optionalNumeric(v, fieldName) {
   if (v === undefined || v === null) return null;
   if (typeof v !== 'number' || !Number.isFinite(v)) {

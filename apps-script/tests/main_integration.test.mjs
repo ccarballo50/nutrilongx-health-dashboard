@@ -107,7 +107,8 @@ function buildSandbox() {
     [
       "Errors.gs", "Response.gs", "Validation.gs",
       "Config.gs", "SupabaseClient.gs", "Audit.gs",
-      "ClientsService.gs", "ContentService.gs", "EvidenceService.gs", "ActionsService.gs", "Router.gs", "Main.gs",
+      "ClientsService.gs", "ContentService.gs", "EvidenceService.gs", "ActionsService.gs",
+      "GamificationService.gs", "ProgressService.gs", "Router.gs", "Main.gs",
     ],
     extraGlobals
   );
@@ -267,6 +268,74 @@ export function run() {
     const auditRow = fakePg.tables.audit_log[fakePg.tables.audit_log.length - 1];
     assert.equal(auditRow.action, "actions.accredit");
     assert.equal(auditRow.request_id, envelope.meta.request_id);
+  });
+
+  test("doPost gamification.calculateAction requires auth same as any other function (Phase 2D reuses Phase 2A auth)", () => {
+    const { sb } = buildSandbox();
+    const output = sb.doPost(fakePostEvent({ function: "gamification.calculateAction", auth: { dashboard_key: "WRONG" }, payload: {} }));
+    const envelope = JSON.parse(output._text);
+    assert.equal(envelope.ok, false);
+    assert.equal(envelope.error.code, "UNAUTHORIZED");
+  });
+
+  test("doPost progress.get for a client with no progress yet returns a zero state, not an error", () => {
+    const { sb } = buildSandbox();
+    const output = sb.doPost(fakePostEvent({
+      function: "progress.get",
+      auth: { dashboard_key: "fake-dashboard-key" },
+      payload: { client_id: "44444444-4444-4444-4444-000000000099" },
+    }));
+    const envelope = JSON.parse(output._text);
+    assert.equal(envelope.ok, true);
+    assert.equal(envelope.data.total_dvg_hours, 0);
+    assert.deepEqual(envelope.data.by_pillar, { nutrition: 0, exercise: 0, sleep: 0, stress: 0, conscious_wellbeing: 0 });
+  });
+
+  test("doPost progress.getPillar rejects the legacy 'mind' alias, same as content.listMind/evidence.register", () => {
+    const { sb } = buildSandbox();
+    const output = sb.doPost(fakePostEvent({
+      function: "progress.getPillar",
+      auth: { dashboard_key: "fake-dashboard-key" },
+      payload: { client_id: "44444444-4444-4444-4444-000000000099", pillar: "mind" },
+    }));
+    const envelope = JSON.parse(output._text);
+    assert.equal(envelope.ok, false);
+    assert.equal(envelope.error.code, "VALIDATION_ERROR");
+  });
+
+  test("doPost actions.accreditAndCalculate: pending path never calls gamification, no action_log/progress created", () => {
+    const { sb, fakePg } = buildSandbox();
+    fakePg.tables.clients.push({ id: "44444444-4444-4444-4444-000000000004", status: "active" });
+    fakePg.tables.content_registry = [{ id: "reg-3", content_type: "recipe", canonical_id: "NLX-001", pillar: "nutrition", is_active: true }];
+    // Sin bindings ni reglas -- accredit() resuelve review_required.
+
+    const evOutput = sb.doPost(fakePostEvent({
+      function: "evidence.register",
+      auth: { dashboard_key: "fake-dashboard-key" },
+      payload: {
+        client_id: "44444444-4444-4444-4444-000000000004",
+        source_type: "dashboard",
+        source_content: { content_type: "recipe", canonical_id: "NLX-001" },
+        occurred_at: "2026-08-21T12:00:00Z",
+        quantity: 1,
+        unit: "serving",
+      },
+    }));
+    const evidenceId = JSON.parse(evOutput._text).data.evidence.id;
+
+    const output = sb.doPost(fakePostEvent({
+      function: "actions.accreditAndCalculate",
+      auth: { dashboard_key: "fake-dashboard-key" },
+      payload: { evidence_id: evidenceId },
+    }));
+    const envelope = JSON.parse(output._text);
+    assert.equal(envelope.ok, true);
+    assert.equal(envelope.data.accredit.status, "pending");
+    assert.equal(envelope.data.gamification, null);
+    assert.equal(envelope.data.daily_progress, null);
+    assert.equal((fakePg.tables.action_logs || []).length, 0);
+    assert.equal((fakePg.tables.client_progress || []).length, 0);
+    assert.equal((fakePg.tables.daily_progress || []).length, 0);
   });
 
   test("evidence.register never creates action_logs/client_progress/daily_progress (Phase 2B invariant)", () => {
