@@ -34,17 +34,31 @@
  * duplican deliberadamente la logica ya existente en ContentService.gs/
  * ClientsService.gs en vez de importarla — Fase 2A queda protegida sin
  * tocar (ver informe de implementacion, seccion "Limitaciones").
+ *
+ * ADITIVO — NUTRILONGX PLAYABLE MVP (MVP Accreditation Pack v1):
+ * `source_entity_type`/`source_entity_id` (columnas reales de
+ * `execution_evidence` desde Fase 2B, documentadas entonces como "no
+ * utilizadas en esta fase") se activan aqui para evidencia independiente
+ * que declara explicitamente de que accion canonica es evidencia
+ * (`source_entity_type='canonical_action'`), simetrico a como
+ * `source_content` ya declara de que contenido es evidencia. Necesario
+ * porque `content_action_bindings` real hoy solo cubre recipes/nutrition —
+ * sin este campo, ninguna evidencia de exercise/sleep/stress/
+ * conscious_wellbeing podria resolverse a una accion candidata en
+ * `actions.accredit` sin inventar un binding de contenido inexistente.
+ * Mutuamente excluyente con `source_content` (una evidencia declara como
+ * maximo UNA via de resolucion).
  */
 
 var EVIDENCE_REGISTER_ALLOWED_FIELDS = Object.freeze([
-  'client_id', 'source_type', 'source_content', 'pillar', 'occurred_at',
-  'quantity', 'unit', 'duration_minutes', 'intensity', 'metadata', 'idempotency_key'
+  'client_id', 'source_type', 'source_content', 'source_entity_type', 'source_entity_id',
+  'pillar', 'occurred_at', 'quantity', 'unit', 'duration_minutes', 'intensity', 'metadata', 'idempotency_key'
 ]);
 var EVIDENCE_SOURCE_CONTENT_ALLOWED_FIELDS = Object.freeze(['content_type', 'canonical_id']);
 var EVIDENCE_LIST_ALLOWED_FIELDS = Object.freeze(['client_id', 'pillar', 'source_type', 'from', 'to', 'limit', 'cursor']);
 var EVIDENCE_GET_ALLOWED_FIELDS = Object.freeze(['evidence_id']);
 
-var EVIDENCE_LIST_FIELDS = 'id,client_id,pillar,source_type,source_content_id,occurred_at,quantity,unit,duration_minutes,intensity,metadata,created_at';
+var EVIDENCE_LIST_FIELDS = 'id,client_id,pillar,source_type,source_content_id,source_entity_type,source_entity_id,occurred_at,quantity,unit,duration_minutes,intensity,metadata,created_at';
 
 function createEvidenceService(deps) {
   var sbSelectFn = deps.sbSelect;
@@ -70,6 +84,25 @@ function createEvidenceService(deps) {
   }
 
   /**
+   * Resuelve/valida un `source_entity_id` cuando `source_entity_type` es
+   * 'canonical_action' — el mismo principio que `resolveActiveRegistryEntry`
+   * aplicado a `canonical_actions` en vez de `content_registry`: nunca se
+   * acepta un `canonical_action_id` como valido sin comprobarlo contra la
+   * tabla real.
+   */
+  function resolveActiveCanonicalAction(canonicalActionId) {
+    var rows = sbSelectFn('canonical_actions', qsEq('canonical_action_id', canonicalActionId) + '&select=canonical_action_id,is_active&limit=1');
+    var entry = (rows && rows.length > 0) ? rows[0] : null;
+    if (!entry || entry.is_active !== true) {
+      throw NlxCanonicalReferenceNotFoundError(
+        'No active canonical action found for the given source_entity_id.',
+        { source_entity_type: 'canonical_action', source_entity_id: canonicalActionId }
+      );
+    }
+    return entry;
+  }
+
+  /**
    * Normaliza occurred_at a minuto (sin segundos/ms/offset) para la clave
    * de deduplicacion — MVP deliberado, no un algoritmo de reconciliacion
    * de wearables (encargo seccion 13).
@@ -88,6 +121,7 @@ function createEvidenceService(deps) {
     return [
       parts.sourceType,
       parts.sourceContentId || 'none',
+      parts.sourceEntityId || 'none',
       normalizeOccurredAtForDedup(parts.occurredAt),
       (parts.quantity === null || parts.quantity === undefined) ? 'null' : String(parts.quantity),
       parts.unit || 'null',
@@ -129,6 +163,35 @@ function createEvidenceService(deps) {
       pillarFromContent = registryEntry.pillar;
     }
 
+    // 2b. Resolver source_entity_type/source_entity_id (MVP Accreditation
+    //     Pack v1) — via alterna a source_content para evidencia sin
+    //     content_action_binding real. Mutuamente excluyente con
+    //     source_content: una evidencia declara como maximo una via.
+    var sourceEntityType = null;
+    var sourceEntityId = null;
+    var hasSourceEntityType = payload.source_entity_type !== undefined && payload.source_entity_type !== null;
+    var hasSourceEntityId = payload.source_entity_id !== undefined && payload.source_entity_id !== null;
+    if (hasSourceEntityType || hasSourceEntityId) {
+      if (sourceContentId !== null) {
+        throw NlxValidationError(
+          '"source_entity_type"/"source_entity_id" cannot be combined with "source_content".',
+          { field: 'source_entity_type' }
+        );
+      }
+      if (!hasSourceEntityType || !hasSourceEntityId) {
+        throw NlxValidationError(
+          '"source_entity_type" and "source_entity_id" must be provided together.',
+          { field: 'source_entity_type', has_source_entity_type: hasSourceEntityType, has_source_entity_id: hasSourceEntityId }
+        );
+      }
+      sourceEntityType = requireEnum(payload.source_entity_type, 'source_entity_type', NLX_EVIDENCE_SOURCE_ENTITY_TYPES);
+      var rawEntityId = requireString(payload.source_entity_id, 'source_entity_id', { maxLength: 200 });
+      // Unico tipo soportado hoy: 'canonical_action' — se valida contra la
+      // tabla real, igual que source_content se valida contra content_registry.
+      resolveActiveCanonicalAction(rawEntityId);
+      sourceEntityId = rawEntityId;
+    }
+
     // 3. Integridad de pillar (seccion 11/12): si hay contenido, el pillar
     //    SIEMPRE se deriva del content_registry server-side, nunca del
     //    payload. Si el payload declara uno distinto, es VALIDATION_ERROR
@@ -154,6 +217,7 @@ function createEvidenceService(deps) {
     var deduplicationKey = buildDeduplicationKey({
       sourceType: sourceType,
       sourceContentId: sourceContentId,
+      sourceEntityId: sourceEntityId,
       occurredAt: occurredAt,
       quantity: quantity,
       unit: unit,
@@ -189,6 +253,8 @@ function createEvidenceService(deps) {
       client_id: clientId,
       source_type: sourceType,
       source_content_id: sourceContentId,
+      source_entity_type: sourceEntityType,
+      source_entity_id: sourceEntityId,
       pillar: pillar,
       occurred_at: occurredAt,
       quantity: quantity,

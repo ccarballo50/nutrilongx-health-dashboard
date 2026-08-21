@@ -14,7 +14,7 @@ const UNKNOWN_CLIENT_ID = "99999999-9999-9999-9999-999999999999";
 const CTX = { requestId: "req-1", actorType: "professional", actorId: "prof-1" };
 
 function makeFakeDb() {
-  const tables = { clients: [], content_registry: [], execution_evidence: [] };
+  const tables = { clients: [], content_registry: [], execution_evidence: [], canonical_actions: [] };
   const auditLog = [];
   let seq = 0;
   function uuid() {
@@ -58,6 +58,12 @@ function seedRecipeRegistry(db) {
   db.tables.content_registry.push({
     id: "reg-nlx-001", content_type: "recipe", canonical_id: "NLX-001", pillar: "nutrition", is_active: true,
   });
+}
+
+const CANONICAL_ACTION_ID = "movement.cardio.caminata_vigorosa_min";
+
+function seedCanonicalAction(db, overrides) {
+  db.tables.canonical_actions.push({ canonical_action_id: CANONICAL_ACTION_ID, is_active: true, ...overrides });
 }
 
 const VALID_PAYLOAD = () => ({
@@ -209,6 +215,90 @@ export function run() {
     } catch (e) {
       assert.equal(e.code, "VALIDATION_ERROR");
     }
+  });
+
+  // ── MVP Accreditation Pack v1 — source_entity_type/source_entity_id ──
+
+  test("evidence.register: source_entity_type=canonical_action + valid source_entity_id creates evidence with no source_content_id", () => {
+    const db = makeFakeDb();
+    seedClient(db);
+    seedCanonicalAction(db);
+    const svc = sb.createEvidenceService(db.deps);
+    const r = svc.register({
+      client_id: CLIENT_ID, source_type: "dashboard", occurred_at: "2026-08-20T12:00:00+02:00",
+      source_entity_type: "canonical_action", source_entity_id: CANONICAL_ACTION_ID,
+      pillar: "exercise", duration_minutes: 20,
+    }, CTX);
+    assert.equal(r.evidence.source_content_id, null);
+    assert.equal(r.evidence.source_entity_type, "canonical_action");
+    assert.equal(r.evidence.source_entity_id, CANONICAL_ACTION_ID);
+    assert.equal(r.evidence.pillar, "exercise"); // no hay content_registry que lo derive -- explicito como evidencia independiente
+  });
+
+  test("evidence.register: source_entity_id referencing an unknown/inactive canonical action returns CANONICAL_REFERENCE_NOT_FOUND", () => {
+    const db = makeFakeDb();
+    seedClient(db);
+    const svc = sb.createEvidenceService(db.deps);
+    try {
+      svc.register({
+        client_id: CLIENT_ID, source_type: "dashboard", occurred_at: "2026-08-20T12:00:00+02:00",
+        source_entity_type: "canonical_action", source_entity_id: "does.not.exist", pillar: "exercise",
+      }, CTX);
+      assert.fail("expected throw");
+    } catch (e) {
+      assert.equal(e.code, "CANONICAL_REFERENCE_NOT_FOUND");
+    }
+  });
+
+  test("evidence.register: source_entity_type without source_entity_id (or vice versa) returns VALIDATION_ERROR", () => {
+    const db = makeFakeDb();
+    seedClient(db);
+    seedCanonicalAction(db);
+    const svc = sb.createEvidenceService(db.deps);
+    try {
+      svc.register({
+        client_id: CLIENT_ID, source_type: "dashboard", occurred_at: "2026-08-20T12:00:00+02:00",
+        source_entity_type: "canonical_action", pillar: "exercise",
+      }, CTX);
+      assert.fail("expected throw");
+    } catch (e) {
+      assert.equal(e.code, "VALIDATION_ERROR");
+    }
+  });
+
+  test("evidence.register: source_entity_type combined with source_content returns VALIDATION_ERROR (mutually exclusive)", () => {
+    const db = makeFakeDb();
+    seedClient(db);
+    seedRecipeRegistry(db);
+    seedCanonicalAction(db);
+    const svc = sb.createEvidenceService(db.deps);
+    try {
+      svc.register({
+        ...VALID_PAYLOAD(), source_entity_type: "canonical_action", source_entity_id: CANONICAL_ACTION_ID,
+      }, CTX);
+      assert.fail("expected throw");
+    } catch (e) {
+      assert.equal(e.code, "VALIDATION_ERROR");
+    }
+  });
+
+  test("evidence.register: two different source_entity_id at the same minute/quantity do NOT collide in deduplication", () => {
+    const db = makeFakeDb();
+    seedClient(db);
+    seedCanonicalAction(db, { canonical_action_id: "movement.cardio.caminata_vigorosa_min" });
+    seedCanonicalAction(db, { canonical_action_id: "mind.stress.musica_relajante_min" });
+    const svc = sb.createEvidenceService(db.deps);
+    svc.register({
+      client_id: CLIENT_ID, source_type: "dashboard", occurred_at: "2026-08-20T12:00:00Z",
+      source_entity_type: "canonical_action", source_entity_id: "movement.cardio.caminata_vigorosa_min",
+      pillar: "exercise", duration_minutes: 20,
+    }, CTX);
+    svc.register({
+      client_id: CLIENT_ID, source_type: "dashboard", occurred_at: "2026-08-20T12:00:00Z",
+      source_entity_type: "canonical_action", source_entity_id: "mind.stress.musica_relajante_min",
+      pillar: "stress", duration_minutes: 20,
+    }, CTX);
+    assert.equal(db.tables.execution_evidence.length, 2); // distintas acciones, misma forma -- no deben deduplicarse entre si
   });
 
   test("evidence.register: idempotent retry via idempotency_key returns same evidence, no duplicate row/audit", () => {

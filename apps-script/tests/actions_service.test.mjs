@@ -192,18 +192,169 @@ export function run() {
     assert.equal(r.candidate_actions[0].has_accreditation_rule, false);
   });
 
-  test("actions.accredit: even WITH an active accreditation rule, still review_required (no level_variant resolver in Phase 2C -- never invents one)", () => {
+  // ── MVP Accreditation Pack v1 — rule found + evaluated (via content_binding) ──
+
+  function seedRuleActionAndData(db, opts) {
+    opts = opts || {};
+    db.tables.canonical_actions.push({
+      id: "ca-1", canonical_action_id: ACTION_ID, domain: "nutrition", subdomain: "mediterranean_pattern", is_active: true,
+      data: { level_variants: [{ level: "Inicial", base_dvg_hours: 1.4 }, { level: "Bronce", base_dvg_hours: 2.1 }] },
+    });
+    db.tables.action_accreditation_rules.push({
+      id: "r1", accreditation_rule_id: "RULE-1", canonical_action_id: ACTION_ID, status: "active",
+      accepted_evidence_types: opts.acceptedTypes || ["dashboard"],
+      required_fields: opts.requiredFields || ["duration_minutes"],
+      conditions: opts.conditions !== undefined ? opts.conditions : { level_variant: "Inicial", duration_minutes: { gte: 18 } },
+    });
+  }
+
+  test("actions.accredit: active rule + evidence meets conditions -> validated, action_log created with resolved base_dvg_hours", () => {
+    const db = makeFakeDb();
+    seedEvidence(db, { source_content_id: "content-1", duration_minutes: 20, occurred_at: "2026-08-21T10:00:00Z" });
+    db.tables.content_action_bindings.push({ id: "b1", content_id: "content-1", canonical_action_id: ACTION_ID, binding_type: "supports", status: "active" });
+    seedRuleActionAndData(db);
+    const svc = sb.createActionsService(db.deps);
+    const r = svc.accredit({ evidence_id: EVIDENCE_ID }, CTX);
+    assert.equal(r.status, "validated");
+    assert.equal(r.action_log_created, true);
+    assert.equal(db.tables.action_logs.length, 1);
+    const log = db.tables.action_logs[0];
+    assert.equal(log.status, "validated");
+    assert.equal(log.level_variant, "Inicial");
+    assert.equal(log.base_dvg_hours, 1.4); // resuelto desde canonical_actions.data, nunca desde la regla
+    assert.equal(log.canonical_action_id, ACTION_ID);
+    assert.equal(log.accreditation_rule_id, "RULE-1");
+    assert.ok(log.engine_version && log.calculation_version);
+  });
+
+  test("actions.accredit: active rule + evidence fails conditions (duration too short) -> rejected, action_log still created", () => {
+    const db = makeFakeDb();
+    seedEvidence(db, { source_content_id: "content-1", duration_minutes: 5, occurred_at: "2026-08-21T10:00:00Z" });
+    db.tables.content_action_bindings.push({ id: "b1", content_id: "content-1", canonical_action_id: ACTION_ID, binding_type: "supports", status: "active" });
+    seedRuleActionAndData(db);
+    const svc = sb.createActionsService(db.deps);
+    const r = svc.accredit({ evidence_id: EVIDENCE_ID }, CTX);
+    assert.equal(r.status, "rejected");
+    assert.equal(r.reason, "ACCREDITATION_REJECTED");
+    assert.equal(r.action_log_created, true);
+    assert.equal(db.tables.action_logs.length, 1);
+    assert.equal(db.tables.action_logs[0].status, "rejected");
+  });
+
+  test("actions.accredit: active rule + evidence missing a required_field -> rejected", () => {
+    const db = makeFakeDb();
+    seedEvidence(db, { source_content_id: "content-1", duration_minutes: null, occurred_at: "2026-08-21T10:00:00Z" });
+    db.tables.content_action_bindings.push({ id: "b1", content_id: "content-1", canonical_action_id: ACTION_ID, binding_type: "supports", status: "active" });
+    seedRuleActionAndData(db);
+    const svc = sb.createActionsService(db.deps);
+    const r = svc.accredit({ evidence_id: EVIDENCE_ID }, CTX);
+    assert.equal(r.status, "rejected");
+  });
+
+  test("actions.accredit: active rule + evidence source_type not in accepted_evidence_types -> rejected", () => {
+    const db = makeFakeDb();
+    seedEvidence(db, { source_content_id: "content-1", duration_minutes: 20, source_type: "wearable", occurred_at: "2026-08-21T10:00:00Z" });
+    db.tables.content_action_bindings.push({ id: "b1", content_id: "content-1", canonical_action_id: ACTION_ID, binding_type: "supports", status: "active" });
+    seedRuleActionAndData(db, { acceptedTypes: ["dashboard"] });
+    const svc = sb.createActionsService(db.deps);
+    const r = svc.accredit({ evidence_id: EVIDENCE_ID }, CTX);
+    assert.equal(r.status, "rejected");
+  });
+
+  test("actions.accredit: active rule without conditions.level_variant -> DATA_INTEGRITY_ERROR, never invents a level", () => {
+    const db = makeFakeDb();
+    seedEvidence(db, { source_content_id: "content-1", duration_minutes: 20, occurred_at: "2026-08-21T10:00:00Z" });
+    db.tables.content_action_bindings.push({ id: "b1", content_id: "content-1", canonical_action_id: ACTION_ID, binding_type: "supports", status: "active" });
+    seedRuleActionAndData(db, { conditions: { duration_minutes: { gte: 18 } } }); // sin level_variant
+    const svc = sb.createActionsService(db.deps);
+    try {
+      svc.accredit({ evidence_id: EVIDENCE_ID }, CTX);
+      assert.fail("expected throw");
+    } catch (e) {
+      assert.equal(e.code, "DATA_INTEGRITY_ERROR");
+    }
+  });
+
+  test("actions.accredit: rule references a level_variant absent from the canonical catalog -> DATA_INTEGRITY_ERROR, no fallback", () => {
+    const db = makeFakeDb();
+    seedEvidence(db, { source_content_id: "content-1", duration_minutes: 20, occurred_at: "2026-08-21T10:00:00Z" });
+    db.tables.content_action_bindings.push({ id: "b1", content_id: "content-1", canonical_action_id: ACTION_ID, binding_type: "supports", status: "active" });
+    seedRuleActionAndData(db, { conditions: { level_variant: "Platino", duration_minutes: { gte: 18 } } }); // catalogo solo tiene Inicial/Bronce
+    const svc = sb.createActionsService(db.deps);
+    try {
+      svc.accredit({ evidence_id: EVIDENCE_ID }, CTX);
+      assert.fail("expected throw");
+    } catch (e) {
+      assert.equal(e.code, "DATA_INTEGRITY_ERROR");
+    }
+  });
+
+  test("actions.accredit: repeat call with the SAME evidence_id is idempotent (no second action_log)", () => {
+    const db = makeFakeDb();
+    seedEvidence(db, { source_content_id: "content-1", duration_minutes: 20, occurred_at: "2026-08-21T10:00:00Z" });
+    db.tables.content_action_bindings.push({ id: "b1", content_id: "content-1", canonical_action_id: ACTION_ID, binding_type: "supports", status: "active" });
+    seedRuleActionAndData(db);
+    const svc = sb.createActionsService(db.deps);
+    const r1 = svc.accredit({ evidence_id: EVIDENCE_ID }, CTX);
+    const r2 = svc.accredit({ evidence_id: EVIDENCE_ID }, CTX);
+    assert.equal(r1.status, "validated");
+    assert.equal(r2.status, "validated");
+    assert.equal(r2.action_log_created, false);
+    assert.equal(r2.idempotent, true);
+    assert.equal(r1.action_log_id, r2.action_log_id);
+    assert.equal(db.tables.action_logs.length, 1);
+  });
+
+  test("actions.accredit: max_occurrences=1/day -- a DIFFERENT evidence for the same client+action+day does not create a second validated row", () => {
+    const db = makeFakeDb();
+    const evidence2Id = "66666666-6666-6666-6666-666666666667";
+    seedEvidence(db, { source_content_id: "content-1", duration_minutes: 20, occurred_at: "2026-08-21T10:00:00Z" });
+    db.tables.execution_evidence.push({ id: evidence2Id, client_id: "88888888-1111-1111-1111-111111111111", pillar: "nutrition", source_type: "dashboard", source_content_id: "content-1", duration_minutes: 25, occurred_at: "2026-08-21T18:00:00Z" });
+    db.tables.content_action_bindings.push({ id: "b1", content_id: "content-1", canonical_action_id: ACTION_ID, binding_type: "supports", status: "active" });
+    seedRuleActionAndData(db);
+    const svc = sb.createActionsService(db.deps);
+    const r1 = svc.accredit({ evidence_id: EVIDENCE_ID }, CTX);
+    const r2 = svc.accredit({ evidence_id: evidence2Id }, CTX);
+    assert.equal(r1.status, "validated");
+    assert.equal(r2.status, "validated"); // refleja el cap, no un rechazo
+    assert.equal(r2.action_log_created, false);
+    assert.equal(r2.idempotent, true);
+    assert.equal(db.tables.action_logs.length, 1); // nunca una segunda fila validated el mismo dia
+  });
+
+  test("actions.accredit: multiple active rules for the same canonical action -> review_required, ambiguous, never picked arbitrarily", () => {
     const db = makeFakeDb();
     seedEvidence(db, { source_content_id: "content-1" });
     db.tables.content_action_bindings.push({ id: "b1", content_id: "content-1", canonical_action_id: ACTION_ID, binding_type: "supports", status: "active" });
     db.tables.action_accreditation_rules.push({ id: "r1", accreditation_rule_id: "RULE-1", canonical_action_id: ACTION_ID, status: "active" });
+    db.tables.action_accreditation_rules.push({ id: "r2", accreditation_rule_id: "RULE-2", canonical_action_id: ACTION_ID, status: "active" });
     const svc = sb.createActionsService(db.deps);
     const r = svc.accredit({ evidence_id: EVIDENCE_ID }, CTX);
-    assert.equal(r.status, "pending"); // NUNCA "validated" en esta fase -- ver cabecera de ActionsService.gs
-    assert.equal(r.action_log_created, false);
-    assert.equal(r.candidate_actions[0].has_accreditation_rule, true);
-    assert.deepEqual(r.candidate_actions[0].accreditation_rule_ids, ["RULE-1"]);
-    assert.equal(db.tables.action_logs.length, 0); // nunca se crea, ni pending -- invariante central de la fase
+    assert.equal(r.status, "pending");
+    assert.equal(db.tables.action_logs.length, 0);
+  });
+
+  // ── source_entity_id resolution path (evidencia sin content_action_binding) ──
+
+  test("actions.accredit: source_entity_type=canonical_action resolves to exactly 1 candidate and validates", () => {
+    const db = makeFakeDb();
+    seedEvidence(db, { source_content_id: null, source_entity_type: "canonical_action", source_entity_id: ACTION_ID, duration_minutes: 20, occurred_at: "2026-08-21T10:00:00Z", pillar: "nutrition" });
+    seedRuleActionAndData(db);
+    const svc = sb.createActionsService(db.deps);
+    const r = svc.accredit({ evidence_id: EVIDENCE_ID }, CTX);
+    assert.equal(r.status, "validated");
+    assert.equal(r.action_log_created, true);
+    assert.equal(db.tables.action_logs[0].canonical_action_id, ACTION_ID);
+  });
+
+  test("actions.accredit: source_entity_id for a canonical action with no active rule -> review_required, no action_log", () => {
+    const db = makeFakeDb();
+    seedEvidence(db, { source_content_id: null, source_entity_type: "canonical_action", source_entity_id: "movement.some_action_without_rule", duration_minutes: 20 });
+    const svc = sb.createActionsService(db.deps);
+    const r = svc.accredit({ evidence_id: EVIDENCE_ID }, CTX);
+    assert.equal(r.status, "pending");
+    assert.equal(r.candidate_actions[0].canonical_action_id, "movement.some_action_without_rule");
+    assert.equal(db.tables.action_logs.length, 0);
   });
 
   test("actions.accredit: inactive accreditation rules are not counted as available", () => {

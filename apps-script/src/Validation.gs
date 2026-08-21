@@ -23,6 +23,14 @@ var NLX_BINDING_STATUSES = Object.freeze(['active', 'inactive', 'review_required
 var NLX_ACCREDITATION_RULE_STATUSES = Object.freeze(['active', 'inactive', 'review_required']);
 var NLX_ACTION_LOG_STATUSES = Object.freeze(['validated', 'pending', 'rejected', 'reversed']);
 
+// MVP Accreditation Pack v1 — activa execution_evidence.source_entity_type/
+// source_entity_id (columnas reales desde Fase 2B, sin uso hasta ahora) para
+// evidencia independiente que declara explicitamente de que accion canonica
+// es evidencia, cuando no existe content_action_binding real que la resuelva
+// (encargo NUTRILONGX PLAYABLE MVP seccion 4). Unico valor soportado por
+// ahora: 'canonical_action' — no se inventan mas tipos de entidad.
+var NLX_EVIDENCE_SOURCE_ENTITY_TYPES = Object.freeze(['canonical_action']);
+
 // Pilares/valores legacy explicitamente rechazados como pillar/content_type
 // persistido o de API (NUTRILONGX_STANDALONE_DATA_MODEL_v1.md seccion 2;
 // encargo secciones 29/34).
