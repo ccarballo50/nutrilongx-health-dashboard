@@ -14,6 +14,9 @@ var NLX_MIND_CONTENT_TYPES = Object.freeze(['pillar_card', 'subpillar_card', 'ch
 var NLX_CLIENT_STATUSES = Object.freeze(['active', 'paused', 'discharged', 'archived']);
 var NLX_ASSIGNMENT_STATUSES = Object.freeze(['assigned', 'active', 'completed', 'cancelled']);
 
+// Fase 2B — evidence.* (NUTRILONGX_APPS_SCRIPT_FUNCTION_CONTRACT_v1.md seccion 7).
+var NLX_EVIDENCE_SOURCE_TYPES = Object.freeze(['manual', 'dashboard', 'app', 'professional', 'apps_script', 'wearable', 'import']);
+
 // Pilares/valores legacy explicitamente rechazados como pillar/content_type
 // persistido o de API (NUTRILONGX_STANDALONE_DATA_MODEL_v1.md seccion 2;
 // encargo secciones 29/34).
@@ -132,6 +135,32 @@ function rejectUnknownKeys(payload, allowedKeys, contextLabel) {
       { unexpected_fields: unknown, allowed_fields: allowedKeys }
     );
   }
+}
+
+// ISO-8601 con offset explicito o "Z" -- exigido para occurred_at (Fase 2B
+// encargo seccion 7). No se acepta una fecha "sueltamente parseable" por
+// `new Date()` (p.ej. "2026" o "2026-08-20") porque una evidencia clinica
+// necesita hora y zona explicitas.
+var NLX_ISO_DATETIME_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})$/;
+
+function requireIsoDateTime(v, fieldName) {
+  requireString(v, fieldName);
+  if (!NLX_ISO_DATETIME_RE.test(v)) {
+    throw NlxValidationError('"' + fieldName + '" must be an ISO-8601 datetime with explicit offset/Z', { field: fieldName, value: v });
+  }
+  var d = new Date(v);
+  if (isNaN(d.getTime())) {
+    throw NlxValidationError('"' + fieldName + '" is not a valid datetime', { field: fieldName, value: v });
+  }
+  return v;
+}
+
+function optionalNumeric(v, fieldName) {
+  if (v === undefined || v === null) return null;
+  if (typeof v !== 'number' || !Number.isFinite(v)) {
+    throw NlxValidationError('"' + fieldName + '" must be a finite number', { field: fieldName, value: v });
+  }
+  return v;
 }
 
 /** limit/cursor estandar (encargo seccion 45/38). */

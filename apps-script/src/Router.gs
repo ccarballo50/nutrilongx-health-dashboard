@@ -15,7 +15,7 @@
  * Construye el mapa de rutas permitidas a partir de instancias ya creadas
  * de los servicios de dominio.
  */
-function buildRoutes(clientsService, contentService) {
+function buildRoutes(clientsService, contentService, evidenceService) {
   return {
     'clients.list': clientsService.list,
     'clients.get': clientsService.get,
@@ -32,7 +32,13 @@ function buildRoutes(clientsService, contentService) {
     'content.getMindContent': contentService.getMindContent,
     'content.assign': contentService.assign,
     'content.unassign': contentService.unassign,
-    'content.listAssignments': contentService.listAssignments
+    'content.listAssignments': contentService.listAssignments,
+
+    // Fase 2B — evidence.* (EvidenceService.gs). Solo estas 3 funciones;
+    // actions.*/gamification.*/progress.*/safety.* quedan fuera de alcance.
+    'evidence.register': evidenceService.register,
+    'evidence.list': evidenceService.list,
+    'evidence.get': evidenceService.get
   };
 }
 

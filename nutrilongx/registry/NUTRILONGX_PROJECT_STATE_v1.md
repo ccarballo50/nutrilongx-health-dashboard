@@ -42,9 +42,56 @@ real en esta fase — son contratos conceptuales.
     live_verified: true
     script_properties_configured: true
 
+  apps_script_phase2b:
+    evidence_register: APPLIED_AND_VERIFIED
+    evidence_list: APPLIED_AND_VERIFIED
+    evidence_get: APPLIED_AND_VERIFIED
+    idempotency: PASS
+    deduplication: PASS
+    audit: PASS
+
   next_gate:
-    READY_FOR_EVIDENCE_IMPLEMENTATION
+    READY_FOR_ACTION_ACCREDITATION_IMPLEMENTATION
   ```
+
+  **Fase 2B (evidence.\*), actualizado 2026-08-21 tras verificación live**:
+  mismo Web App de Fase 2A actualizado en el sitio (deployment
+  `AKfycby9c...`, sin segundo proyecto/deployment paralelo), fixture
+  reutilizado de Fase 2A (`NLX-TEST-2A-001`, `status=archived`, sin
+  cliente nuevo). **16/16 puntos de verificación live PASS**: registro con
+  contenido real (pillar derivado server-side de `content_registry`,
+  nunca del payload); idempotencia por `idempotency_key` Y por
+  `deduplication_key` server-side de forma independiente (dos
+  `idempotency_key` distintas con identidad lógica idéntica siguen
+  deduplicando); rechazo explícito de `pillar` incompatible con el
+  contenido (`VALIDATION_ERROR`, nunca corrección silenciosa); evidencia
+  independiente de contenido con `pillar` explícito; `evidence.list`/
+  `evidence.get` reales; `audit_log` con exactamente 2 eventos (los 2
+  retries idempotentes no duplican auditoría) y **2/2 `request_id`
+  correlacionados**; 0 secretos en `audit_log`; invariantes de
+  gamificación sin cambios (`action_logs/client_progress/daily_progress =
+  0`, `execution_evidence` sube de 0 a 2 — permitido); **sin cálculo de
+  DVG en ningún punto** (verificado por grep sobre el código y por
+  inspección de las filas reales); Security Advisor **17/17 `INFO`, 0
+  `WARN`**, sin cambios. 79/79 tests locales PASS (58 de Fase 2A intactos +
+  21 nuevos). Detalle test por test en
+  `governance/implementation/NUTRILONGX_APPS_SCRIPT_PHASE2B_EVIDENCE_IMPLEMENTATION_REPORT_v1.md`
+  §8.
+
+  Código nuevo: `apps-script/src/EvidenceService.gs` (fábrica con
+  inyección de dependencias, mismo patrón que `ClientsService.gs`/
+  `ContentService.gs` — deliberadamente **no** las importa, duplica
+  `fetchClientById`/`resolveActiveRegistryEntry` para no reabrir archivos
+  de Fase 2A ya verificados). Cambios aditivos mínimos en `Validation.gs`
+  (nuevos validadores), `Router.gs` y `Main.gs` (cablear las 3 rutas
+  nuevas) — `ClientsService.gs`/`ContentService.gs` sin tocar. **No**
+  implementa `actions.*`/`gamification.*`/`progress.*`/`safety.*` —
+  confirmado por grep, cero referencias fuera de comentarios que
+  documentan explícitamente su ausencia.
+
+  **Next gate**: `READY_FOR_ACTION_ACCREDITATION_IMPLEMENTATION`. **No**
+  `READY_FOR_GAMIFICATION` — falta `ACTION_ACCREDITATION` → `ACTION_LOG`
+  antes de que el motor de gamificación tenga algo válido que procesar.
 
   Deploy real completado y verificado 2026-08-20 (sesión posterior, con
   `clasp` autenticado y acceso Supabase vía MCP): proyecto Apps Script

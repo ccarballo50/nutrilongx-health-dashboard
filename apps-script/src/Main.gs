@@ -48,7 +48,12 @@ function nlxBuildRealServices() {
     sbUpdate: sbUpdate,
     writeAudit: writeAudit
   });
-  return buildRoutes(clientsService, contentService);
+  var evidenceService = createEvidenceService({
+    sbSelect: sbSelect,
+    sbInsert: sbInsert,
+    writeAudit: writeAudit
+  });
+  return buildRoutes(clientsService, contentService, evidenceService);
 }
 
 /**

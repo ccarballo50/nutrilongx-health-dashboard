@@ -107,7 +107,7 @@ function buildSandbox() {
     [
       "Errors.gs", "Response.gs", "Validation.gs",
       "Config.gs", "SupabaseClient.gs", "Audit.gs",
-      "ClientsService.gs", "ContentService.gs", "Router.gs", "Main.gs",
+      "ClientsService.gs", "ContentService.gs", "EvidenceService.gs", "Router.gs", "Main.gs",
     ],
     extraGlobals
   );
@@ -188,5 +188,56 @@ export function run() {
     const output = sb.doPost(fakePostEvent({ function: "clients.list", auth: { dashboard_key: "fake-dashboard-key" }, payload: {} }));
     assert.equal(output._text.indexOf("fake-service-role-key"), -1);
     assert.equal(output._text.indexOf("fake-dashboard-key"), -1);
+  });
+
+  test("doPost evidence.register requires auth same as any other function (Phase 2B reuses Phase 2A auth)", () => {
+    const { sb } = buildSandbox();
+    const output = sb.doPost(fakePostEvent({ function: "evidence.register", auth: { dashboard_key: "WRONG" }, payload: {} }));
+    const envelope = JSON.parse(output._text);
+    assert.equal(envelope.ok, false);
+    assert.equal(envelope.error.code, "UNAUTHORIZED");
+  });
+
+  test("doPost evidence.register works end-to-end and audit_log.request_id correlates with meta.request_id", () => {
+    const { sb, fakePg } = buildSandbox();
+    fakePg.tables.clients.push({ id: "44444444-4444-4444-4444-000000000001", status: "active" });
+    fakePg.tables.content_registry = [{ id: "reg-1", content_type: "recipe", canonical_id: "NLX-001", pillar: "nutrition", is_active: true }];
+    const output = sb.doPost(fakePostEvent({
+      function: "evidence.register",
+      auth: { dashboard_key: "fake-dashboard-key" },
+      payload: {
+        client_id: "44444444-4444-4444-4444-000000000001",
+        source_type: "dashboard",
+        source_content: { content_type: "recipe", canonical_id: "NLX-001" },
+        occurred_at: "2026-08-20T12:00:00Z",
+        quantity: 1,
+        unit: "serving",
+      },
+    }));
+    const envelope = JSON.parse(output._text);
+    assert.equal(envelope.ok, true);
+    assert.equal(envelope.data.evidence.pillar, "nutrition");
+    assert.equal(fakePg.tables.execution_evidence.length, 1);
+    const auditRow = fakePg.tables.audit_log[fakePg.tables.audit_log.length - 1];
+    assert.equal(auditRow.action, "evidence.register");
+    assert.equal(auditRow.request_id, envelope.meta.request_id);
+  });
+
+  test("evidence.register never creates action_logs/client_progress/daily_progress (Phase 2B invariant)", () => {
+    const { sb, fakePg } = buildSandbox();
+    fakePg.tables.clients.push({ id: "44444444-4444-4444-4444-000000000002", status: "active" });
+    sb.doPost(fakePostEvent({
+      function: "evidence.register",
+      auth: { dashboard_key: "fake-dashboard-key" },
+      payload: {
+        client_id: "44444444-4444-4444-4444-000000000002",
+        source_type: "manual",
+        occurred_at: "2026-08-20T12:00:00Z",
+        pillar: "sleep",
+      },
+    }));
+    assert.equal((fakePg.tables.action_logs || []).length, 0);
+    assert.equal((fakePg.tables.client_progress || []).length, 0);
+    assert.equal((fakePg.tables.daily_progress || []).length, 0);
   });
 }
