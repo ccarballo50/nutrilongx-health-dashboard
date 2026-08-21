@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from "react";
 import * as RRD from "react-router-dom";
 import { clientsApi } from "../../src/services/appsScriptClientsApi";
+import { contentApi } from "../../src/services/appsScriptContentApi";
 import { ContractError } from "../../src/services/appsScriptContract";
-import type { ClientDetail as ClientDetailDto, ClientProfile } from "../../src/services/appsScriptDtos";
+import type { AssignmentItem, ClientDetail as ClientDetailDto, ClientProfile } from "../../src/services/appsScriptDtos";
 
 /**
  * ClientDetail — ficha básica de cliente, de solo lectura.
  *
  * Consume clientsApi.get(clientId) + clientsApi.getProfile(clientId)
- * (PR-01/PR-02). No edita, no crea, no asigna contenido. Ese alcance
- * queda para un PR posterior explícito.
+ * (PR-01/PR-02) y, en un bloque independiente, contentApi.listAssignments
+ * (PR-05A). No edita, no crea, no asigna ni desasigna contenido. Ese
+ * alcance queda para un PR posterior explícito.
+ *
+ * El bloque de asignaciones NO enriquece con el catálogo (no llama a
+ * listRecipes/listExercises/listMind, sin joins en frontend): muestra
+ * exactamente lo que devuelve client_content_assignments vía
+ * listAssignments (id, client_id, content_id, pillar, status,
+ * assigned_at, notes -- content_type/canonical_id NO son columnas de esa
+ * tabla, ver supabase/migrations/0002_standalone_backend_v1.sql; se
+ * intentan leer igualmente de forma tolerante por si un backend futuro
+ * los añade, mostrando "—" si no están).
  */
 
 function formatDate(value: unknown): string {
@@ -69,6 +80,51 @@ function errorMessage(e: unknown): { code: string | null; message: string } {
   return { code: null, message: e instanceof Error ? e.message : "Error desconocido" };
 }
 
+/** Primer valor no vacío entre varias claves candidatas (DTO provisional, no todas presentes siempre). */
+function pick(item: AssignmentItem, keys: string[]): unknown {
+  for (const k of keys) {
+    const v = item[k];
+    if (v !== undefined && v !== null && v !== "") return v;
+  }
+  return undefined;
+}
+
+function asText(value: unknown): string {
+  if (value === undefined || value === null || value === "") return "—";
+  return String(value);
+}
+
+/** Renderiza el contenido de una asignación (no un componente propio con `key`, ver ContentCatalog.tsx). */
+function renderAssignmentRow(a: AssignmentItem) {
+  const assignmentId = pick(a, ["assignment_id", "id"]);
+  const contentType = pick(a, ["content_type"]);
+  const canonicalId = pick(a, ["canonical_id"]);
+  const contentId = pick(a, ["content_id"]);
+  const pillar = pick(a, ["pillar"]);
+  const status = pick(a, ["status"]);
+  const when = pick(a, ["assigned_at", "created_at"]);
+  const notes = pick(a, ["notes"]);
+
+  return (
+    <>
+      <div className="flex items-start justify-between gap-2">
+        <div className="text-xs text-gray-500 font-mono">{asText(assignmentId)}</div>
+        <span className="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 whitespace-nowrap">
+          {asText(status)}
+        </span>
+      </div>
+      <div className="text-sm text-gray-800 mt-1">
+        Tipo: {asText(contentType)} · Canónico: {asText(canonicalId)}
+      </div>
+      <div className="text-xs text-gray-500 mt-1 font-mono">Content ID: {asText(contentId)}</div>
+      <div className="text-xs text-gray-500 mt-1">
+        Pilar: {asText(pillar)} · Asignado: {formatDate(when)}
+      </div>
+      {notes !== undefined && <div className="text-sm text-gray-700 mt-2">{asText(notes)}</div>}
+    </>
+  );
+}
+
 export default function ClientDetail() {
   const { clientId } = RRD.useParams<{ clientId: string }>();
 
@@ -78,6 +134,13 @@ export default function ClientDetail() {
   const [loading, setLoading] = useState(true);
   const [clientErr, setClientErr] = useState<{ code: string | null; message: string } | null>(null);
   const [profileErr, setProfileErr] = useState<{ code: string | null; message: string } | null>(null);
+
+  // Bloque de asignaciones: deliberadamente independiente de client/profile
+  // (su propio loading/error) para que un fallo o lentitud aquí nunca
+  // bloquee ni oculte los datos básicos del cliente.
+  const [assignments, setAssignments] = useState<AssignmentItem[] | null>(null);
+  const [assignmentsLoading, setAssignmentsLoading] = useState(true);
+  const [assignmentsErr, setAssignmentsErr] = useState<{ code: string | null; message: string } | null>(null);
 
   async function load(id: string) {
     setLoading(true);
@@ -108,11 +171,27 @@ export default function ClientDetail() {
     setLoading(false);
   }
 
+  async function loadAssignments(id: string) {
+    setAssignmentsLoading(true);
+    setAssignmentsErr(null);
+    try {
+      const { assignments: rows } = await contentApi.listAssignments(id);
+      setAssignments(rows);
+    } catch (e) {
+      setAssignmentsErr(errorMessage(e));
+    } finally {
+      setAssignmentsLoading(false);
+    }
+  }
+
   useEffect(() => {
-    if (clientId) load(clientId);
-    else {
+    if (clientId) {
+      load(clientId);
+      loadAssignments(clientId);
+    } else {
       setLoading(false);
       setClientErr({ code: null, message: "No se proporcionó client_id en la URL." });
+      setAssignmentsLoading(false);
     }
   }, [clientId]);
 
@@ -187,6 +266,44 @@ export default function ClientDetail() {
               <Field label="Restricciones" value={<ProfileValue value={profile.restrictions} />} />
               <Field label="Metadata" value={<ProfileValue value={profile.metadata} />} />
             </>
+          )}
+        </div>
+      )}
+
+      {!loading && !clientErr && client && (
+        <div className="border rounded-2xl p-4 bg-white shadow mt-4">
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-sm font-semibold text-gray-700">Asignaciones actuales</h2>
+            <button
+              className="border rounded px-3 py-1 text-xs"
+              onClick={() => loadAssignments(client.id)}
+              disabled={assignmentsLoading}
+            >
+              {assignmentsLoading ? "Cargando…" : "Actualizar asignaciones"}
+            </button>
+          </div>
+
+          {assignmentsLoading && <div className="text-sm text-gray-500">Cargando asignaciones…</div>}
+
+          {!assignmentsLoading && assignmentsErr && (
+            <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded p-3">
+              {assignmentsErr.code && <div className="text-xs font-mono mb-1">{assignmentsErr.code}</div>}
+              Error al cargar las asignaciones: {assignmentsErr.message}
+            </div>
+          )}
+
+          {!assignmentsLoading && !assignmentsErr && assignments && assignments.length === 0 && (
+            <div className="text-sm text-gray-500">Este cliente no tiene contenido asignado todavía.</div>
+          )}
+
+          {!assignmentsLoading && !assignmentsErr && assignments && assignments.length > 0 && (
+            <ul className="space-y-2">
+              {assignments.map((a) => (
+                <li key={a.id} className="border rounded p-3">
+                  {renderAssignmentRow(a)}
+                </li>
+              ))}
+            </ul>
           )}
         </div>
       )}
