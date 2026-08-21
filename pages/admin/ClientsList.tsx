@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import * as RRD from "react-router-dom";
 import { clientsApi } from "../../src/services/appsScriptClientsApi";
 import { ContractError } from "../../src/services/appsScriptContract";
 import type { ClientListItem } from "../../src/services/appsScriptDtos";
@@ -87,23 +88,25 @@ export default function ClientsList() {
           <div className="text-sm text-gray-600 mb-3">Total: {clients.length}</div>
           <ul className="space-y-2">
             {clients.map((c) => (
-              <li key={c.id} className="border rounded p-3 bg-white">
-                <div className="flex items-center justify-between">
-                  <div className="font-medium">
-                    {c.first_name} {c.last_name ?? ""}
+              <li key={c.id} className="border rounded bg-white">
+                <RRD.Link to={`/admin/clients/${c.id}`} className="block p-3">
+                  <div className="flex items-center justify-between">
+                    <div className="font-medium">
+                      {c.first_name} {c.last_name ?? ""}
+                    </div>
+                    <span
+                      className={`text-[11px] px-2 py-0.5 rounded-full ${statusBadgeClass(c.status)}`}
+                    >
+                      {(c.status && STATUS_LABEL[c.status]) || c.status || "—"}
+                    </span>
                   </div>
-                  <span
-                    className={`text-[11px] px-2 py-0.5 rounded-full ${statusBadgeClass(c.status)}`}
-                  >
-                    {(c.status && STATUS_LABEL[c.status]) || c.status || "—"}
-                  </span>
-                </div>
-                <div className="text-xs text-gray-500 mt-1">{c.external_code}</div>
-                {(c.email || c.phone) && (
-                  <div className="text-xs text-gray-500">
-                    {[c.email, c.phone].filter(Boolean).join(" · ")}
-                  </div>
-                )}
+                  <div className="text-xs text-gray-500 mt-1">{c.external_code}</div>
+                  {(c.email || c.phone) && (
+                    <div className="text-xs text-gray-500">
+                      {[c.email, c.phone].filter(Boolean).join(" · ")}
+                    </div>
+                  )}
+                </RRD.Link>
               </li>
             ))}
           </ul>
