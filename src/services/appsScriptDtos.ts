@@ -87,3 +87,92 @@ export interface AssignmentItem extends DashboardProvisionalDto {
   notes?: string | null;
   assigned_at?: string;
 }
+
+// ─── PLAYABLE MVP UI INTEGRATION (evidence.*/actions.*/progress.*) ───
+// Fuente de verdad: PLAYABLE_MVP_BACKEND_HANDOFF_v1.md. Igual de laxos/
+// provisionales que el resto de este fichero.
+
+/** execution_evidence, devuelto por evidence.register. */
+export interface EvidenceItem extends DashboardProvisionalDto {
+  id: string;
+  client_id: string;
+  source_type?: string | null;
+  source_content_id?: string | null;
+  source_entity_type?: string | null;
+  source_entity_id?: string | null;
+  pillar?: string | null;
+  occurred_at?: string;
+  quantity?: number | null;
+  unit?: string | null;
+  duration_minutes?: number | null;
+}
+
+/** Candidato devuelto dentro de actions.accredit/accreditAndCalculate cuando no hay resolución única. */
+export interface CandidateAction extends DashboardProvisionalDto {
+  canonical_action_id: string;
+  binding_type?: string;
+  has_accreditation_rule?: boolean;
+}
+
+/** data.accredit de actions.accreditAndCalculate (mismo shape que actions.accredit). */
+export interface AccreditResult extends DashboardProvisionalDto {
+  status: 'validated' | 'pending' | 'rejected';
+  reason?: string;
+  evidence_id: string;
+  action_log_created: boolean;
+  action_log_id?: string;
+  idempotent?: boolean;
+  candidate_actions: CandidateAction[];
+  detail?: string;
+}
+
+/** data.gamification de actions.accreditAndCalculate (null si accredit no fue "validated"). */
+export interface GamificationResult extends DashboardProvisionalDto {
+  action_log_id: string;
+  event_dvg_hours: number;
+  base_dvg_hours: number;
+  idempotent?: boolean;
+}
+
+/** data.daily_progress de actions.accreditAndCalculate (null si accredit no fue "validated"). */
+export interface DailyProgressSummary extends DashboardProvisionalDto {
+  client_id: string;
+  date: string;
+  pillars: string[];
+  total_dvg_hours: number;
+  action_logs_processed?: number;
+}
+
+export interface AccreditAndCalculateResult {
+  accredit: AccreditResult;
+  gamification: GamificationResult | null;
+  daily_progress: DailyProgressSummary | null;
+}
+
+/** progress.get — resumen total del cliente. */
+export interface ProgressSummary extends DashboardProvisionalDto {
+  client_id: string;
+  total_dvg_hours: number;
+  total_dvg_days: number;
+  current_level: string | null;
+  by_pillar: {
+    nutrition: number;
+    exercise: number;
+    sleep: number;
+    stress: number;
+    conscious_wellbeing: number;
+  };
+  updated_at: string | null;
+}
+
+/** daily_progress, devuelto por progress.getDaily/progress.getPillar. */
+export interface DailyProgressItem extends DashboardProvisionalDto {
+  id: string;
+  client_id: string;
+  date: string;
+  pillar: string;
+  action_count: number;
+  base_dvg_hours: number;
+  final_dvg_hours: number;
+  calculated_at?: string;
+}
