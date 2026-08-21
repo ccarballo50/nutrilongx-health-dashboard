@@ -1,12 +1,17 @@
 # Dashboard — Cliente del contrato Apps Script (v0)
 
-**Estado**: `IMPLEMENTED`, sin consumidores todavía (ninguna pantalla usa
-esto — PR-01 es solo la capa base).
+**Estado**: `IMPLEMENTED`, con consumidores reales desde PLAYABLE MVP UI
+INTEGRATION (2026-08-21): `pages/admin/ClientsList.tsx`,
+`ClientDetail.tsx`, `ContentCatalog.tsx` (PR-01..04, solo lectura) y
+`pages/admin/ClientToday.tsx` (flujo "marcar hecho" completo:
+`evidence.register` → `actions.accreditAndCalculate` → `progress.get`).
 **Rol de este repo en esta pieza**: Dashboard como **consumidor** del
 contrato Apps Script. No construye backend, no modifica Apps Script, no
 toca Supabase.
 **Fuente de verdad del contrato**:
-`nutrilongx/governance/architecture/NUTRILONGX_APPS_SCRIPT_FUNCTION_CONTRACT_v1.md`.
+`nutrilongx/governance/architecture/NUTRILONGX_APPS_SCRIPT_FUNCTION_CONTRACT_v1.md`
+y, para el flujo "marcar hecho",
+`nutrilongx/governance/implementation/PLAYABLE_MVP_BACKEND_HANDOFF_v1.md`.
 
 ---
 
@@ -63,7 +68,7 @@ proxy is not configured"), sin indicar cuál falta ni su valor.
 
 ---
 
-## 3. Funciones permitidas (allowlist v0)
+## 3. Funciones permitidas (allowlist, actualizada — PLAYABLE MVP UI INTEGRATION)
 
 Enforced en **dos capas** (autoridad real: el servidor; el tipo del
 cliente es solo para autocompletar/errores en compilación):
@@ -89,6 +94,14 @@ content.getMindContent
 content.assign
 content.unassign
 content.listAssignments
+
+evidence.register
+
+actions.accreditAndCalculate
+
+progress.get
+progress.getDaily
+progress.getPillar
 ```
 
 Cualquier otro nombre de función recibe `404` +
@@ -98,21 +111,28 @@ nunca a Apps Script.
 ### Explícitamente no disponibles (bloqueadas por diseño en esta capa)
 
 ```text
-evidence.*
-actions.*
-gamification.*
-progress.*
-safety.*
+evidence.list
+evidence.get
+actions.list
+actions.get
+actions.accredit          (suelto -- el Dashboard usa accreditAndCalculate)
+actions.listLogs
+actions.getLog
+gamification.*             (administrativo/reparación, no flujo de usuario)
+safety.*                   (no implementado en backend todavía)
 ```
 
-**Nota de estado backend** (2026-08-21): `evidence.register`/`evidence.list`/
-`evidence.get` ya están `APPLIED_AND_VERIFIED` en el backend real (Phase
-2B, ver `nutrilongx/registry/NUTRILONGX_PROJECT_STATE_v1.md`), pero se
-excluyen deliberadamente de esta allowlist por alcance explícito de este
-PR (PR-01). Añadirlas es un PR de proxy trivial (una línea en cada
-allowlist) — no requiere ningún cambio de arquitectura. `actions.*`/
-`gamification.*`/`progress.*`/`safety.*` siguen sin existir en el
-backend (`next_gate: READY_FOR_ACTION_ACCREDITATION_IMPLEMENTATION`).
+**Historial**: PR-01 (2026-08-20) dejó `evidence.*`/`actions.*`/
+`gamification.*`/`progress.*`/`safety.*` fuera por alcance explícito,
+aunque `evidence.register` ya estaba `APPLIED_AND_VERIFIED` en el
+backend. **PLAYABLE MVP UI INTEGRATION** (2026-08-21) añadió exactamente
+`evidence.register`, `actions.accreditAndCalculate` y `progress.get/
+getDaily/getPillar` — las únicas funciones que el flujo "marcar hecho"
+necesita (ver
+`nutrilongx/governance/implementation/PLAYABLE_MVP_BACKEND_HANDOFF_v1.md`).
+`actions.accreditAndCalculate` ya orquesta `accredit → calculateAction →
+recalculateDay` en una sola llamada server-side, por eso ni
+`actions.accredit` suelto ni `gamification.*` se añaden a esta capa.
 
 ---
 
@@ -142,30 +162,49 @@ libre de `message`.
 ## 5. DTOs provisionales
 
 `src/services/appsScriptDtos.ts` define `ClientListItem`, `ClientDetail`,
-`ClientProfile`, `ContentItem`, `AssignmentItem` — todos marcados
-`DASHBOARD_PROVISIONAL_DTO`: laxos, extensibles (`[extra: string]: unknown`),
-sin pretender ser el esquema definitivo de Supabase. No usar como
-sustituto de la documentación real del contrato.
+`ClientProfile`, `ContentItem`, `AssignmentItem`, y (desde PLAYABLE MVP UI
+INTEGRATION) `EvidenceItem`, `AccreditResult`, `GamificationResult`,
+`DailyProgressSummary`, `AccreditAndCalculateResult`, `ProgressSummary`,
+`DailyProgressItem` — todos marcados `DASHBOARD_PROVISIONAL_DTO`: laxos,
+extensibles (`[extra: string]: unknown`), sin pretender ser el esquema
+definitivo de Supabase. No usar como sustituto de la documentación real
+del contrato. `src/services/mvpAccreditedActions.ts` espeja, literal, la
+tabla de las 11 acciones acreditables de
+`PLAYABLE_MVP_BACKEND_HANDOFF_v1.md` §2.1 — es la única fuente de qué
+acción usa `source_content` vs `source_entity_type`/`source_entity_id`.
 
 ---
 
 ## 6. Qué es y qué no es esto
 
-- **Es**: la capa mínima para que el Dashboard pueda, en un PR futuro,
-  construir pantallas reales (listado de clientes, ficha de cliente,
-  asignación de contenido, bibliotecas por catálogo canónico) sin hablar
-  con Supabase directamente ni con secretos en el navegador.
-- **No es**: una pantalla, una migración de `services/*.ts` legacy, ni un
-  cambio en `ContentCard.markDone`/`Stats`/`AppContext`/localStorage. Esos
-  siguen intactos (`FROZEN_PROVISIONAL_INTERNAL_TOOL`, ver auditoría
-  previa) hasta que se decida explícitamente migrarlos.
-- **No implementa** `evidence.*`/`actions.*`/`gamification.*`/
-  `progress.*`/`safety.*` — quedan bloqueadas en esta capa hasta que un
-  encargo explícito lo pida.
+- **Es**: la capa que permite al Dashboard construir pantallas reales
+  (listado de clientes, ficha de cliente, bibliotecas por catálogo
+  canónico, y desde PLAYABLE MVP UI INTEGRATION el flujo completo "marcar
+  hecho" con DVG/progreso real) sin hablar con Supabase directamente ni
+  con secretos en el navegador.
+- **No es**: una migración de `services/*.ts` legacy, ni un cambio en
+  `ContentCard.markDone`/`Stats`/`AppContext`/localStorage. Esos siguen
+  intactos (`FROZEN_PROVISIONAL_INTERNAL_TOOL`, ver auditoría previa)
+  hasta que se decida explícitamente migrarlos — pueden convivir con el
+  nuevo adaptador durante la transición.
+- **No implementa** `evidence.list/get`, `actions.list/get/accredit/
+  listLogs/getLog`, `gamification.*`, `safety.*` — ver sección 3 para el
+  detalle de qué queda fuera y por qué.
+- El Dashboard **nunca** calcula DVG ni reproduce reglas de acreditación
+  — solo interpreta `data.accredit.status` (`validated`/`pending`/
+  `rejected`) devuelto por `actions.accreditAndCalculate`.
 
 ---
 
-## 7. Siguiente PR recomendado
+## 7. Consumidores reales
 
-Pantalla nueva de **listado de clientes** (`clients.list`), aislada, sin
-tocar ninguna pantalla legacy — primer consumidor real de esta capa.
+| Pantalla | Funciones que consume |
+|---|---|
+| `pages/admin/ClientsList.tsx` | `clients.list` |
+| `pages/admin/ClientDetail.tsx` | `clients.get`, `clients.getProfile`, `content.listAssignments` |
+| `pages/admin/ContentCatalog.tsx` | `content.listRecipes/listExercises/listMind` |
+| `pages/admin/ClientToday.tsx` | `clients.get`, `evidence.register`, `actions.accreditAndCalculate`, `progress.get` |
+
+Smoke test de integración real (proxy real contra Apps Script real, sin
+framework de componentes en el repo):
+`scripts/nutrilongx/smoke_test_dashboard_proxy.mjs`.

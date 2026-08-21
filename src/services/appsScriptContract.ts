@@ -22,10 +22,12 @@
  * cliente, la autoridad real está en el proxy (nunca confiar en un check
  * hecho solo en el navegador).
  *
- * evidence.* / actions.* / gamification.* / progress.* / safety.* quedan
- * explícitamente fuera de esta allowlist por instrucción directa del
- * encargo PR-01, aunque `evidence.*` ya esté disponible en el backend
- * (ver docs/DASHBOARD_APPS_SCRIPT_CLIENT_v0.md).
+ * PLAYABLE MVP UI INTEGRATION (2026-08-21): se añaden exactamente las
+ * funciones que el flujo "marcar hecho" necesita — ver
+ * nutrilongx/governance/implementation/PLAYABLE_MVP_BACKEND_HANDOFF_v1.md.
+ * `gamification.*`/`safety.*`/`actions.accredit` suelto siguen fuera:
+ * `actions.accreditAndCalculate` ya orquesta todo el ledger en una sola
+ * llamada server-side, y no forman parte del flujo "marcar hecho".
  */
 
 export const APPS_SCRIPT_ALLOWED_FUNCTIONS = [
@@ -45,6 +47,14 @@ export const APPS_SCRIPT_ALLOWED_FUNCTIONS = [
   'content.assign',
   'content.unassign',
   'content.listAssignments',
+
+  'evidence.register',
+
+  'actions.accreditAndCalculate',
+
+  'progress.get',
+  'progress.getDaily',
+  'progress.getPillar',
 ] as const;
 
 export type ContractFunctionName = (typeof APPS_SCRIPT_ALLOWED_FUNCTIONS)[number];
