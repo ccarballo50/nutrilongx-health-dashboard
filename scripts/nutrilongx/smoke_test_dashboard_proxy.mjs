@@ -9,9 +9,10 @@
 // `api/apps-script.ts` (la misma función que Vercel invoca en
 // producción, importada tal cual, sin reimplementarla) contra el Web
 // App de Apps Script REAL, cubriendo los escenarios de integración de
-// la lista del encargo (sección 19): load clients, mark done validated,
-// mark done pending, duplicate click, progress refresh, zero progress,
-// API error, expired/invalid auth.
+// PLAYABLE MVP UI INTEGRATION (load clients, mark done validated, mark
+// done pending, duplicate click, progress refresh, zero progress, API
+// error, expired/invalid auth) y de PLAYABLE MVP FINAL RECONCILIATION
+// (assign content + idempotencia via backend, sección 9).
 //
 // Requiere Node 18+ (Request/Response/fetch globales) y las mismas
 // variables de entorno que Vercel inyecta en producción:
@@ -173,6 +174,37 @@ async function main() {
     const { json } = await callProxy({ function: "clients.list", payload: {} });
     process.env.DASHBOARD_API_KEY = realKey;
     assert(json.ok === false && json.error?.code === "UNAUTHORIZED", "UNAUTHORIZED con dashboard_key inválida");
+  }
+
+  console.log("=== 10. assign content (client.assign + listAssignments -- PLAYABLE MVP FINAL RECONCILIATION §9) ===");
+  {
+    const assign = await callProxy({
+      function: "content.assign",
+      payload: {
+        client_id: FIXTURE_CLIENT_ID,
+        content_type: "recipe",
+        canonical_id: "NLX-007",
+        options: { idempotency_key: "smoke-test-assign-" + Date.now() },
+      },
+    });
+    assert(assign.json.ok === true, "content.assign responde ok:true");
+    const assignmentId = assign.json.data?.assignment?.id;
+    assert(typeof assignmentId === "string", "content.assign devuelve un assignment_id");
+
+    const list = await callProxy({ function: "content.listAssignments", payload: { client_id: FIXTURE_CLIENT_ID } });
+    assert(list.json.ok === true, "content.listAssignments responde ok:true");
+    assert(
+      Array.isArray(list.json.data?.assignments) && list.json.data.assignments.some((a) => a.id === assignmentId),
+      "la asignación recién creada aparece en listAssignments"
+    );
+
+    // Repetir la misma asignación -- el backend decide la idempotencia, no el frontend.
+    const repeat = await callProxy({
+      function: "content.assign",
+      payload: { client_id: FIXTURE_CLIENT_ID, content_type: "recipe", canonical_id: "NLX-007" },
+    });
+    assert(repeat.json.ok === true, "reasignar el mismo contenido responde ok:true");
+    assert(repeat.json.data?.assignment?.id === assignmentId, "misma asignación devuelta, sin duplicar (idempotencia via backend)");
   }
 
   console.log(`\n${"=".repeat(50)}`);
