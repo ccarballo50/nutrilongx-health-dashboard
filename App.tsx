@@ -17,6 +17,7 @@ import TipsAdmin from "./pages/admin/TipsAdmin";
 import { Header } from "./components/Header";
 import AdminContentManager from "./pages/admin/AdminContentManager";
 import ClientsList from "./pages/admin/ClientsList"; // <- PR-02: primer consumidor real de appsScriptContract
+import ClientDetail from "./pages/admin/ClientDetail"; // <- PR-03: ficha básica de cliente, solo lectura
 
 const titles: Record<string, string> = {
   "/dashboard": "Bienestar",
@@ -71,6 +72,7 @@ const AppRoutes: React.FC = () => {
         <RRD.Route path="admin/tips" element={<TipsAdmin />} />
         <RRD.Route path="admin/list" element={<AdminContentList />} />
         <RRD.Route path="admin/clients" element={<ClientsList />} />
+        <RRD.Route path="admin/clients/:clientId" element={<ClientDetail />} />
       </RRD.Route>
       <RRD.Route path="*" element={<RRD.Navigate to={state.isAuthenticated ? "/dashboard" : "/welcome"} replace />} />
     </RRD.Routes>
