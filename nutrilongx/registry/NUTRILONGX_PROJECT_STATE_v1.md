@@ -111,6 +111,60 @@ real en esta fase — son contratos conceptuales.
     PLAYABLE_MVP_READY_FOR_PILOT
   ```
 
+  **PLAYABLE MVP — FINAL RECONCILIATION + PILOT FREEZE, actualizado
+  2026-08-21**:
+
+  ```yaml
+  playable_mvp:
+    backend: APPLIED_AND_VERIFIED
+    ui: APPLIED_AND_VERIFIED
+    professional_content_assignment: APPLIED_AND_VERIFIED
+    pilot_ready: true
+    feature_freeze: true
+
+  next_gate:
+    PLAYABLE_MVP_FROZEN_FOR_PILOT
+  ```
+
+  PR #20 (`feat/dashboard-client-assign-content`, "Asignar contenido"
+  dentro de `ClientDetail.tsx`) reconciliada explícitamente contra el
+  main real (no solo confiando en el indicador `mergeable` de GitHub —
+  verificado con un merge de prueba local antes de fusionar): el bloque
+  "Ver HOY" de PR #21 se preserva intacto (`git merge --no-commit`
+  auto-merge limpio, confirmado por grep tras el merge). Usa
+  exclusivamente `contentApi.assign/listAssignments` + los 5
+  `content.list*` ya existentes — **cero** llamadas a
+  `evidence.*`/`actions.*`/`gamification.*`/`progress.*` (verificado por
+  grep). Idempotencia decidida por el backend (`result.idempotent` →
+  "Ya estaba asignado"), nunca por el frontend. `canonical_id` ausente
+  bloquea el botón "Asignar" (nunca se permite asignar sin él). Mapeo de
+  pilares confirmado: nutrition→recipe, exercise→exercise,
+  sleep/stress/conscious_wellbeing→mind_content — `mind` nunca se
+  persiste como pillar. Merge real: `c6bc3029e3f7289e8246079f60327c05db3cb4ac`.
+
+  **Regresión post-merge (main real, tras PR #20)**: build PASS, `npx tsc
+  --noEmit` con los mismos 7 errores preexistentes (ninguno nuevo),
+  `node apps-script/tests/run_all.mjs` 154/154 intacto, `ClientDetail`/
+  `ClientToday` cargan, "Ver HOY" y "Asignar contenido" ambos presentes.
+  Smoke test de integración real ampliado
+  (`scripts/nutrilongx/smoke_test_dashboard_proxy.mjs`, +6 aserciones de
+  `content.assign`/idempotencia) → **33/33 PASS** contra el backend real.
+  Security Advisor 17/17 `INFO`, 0 `WARN`. `browser_secret_exposed:
+  false`, `dashboard_api_key_in_bundle: false` (verificado por grep:
+  solo `api/apps-script.ts` referencia el secreto; `VITE_SUPABASE_ANON_KEY`
+  en `src/lib/supabaseClient.ts` es la clave pública anon, legacy, no
+  tocada por esta fase — no es `SERVICE_ROLE_KEY`).
+
+  Checklist operativo de piloto:
+  `nutrilongx/governance/pilot/NUTRILONGX_PLAYABLE_MVP_PILOT_CHECKLIST_v1.md`
+  (antes del piloto, happy path, casos de fallo, datos a recoger — sin
+  analytics complejos, 3–5 usuarios iniciales).
+
+  **Next gate**: `PLAYABLE_MVP_FROZEN_FOR_PILOT`. **Feature freeze**:
+  no se inicia ninguna feature nueva tras este PASS — el siguiente
+  trabajo depende de lo que el piloto observe, no de una expansión
+  automática del backend o la UI.
+
   **Playable MVP UI Integration, actualizado 2026-08-21 tras
   verificación real**: se encontró que una sesión previa (PR-01..04) ya
   había construido el bridge server-side seguro
