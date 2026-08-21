@@ -53,12 +53,22 @@ function nlxBuildRealServices() {
     sbInsert: sbInsert,
     writeAudit: writeAudit
   });
+  var gamificationService = createGamificationService({
+    sbSelect: sbSelect,
+    sbUpdate: sbUpdate,
+    sbUpsert: sbUpsert,
+    writeAudit: writeAudit
+  });
   var actionsService = createActionsService({
     sbSelect: sbSelect,
     sbInsert: sbInsert,
-    writeAudit: writeAudit
+    writeAudit: writeAudit,
+    gamificationService: gamificationService
   });
-  return buildRoutes(clientsService, contentService, evidenceService, actionsService);
+  var progressService = createProgressService({
+    sbSelect: sbSelect
+  });
+  return buildRoutes(clientsService, contentService, evidenceService, actionsService, gamificationService, progressService);
 }
 
 /**

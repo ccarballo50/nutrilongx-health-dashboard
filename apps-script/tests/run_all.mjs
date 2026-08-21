@@ -15,6 +15,8 @@ import { run as runClientsService } from "./clients_service.test.mjs";
 import { run as runContentService } from "./content_service.test.mjs";
 import { run as runEvidenceService } from "./evidence_service.test.mjs";
 import { run as runActionsService } from "./actions_service.test.mjs";
+import { run as runGamificationService } from "./gamification_service.test.mjs";
+import { run as runProgressService } from "./progress_service.test.mjs";
 import { run as runMainIntegration } from "./main_integration.test.mjs";
 
 const suites = [
@@ -25,6 +27,8 @@ const suites = [
   ["ContentService.gs (fake deps)", runContentService],
   ["EvidenceService.gs (fake deps)", runEvidenceService],
   ["ActionsService.gs (fake deps)", runActionsService],
+  ["GamificationService.gs (fake deps)", runGamificationService],
+  ["ProgressService.gs (fake deps)", runProgressService],
   ["Main.gs end-to-end (stubbed Google/Supabase)", runMainIntegration],
 ];
 
