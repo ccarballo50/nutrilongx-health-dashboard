@@ -12,25 +12,27 @@ import type {
 import type { AssignPayload } from "../../src/services/appsScriptContentApi";
 
 /**
- * ClientDetail — ficha básica de cliente, de solo lectura salvo el
- * sub-bloque "Asignar contenido" (PR-05B), que es la única escritura de
- * esta pantalla.
+ * ClientDetail — ficha básica de cliente. Escrituras: "Asignar
+ * contenido" (PR-05B) y "Desasignar" (PR-05C).
  *
  * Consume clientsApi.get(clientId) + clientsApi.getProfile(clientId)
- * (PR-01/PR-02), un bloque independiente de contentApi.listAssignments
- * (PR-05A), y ahora contentApi.assign() + los 5 content.list* del
- * catálogo canónico para asignar (PR-05B). No edita cliente/perfil, no
- * desasigna, no crea contenido. Ese alcance queda para un PR posterior
- * explícito.
+ * (PR-01/PR-02), contentApi.listAssignments (PR-05A),
+ * contentApi.assign() + los 5 content.list* del catálogo canónico para
+ * asignar (PR-05B), y ahora contentApi.unassign() + el mismo catálogo
+ * para resolver el nombre legible de cada asignación (PR-05C). No edita
+ * cliente/perfil, no crea contenido.
  *
- * El bloque de asignaciones NO enriquece con el catálogo (no llama a
- * listRecipes/listExercises/listMind, sin joins en frontend): muestra
- * exactamente lo que devuelve client_content_assignments vía
- * listAssignments (id, client_id, content_id, pillar, status,
- * assigned_at, notes -- content_type/canonical_id NO son columnas de esa
- * tabla, ver supabase/migrations/0002_standalone_backend_v1.sql; se
- * intentan leer igualmente de forma tolerante por si un backend futuro
- * los añade, mostrando "—" si no están).
+ * client_content_assignments (ver
+ * supabase/migrations/0002_standalone_backend_v1.sql) NO tiene columnas
+ * content_type/canonical_id/title -- solo content_id (FK a
+ * content_registry.id). Por eso el nombre legible NO puede venir de
+ * listAssignments: se resuelve en frontend cargando UNA VEZ el catálogo
+ * canónico completo (los mismos 5 content.list* que "Asignar
+ * contenido") y cruzando assignment.content_id contra
+ * contentItem.id (estrategia principal; fallback por canonical_id si
+ * algún día se añadiera a las asignaciones). Sin backend nuevo, sin
+ * Supabase directo, sin localStorage -- solo caché en memoria durante
+ * la vida de la página (encargo PR-05C).
  */
 
 type AssignCategoryKey = "nutrition" | "exercise" | "sleep" | "stress" | "conscious_wellbeing";
@@ -171,9 +173,41 @@ function asText(value: unknown): string {
   return String(value);
 }
 
+/**
+ * Resuelve el contenido real de una asignación contra el índice del
+ * catálogo canónico. Estrategia principal (encargo PR-05C):
+ * assignment.content_id === contentItem.id. Fallback: canonical_id, por
+ * si algún día listAssignments empezara a devolverlo. Nunca inventa
+ * nada -- si no hay match, devuelve null y la UI muestra "Contenido no
+ * resuelto".
+ */
+function resolveAssignmentContent(
+  a: AssignmentItem,
+  index: Record<string, ContentItem> | null
+): ContentItem | null {
+  if (!index) return null;
+  const contentId = pick(a, ["content_id"]);
+  if (typeof contentId === "string" && index[contentId]) return index[contentId];
+  const canonicalId = pick(a, ["canonical_id"]);
+  if (typeof canonicalId === "string" && index[`canonical:${canonicalId}`]) {
+    return index[`canonical:${canonicalId}`];
+  }
+  return null;
+}
+
 /** Renderiza el contenido de una asignación (no un componente propio con `key`, ver ContentCatalog.tsx). */
-function renderAssignmentRow(a: AssignmentItem) {
-  const assignmentId = pick(a, ["assignment_id", "id"]);
+function renderAssignmentRow(
+  a: AssignmentItem,
+  resolved: ContentItem | null,
+  opts: {
+    indexLoading: boolean;
+    onUnassign: (a: AssignmentItem) => void;
+    unassigning: boolean;
+    unassignErr: { code: string | null; message: string } | null;
+    unassignMsg: string | null;
+  }
+) {
+  const assignmentId = pick(a, ["id", "assignment_id"]);
   const contentType = pick(a, ["content_type"]);
   const canonicalId = pick(a, ["canonical_id"]);
   const contentId = pick(a, ["content_id"]);
@@ -182,22 +216,61 @@ function renderAssignmentRow(a: AssignmentItem) {
   const when = pick(a, ["assigned_at", "created_at"]);
   const notes = pick(a, ["notes"]);
 
+  const title = resolved
+    ? pickContentField(resolved, ["title", "name", "display_name"])
+    : undefined;
+  const titleText = resolved
+    ? asText(title)
+    : opts.indexLoading
+      ? "Resolviendo nombre…"
+      : "Contenido no resuelto";
+  const resolvedCanonicalId = resolved?.canonical_id;
+
+  const canUnassign = typeof assignmentId === "string" && !!assignmentId;
+
   return (
     <>
       <div className="flex items-start justify-between gap-2">
-        <div className="text-xs text-gray-500 font-mono">{asText(assignmentId)}</div>
+        <div className={`font-medium text-sm ${resolved ? "text-gray-900" : "text-gray-400 italic"}`}>
+          {titleText}
+        </div>
         <span className="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 whitespace-nowrap">
           {asText(status)}
         </span>
       </div>
-      <div className="text-sm text-gray-800 mt-1">
-        Tipo: {asText(contentType)} · Canónico: {asText(canonicalId)}
-      </div>
-      <div className="text-xs text-gray-500 mt-1 font-mono">Content ID: {asText(contentId)}</div>
       <div className="text-xs text-gray-500 mt-1">
-        Pilar: {asText(pillar)} · Asignado: {formatDate(when)}
+        Tipo: {asText(contentType)} · Pilar: {asText(pillar)}
       </div>
-      {notes !== undefined && <div className="text-sm text-gray-700 mt-2">{asText(notes)}</div>}
+      <div className="text-xs text-gray-500 mt-1">
+        Asignado: {formatDate(when)}
+        {notes !== undefined ? ` · ${asText(notes)}` : ""}
+      </div>
+      <div className="text-[11px] text-gray-400 mt-1 font-mono">
+        assignment_id: {asText(assignmentId)} · content_id: {asText(contentId)} · canónico:{" "}
+        {asText(resolvedCanonicalId ?? canonicalId)}
+      </div>
+
+      <div className="mt-2">
+        <button
+          className="border rounded px-3 py-1 text-xs whitespace-nowrap disabled:opacity-50 text-red-600 border-red-200"
+          disabled={!canUnassign || opts.unassigning}
+          onClick={() => canUnassign && opts.onUnassign(a)}
+        >
+          {opts.unassigning ? "Desasignando…" : canUnassign ? "Desasignar" : "Sin assignment_id"}
+        </button>
+      </div>
+
+      {opts.unassignErr && (
+        <div className="text-xs text-red-600 bg-red-50 border border-red-100 rounded p-2 mt-2">
+          {opts.unassignErr.code && <span className="font-mono">{opts.unassignErr.code}: </span>}
+          {opts.unassignErr.message}
+        </div>
+      )}
+      {opts.unassignMsg && (
+        <div className="text-xs text-emerald-700 bg-emerald-50 border border-emerald-100 rounded p-2 mt-2">
+          {opts.unassignMsg}
+        </div>
+      )}
     </>
   );
 }
@@ -231,6 +304,19 @@ export default function ClientDetail() {
   const [assigningItemId, setAssigningItemId] = useState<string | null>(null);
   const [assignItemErr, setAssignItemErr] = useState<{ id: string; code: string | null; message: string } | null>(null);
   const [assignItemMsg, setAssignItemMsg] = useState<{ id: string; text: string } | null>(null);
+
+  // Índice del catálogo canónico para resolver el nombre legible de cada
+  // asignación (PR-05C). Se carga una única vez cuando hay asignaciones
+  // (caché en memoria durante la vida de la página, ver loadCatalogIndex).
+  const [catalogIndex, setCatalogIndex] = useState<Record<string, ContentItem> | null>(null);
+  const [catalogIndexLoading, setCatalogIndexLoading] = useState(false);
+  const [catalogIndexErr, setCatalogIndexErr] = useState<{ code: string | null; message: string } | null>(null);
+
+  // Desasignar (PR-05C): estado por asignación concreta, independiente
+  // del panel de asignar.
+  const [unassigningId, setUnassigningId] = useState<string | null>(null);
+  const [unassignItemErr, setUnassignItemErr] = useState<{ id: string; code: string | null; message: string } | null>(null);
+  const [unassignItemMsg, setUnassignItemMsg] = useState<{ id: string; text: string } | null>(null);
 
   async function load(id: string) {
     setLoading(true);
@@ -317,6 +403,58 @@ export default function ClientDetail() {
     }
   }
 
+  /**
+   * Carga los 5 catálogos canónicos (mismos que "Asignar contenido") y
+   * construye un índice { [item.id]: item, [`canonical:${canonical_id}`]: item }
+   * para resolver el nombre legible de cada asignación. Se ejecuta una
+   * sola vez por vida de la página (caché en `catalogIndex`, salvo
+   * `force`). Si alguna categoría falla, se sigue mostrando lo que sí se
+   * pudo cargar de las demás -- nunca bloquea "Asignaciones actuales".
+   */
+  async function loadCatalogIndex(force = false) {
+    if (!force && catalogIndex !== null) return;
+    setCatalogIndexLoading(true);
+    setCatalogIndexErr(null);
+    const results = await Promise.allSettled(ASSIGN_CATEGORIES.map((c) => c.load()));
+    const index: Record<string, ContentItem> = {};
+    let anyFailed = false;
+    results.forEach((r) => {
+      if (r.status === "fulfilled") {
+        r.value.items.forEach((item) => {
+          if (item.id) index[String(item.id)] = item;
+          if (item.canonical_id) index[`canonical:${String(item.canonical_id)}`] = item;
+        });
+      } else {
+        anyFailed = true;
+      }
+    });
+    setCatalogIndex(index);
+    if (anyFailed) {
+      setCatalogIndexErr({ code: null, message: "No se pudo resolver el nombre del contenido" });
+    }
+    setCatalogIndexLoading(false);
+  }
+
+  async function handleUnassign(a: AssignmentItem) {
+    const assignmentId = pick(a, ["id", "assignment_id"]);
+    if (typeof assignmentId !== "string" || !assignmentId) return; // botón ya deshabilitado, defensivo
+
+    setUnassigningId(assignmentId);
+    setUnassignItemErr(null);
+    setUnassignItemMsg(null);
+    try {
+      await contentApi.unassign({ assignment_id: assignmentId });
+      setUnassignItemMsg({ id: assignmentId, text: "Desasignado" });
+      // Refrescar desde el backend -- no se borra nada manualmente del
+      // frontend salvo lo que devuelva este refresco real.
+      if (clientId) await loadAssignments(clientId);
+    } catch (e) {
+      setUnassignItemErr({ id: assignmentId, ...errorMessage(e) });
+    } finally {
+      setUnassigningId(null);
+    }
+  }
+
   useEffect(() => {
     if (clientId) {
       load(clientId);
@@ -332,6 +470,11 @@ export default function ClientDetail() {
     if (assignPanelOpen) loadCatalog(assignCategory);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assignPanelOpen, assignCategory]);
+
+  useEffect(() => {
+    if (assignments && assignments.length > 0) loadCatalogIndex();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [assignments]);
 
   return (
     <div className="max-w-xl mx-auto p-4">
@@ -444,13 +587,31 @@ export default function ClientDetail() {
           )}
 
           {!assignmentsLoading && !assignmentsErr && assignments && assignments.length > 0 && (
-            <ul className="space-y-2">
-              {assignments.map((a) => (
-                <li key={a.id} className="border rounded p-3">
-                  {renderAssignmentRow(a)}
-                </li>
-              ))}
-            </ul>
+            <>
+              {catalogIndexErr && (
+                <div className="text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded p-2 mb-2">
+                  {catalogIndexErr.message}
+                </div>
+              )}
+              <ul className="space-y-2">
+                {assignments.map((a) => {
+                  const assignmentId = pick(a, ["id", "assignment_id"]);
+                  const idKey = typeof assignmentId === "string" ? assignmentId : String(a.id);
+                  const resolved = resolveAssignmentContent(a, catalogIndex);
+                  return (
+                    <li key={a.id} className="border rounded p-3">
+                      {renderAssignmentRow(a, resolved, {
+                        indexLoading: catalogIndexLoading,
+                        onUnassign: handleUnassign,
+                        unassigning: unassigningId === idKey,
+                        unassignErr: unassignItemErr && unassignItemErr.id === idKey ? unassignItemErr : null,
+                        unassignMsg: unassignItemMsg && unassignItemMsg.id === idKey ? unassignItemMsg.text : null,
+                      })}
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
           )}
         </div>
       )}
