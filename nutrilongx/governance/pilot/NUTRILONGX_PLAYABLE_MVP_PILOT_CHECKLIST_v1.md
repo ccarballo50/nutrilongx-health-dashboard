@@ -6,12 +6,24 @@ técnica — esa vive en
 `nutrilongx/governance/implementation/NUTRILONGX_PLAYABLE_MVP_UI_IMPLEMENTATION_REPORT_v1.md`
 y `PLAYABLE_MVP_BACKEND_HANDOFF_v1.md`.
 
+Documentos relacionados en este mismo directorio:
+`NUTRILONGX_PLAYABLE_MVP_PILOT_ONBOARDING_v1.md` (cómo dar de alta a los
+participantes reales), `NUTRILONGX_PLAYABLE_MVP_PILOT_SESSION_v1.md`
+(plantilla de registro por sesión), y
+`NUTRILONGX_PLAYABLE_MVP_PILOT_FEEDBACK_LOG_v1.md` (log consolidado +
+cierre del piloto).
+
 ---
 
 ## A. Antes del piloto
 
 - [ ] El profesional puede entrar al Dashboard (`/admin/clients`).
-- [ ] Existe al menos 1 cliente de prueba/piloto real creado (`clients.create`).
+- [ ] Los 3–5 participantes reales del piloto están dados de alta
+      siguiendo `NUTRILONGX_PLAYABLE_MVP_PILOT_ONBOARDING_v1.md`
+      (`external_code` pseudónimo `PILOT-01`..`PILOT-05`) — **nunca**
+      usando los fixtures técnicos de desarrollo (`NLX-TEST-2A-001` y
+      similares) como pacientes piloto, y **nunca** insertados por SQL
+      manual.
 - [ ] Ese cliente tiene perfil básico (`clients.getProfile` no vacío, o
       aceptable "Perfil no completado" si el piloto no lo requiere).
 - [ ] Hay contenido publicado asignable en los 5 pilares (`ContentCatalog`
@@ -81,6 +93,37 @@ sesión, registrar:
 - **Bugs**: cualquier comportamiento que contradiga esta checklist.
 - **Requests de features**: qué pidió el usuario que hoy no existe (p.
   ej. niveles, badges, historial visual) — anotar sin prometer fecha.
+
+## E. Pilot Decision Gate (rellenar al terminar los 3–5 participantes)
+
+Ver plantilla operativa en
+`NUTRILONGX_PLAYABLE_MVP_PILOT_FEEDBACK_LOG_v1.md` sección "Cierre del
+piloto". Criterios:
+
+**`PILOT_PASS`**:
+- Happy path completado por la mayoría de los participantes.
+- 0 incidencias `P0`.
+- Sin `P1` recurrente (mismo bloqueo en más de un participante).
+- DVG/progreso comprendidos (mayoritariamente `si`/`parcial` en
+  `percepcion_dvg`, no `no`).
+- Operación profesional viable (el profesional pudo completar el flujo
+  sin intervención técnica).
+
+**`PILOT_PASS_WITH_FIXES`**:
+- Producto usable en general.
+- Algunas incidencias `P1`/`P2` concretas y reparables identificadas —
+  no bloquean el concepto, pero requieren trabajo antes de escalar.
+
+**`PILOT_BLOCKED`**:
+- Fallo estructural del happy path (no se puede completar de forma
+  consistente).
+- Incidencia de seguridad o integridad de datos.
+- El concepto principal (DVG/progreso) no se entiende de forma
+  consistente entre participantes.
+
+Durante feature freeze: `P0`/`P1` pueden justificar un cambio inmediato,
+saltándose el freeze. `P2`/`P3` quedan en backlog hasta terminar el
+piloto completo — no se actúa sobre ellas a mitad.
 
 ---
 
