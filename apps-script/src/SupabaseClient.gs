@@ -127,3 +127,14 @@ function nlxParseSupabaseResponse(resp) {
 function qsEq(column, value) {
   return encodeURIComponent(column) + '=eq.' + encodeURIComponent(String(value));
 }
+
+/**
+ * Codifica una lista de valores para un filtro PostgREST
+ * `columna=in.(v1,v2,...)`. `values` debe ser no vacío -- llamar con
+ * lista vacía no tiene un filtro PostgREST equivalente útil (el caller
+ * debe evitar la llamada en ese caso).
+ */
+function qsIn(column, values) {
+  var encoded = values.map(function (v) { return encodeURIComponent(String(v)); });
+  return encodeURIComponent(column) + '=in.(' + encoded.join(',') + ')';
+}

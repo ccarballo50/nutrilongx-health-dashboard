@@ -86,6 +86,17 @@ export interface AssignmentItem extends DashboardProvisionalDto {
   assigned_by?: string | null;
   notes?: string | null;
   assigned_at?: string;
+  /**
+   * Enriquecido server-side por content.listAssignments (Dashboard
+   * PR-05-fix): resuelto vía content_id -> content_registry.id -> tabla
+   * operacional (recipes/exercises/mind_content) por registry_id. `null`
+   * cuando no se pudo resolver -- nunca inventado por el backend.
+   */
+  content_title?: string | null;
+  content_canonical_id?: string | null;
+  content_type?: string | null;
+  content_pillar?: string | null;
+  content_is_published?: boolean | null;
 }
 
 // ─── PLAYABLE MVP UI INTEGRATION (evidence.*/actions.*/progress.*) ───

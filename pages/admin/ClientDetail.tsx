@@ -175,11 +175,16 @@ function asText(value: unknown): string {
 
 /**
  * Resuelve el contenido real de una asignación contra el índice del
- * catálogo canónico. Estrategia principal (encargo PR-05C):
- * assignment.content_id === contentItem.id. Fallback: canonical_id, por
- * si algún día listAssignments empezara a devolverlo. Nunca inventa
- * nada -- si no hay match, devuelve null y la UI muestra "Contenido no
- * resuelto".
+ * catálogo canónico -- FALLBACK del frontend (PR-05C), ya no la vía
+ * principal. La vía principal ahora es el enriquecimiento server-side
+ * de content.listAssignments (content_title/content_canonical_id, ver
+ * ContentService.gs::enrichAssignmentsWithContent). Este índice sigue
+ * cruzando por `item.id`, que en realidad es el `id` propio de
+ * recipes/exercises/mind_content -- NUNCA coincidirá con
+ * assignment.content_id (= content_registry.id, un UUID distinto por
+ * diseño). Se conserva de todas formas como red de seguridad adicional
+ * (p.ej. si algún día se catalogase por otro campo), pero no se confía
+ * en él como fuente principal -- ver renderAssignmentRow.
  */
 function resolveAssignmentContent(
   a: AssignmentItem,
@@ -208,6 +213,10 @@ function renderAssignmentRow(
   }
 ) {
   const assignmentId = pick(a, ["id", "assignment_id"]);
+  // content_type/pillar: el enriquecimiento server-side (content_type)
+  // solapa con el campo propio de la asignación (pillar) -- se prefiere
+  // siempre el dato más fiable/reciente: content_type solo existe
+  // enriquecido, pillar siempre existió en la fila real.
   const contentType = pick(a, ["content_type"]);
   const canonicalId = pick(a, ["canonical_id"]);
   const contentId = pick(a, ["content_id"]);
@@ -216,22 +225,34 @@ function renderAssignmentRow(
   const when = pick(a, ["assigned_at", "created_at"]);
   const notes = pick(a, ["notes"]);
 
-  const title = resolved
-    ? pickContentField(resolved, ["title", "name", "display_name"])
-    : undefined;
-  const titleText = resolved
-    ? asText(title)
-    : opts.indexLoading
-      ? "Resolviendo nombre…"
-      : "Contenido no resuelto";
-  const resolvedCanonicalId = resolved?.canonical_id;
+  // Nombre legible: 1) enriquecimiento server-side (content_title, la
+  // vía fiable -- resuelve correctamente vía content_registry, ver
+  // ContentService.gs); 2) fallback al índice de catálogo del frontend
+  // (resolved, PR-05C -- red de seguridad, no la vía principal); 3)
+  // "Contenido no resuelto" si ninguna de las dos tiene dato real. Nunca
+  // se inventa un título.
+  const enrichedTitle = pick(a, ["content_title"]);
+  const fallbackTitle = resolved ? pickContentField(resolved, ["title", "name", "display_name"]) : undefined;
+  const hasResolvedTitle = enrichedTitle !== undefined || fallbackTitle !== undefined;
+  const titleText = enrichedTitle !== undefined
+    ? asText(enrichedTitle)
+    : fallbackTitle !== undefined
+      ? asText(fallbackTitle)
+      : opts.indexLoading
+        ? "Resolviendo nombre…"
+        : "Contenido no resuelto";
+
+  // canonical_id: 1) enriquecido (content_canonical_id); 2) el propio de
+  // la asignación si algún día lo hubiera (canonical_id); 3) el del
+  // índice de catálogo del frontend; 4) "—".
+  const displayCanonicalId = pick(a, ["content_canonical_id", "canonical_id"]) ?? resolved?.canonical_id;
 
   const canUnassign = typeof assignmentId === "string" && !!assignmentId;
 
   return (
     <>
       <div className="flex items-start justify-between gap-2">
-        <div className={`font-medium text-sm ${resolved ? "text-gray-900" : "text-gray-400 italic"}`}>
+        <div className={`font-medium text-sm ${hasResolvedTitle ? "text-gray-900" : "text-gray-400 italic"}`}>
           {titleText}
         </div>
         <span className="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 whitespace-nowrap">
@@ -246,8 +267,7 @@ function renderAssignmentRow(
         {notes !== undefined ? ` · ${asText(notes)}` : ""}
       </div>
       <div className="text-[11px] text-gray-400 mt-1 font-mono">
-        assignment_id: {asText(assignmentId)} · content_id: {asText(contentId)} · canónico:{" "}
-        {asText(resolvedCanonicalId ?? canonicalId)}
+        assignment_id: {asText(assignmentId)} · content_id: {asText(contentId)} · canónico: {asText(displayCanonicalId)}
       </div>
 
       <div className="mt-2">
