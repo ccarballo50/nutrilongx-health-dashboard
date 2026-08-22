@@ -35,10 +35,13 @@ function makeFakeDb() {
     const eqMatches = [...qs.matchAll(/([a-zA-Z_]+)=eq\.([^&]+)/g)].map((m) => [m[1], decodeURIComponent(m[2])]);
     let out = rows;
     for (const [k, v] of eqMatches) out = out.filter((r) => String(r[k]) === v);
-    const inMatch = qs.match(/status=in\.\(([^)]+)\)/);
-    if (inMatch) {
-      const allowed = inMatch[1].split(",");
-      out = out.filter((r) => allowed.indexOf(r.status) !== -1);
+    // Genérico para cualquier columna, no solo `status` -- necesario para
+    // qsIn('id', ...) / qsIn('registry_id', ...) del enriquecimiento de
+    // content.listAssignments (Dashboard PR-05-fix).
+    const inMatches = [...qs.matchAll(/([a-zA-Z_]+)=in\.\(([^)]+)\)/g)];
+    for (const [, field, list] of inMatches) {
+      const allowed = list.split(",").map((v) => decodeURIComponent(v));
+      out = out.filter((r) => allowed.indexOf(String(r[field])) !== -1);
     }
     return out.map((r) => ({ ...r }));
   }
@@ -198,5 +201,77 @@ export function run() {
     svc.assign({ client_id: CLIENT_ID, content_type: "recipe", canonical_id: "NLX-001" }, CTX);
     const r = svc.listAssignments({ client_id: CLIENT_ID, status: "assigned" });
     assert.equal(r.count, 1);
+  });
+
+  // --- Dashboard PR-05-fix: enriquecimiento de listAssignments -----------
+  // Reproduce la causa raiz real: assignment.content_id es
+  // content_registry.id (via el registry_id de recipes/exercises/
+  // mind_content), NUNCA el `id` propio de esas tablas -- son dos UUID
+  // distintos por diseño. listAssignments debe resolver el titulo
+  // cruzando por registry_id, no por `id`.
+
+  test("content.listAssignments enriches with content_title/content_canonical_id/content_pillar (recipe)", () => {
+    const db = makeFakeDb();
+    db.tables.clients.push({ id: CLIENT_ID, status: "active" });
+    db.tables.content_registry.push({ id: "reg-recipe-1", content_type: "recipe", canonical_id: "NLX-001", pillar: "nutrition", is_active: true });
+    // `id` propio de recipes es DISTINTO de registry_id -- justo la trampa real.
+    db.tables.recipes.push({ id: "recipe-own-id-1", registry_id: "reg-recipe-1", title: "Ensalada mediterránea", is_published: true });
+
+    const svc = sb.createContentService(db.deps);
+    svc.assign({ client_id: CLIENT_ID, content_type: "recipe", canonical_id: "NLX-001" }, CTX);
+    const r = svc.listAssignments({ client_id: CLIENT_ID });
+
+    assert.equal(r.count, 1);
+    const a = r.assignments[0];
+    assert.equal(a.content_title, "Ensalada mediterránea");
+    assert.equal(a.content_canonical_id, "NLX-001");
+    assert.equal(a.content_type, "recipe");
+    assert.equal(a.content_pillar, "nutrition");
+    assert.equal(a.content_is_published, true);
+    // Campos originales de client_content_assignments intactos.
+    assert.equal(a.content_id, "reg-recipe-1");
+    assert.equal(a.status, "assigned");
+  });
+
+  test("content.listAssignments enriches mind_content (caso real reportado: conscious_wellbeing)", () => {
+    const db = makeFakeDb();
+    db.tables.clients.push({ id: CLIENT_ID, status: "active" });
+    db.tables.content_registry.push({
+      id: "reg-mind-1", content_type: "mind_content", canonical_id: "NLX-MIND-CW-001", pillar: "conscious_wellbeing", is_active: true,
+    });
+    db.tables.mind_content.push({ id: "mind-own-id-1", registry_id: "reg-mind-1", title: "Respiración consciente 5 min", is_published: true });
+
+    const svc = sb.createContentService(db.deps);
+    svc.assign({ client_id: CLIENT_ID, content_type: "mind_content", canonical_id: "NLX-MIND-CW-001" }, CTX);
+    const r = svc.listAssignments({ client_id: CLIENT_ID });
+
+    const a = r.assignments[0];
+    assert.equal(a.content_title, "Respiración consciente 5 min");
+    assert.equal(a.content_pillar, "conscious_wellbeing");
+  });
+
+  test("content.listAssignments deja content_title=null (no inventa nombre) si no hay fila de título, pero sí resuelve canonical_id/type/pillar", () => {
+    const db = makeFakeDb();
+    db.tables.clients.push({ id: CLIENT_ID, status: "active" });
+    db.tables.content_registry.push({ id: "reg-orphan", content_type: "recipe", canonical_id: "NLX-002", pillar: "nutrition", is_active: true });
+    // Deliberadamente sin fila en recipes -- simula contenido despublicado/borrado.
+    const svc = sb.createContentService(db.deps);
+    svc.assign({ client_id: CLIENT_ID, content_type: "recipe", canonical_id: "NLX-002" }, CTX);
+    const r = svc.listAssignments({ client_id: CLIENT_ID });
+
+    const a = r.assignments[0];
+    assert.equal(a.content_title, null);
+    assert.equal(a.content_canonical_id, "NLX-002");
+    assert.equal(a.content_type, "recipe");
+    assert.equal(a.content_pillar, "nutrition");
+  });
+
+  test("content.listAssignments con lista vacía no llama al enriquecimiento (sin romper)", () => {
+    const db = makeFakeDb();
+    db.tables.clients.push({ id: CLIENT_ID, status: "active" });
+    const svc = sb.createContentService(db.deps);
+    const r = svc.listAssignments({ client_id: CLIENT_ID });
+    assert.equal(r.count, 0);
+    assert.deepEqual(r.assignments, []);
   });
 }

@@ -21,6 +21,22 @@ var ASSIGN_ALLOWED_FIELDS = Object.freeze(['client_id', 'content_type', 'canonic
 var ASSIGN_OPTIONS_ALLOWED_FIELDS = Object.freeze(['idempotency_key', 'notes']);
 var ASSIGNMENT_ACTIVE_STATUSES = Object.freeze(['assigned', 'active']);
 
+/**
+ * Tabla operacional (con columna `title`) para cada `content_type` de
+ * content_registry -- usada solo para enriquecer content.listAssignments
+ * (Dashboard PR-05-fix, encargo "FIX ASIGNACIONES SIN NOMBRE LEGIBLE").
+ * `exercise_variant` queda fuera deliberadamente: exercise_variants no
+ * tiene columna `title` propia (su detalle vive en `data` jsonb) y el
+ * contrato tampoco expone ningun `content.listExerciseVariants` desde
+ * el que el Dashboard pudiera asignar uno -- no hay fuente real de
+ * titulo que leer sin inventar un campo.
+ */
+var CONTENT_TITLE_TABLE_BY_TYPE = Object.freeze({
+  recipe: 'recipes',
+  exercise: 'exercises',
+  mind_content: 'mind_content'
+});
+
 function createContentService(deps) {
   var sbSelectFn = deps.sbSelect;
   var sbInsertFn = deps.sbInsert;
@@ -63,6 +79,66 @@ function createContentService(deps) {
       throw NlxCanonicalReferenceNotFoundError(notFoundLabel + ' not found for canonical_id.', { canonical_id: canonicalId });
     }
     return rows[0];
+  }
+
+  /**
+   * Enriquece filas de client_content_assignments con datos legibles
+   * derivados de content_registry (Dashboard PR-05-fix). ADITIVO puro:
+   * nunca quita ni sobreescribe un campo real de la fila -- solo añade
+   * content_title/content_canonical_id/content_type/content_pillar/
+   * content_is_published, `null` cuando no se puede resolver (nunca se
+   * inventa un valor). 2 llamadas batch (content_registry + tabla de
+   * titulo por content_type) en vez de N+1 por asignacion.
+   *
+   * assignment.content_id es FK a content_registry.id (NUNCA al `id`
+   * propio de recipes/exercises/mind_content -- esa fue la causa raiz
+   * del bug "Contenido no resuelto": esas tablas exponen su `id` propio
+   * en content.listRecipes/listExercises/listMind, no su `registry_id`,
+   * y son dos UUID distintos por diseño, ver
+   * supabase/migrations/0002_standalone_backend_v1.sql).
+   */
+  function enrichAssignmentsWithContent(rows) {
+    if (!rows || rows.length === 0) return rows;
+
+    var contentIds = [];
+    var seen = {};
+    rows.forEach(function (r) {
+      if (r.content_id && !seen[r.content_id]) {
+        seen[r.content_id] = true;
+        contentIds.push(r.content_id);
+      }
+    });
+    if (contentIds.length === 0) return rows;
+
+    var registryRows = sbSelectFn('content_registry', qsIn('id', contentIds) + '&select=id,content_type,canonical_id,pillar') || [];
+    var registryById = {};
+    registryRows.forEach(function (rr) { registryById[rr.id] = rr; });
+
+    var idsByTable = {};
+    registryRows.forEach(function (rr) {
+      var table = CONTENT_TITLE_TABLE_BY_TYPE[rr.content_type];
+      if (!table) return; // p.ej. exercise_variant: sin tabla de titulo resoluble
+      idsByTable[table] = idsByTable[table] || [];
+      idsByTable[table].push(rr.id);
+    });
+
+    var titleByRegistryId = {};
+    Object.keys(idsByTable).forEach(function (table) {
+      var titleRows = sbSelectFn(table, qsIn('registry_id', idsByTable[table]) + '&select=registry_id,title,is_published') || [];
+      titleRows.forEach(function (tr) { titleByRegistryId[tr.registry_id] = tr; });
+    });
+
+    return rows.map(function (r) {
+      var registry = r.content_id ? registryById[r.content_id] : null;
+      var titleRow = r.content_id ? titleByRegistryId[r.content_id] : null;
+      return Object.assign({}, r, {
+        content_title: titleRow ? titleRow.title : null,
+        content_canonical_id: registry ? registry.canonical_id : null,
+        content_type: registry ? registry.content_type : null,
+        content_pillar: registry ? registry.pillar : null,
+        content_is_published: titleRow ? titleRow.is_published : null
+      });
+    });
   }
 
   return {
@@ -229,7 +305,8 @@ function createContentService(deps) {
       if (pillar) qs += '&pillar=eq.' + encodeURIComponent(pillar);
 
       var rows = sbSelectFn('client_content_assignments', qs) || [];
-      return { assignments: rows, count: rows.length };
+      var enriched = enrichAssignmentsWithContent(rows);
+      return { assignments: enriched, count: enriched.length };
     }
   };
 }
